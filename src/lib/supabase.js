@@ -1,18 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
-import { createBrowserClient } from '@supabase/ssr'
+// This file will be used when we add Supabase features later
+// For now, we're keeping it simple with just a basic landing page
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
-
-// Client-side Supabase client
-export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey)
-
-// Server-side Supabase client
-export const createServerClient = () => {
-  return createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
-  })
-} 
+export const supabase = null;
+export const createServerClient = () => null;
