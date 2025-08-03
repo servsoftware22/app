@@ -2,7 +2,7 @@
 const nextConfig = {
   output: 'standalone',
   experimental: {
-    serverComponentsExternalPackages: ['@supabase/ssr']
+    serverExternalPackages: ['@supabase/ssr']
   },
   images: {
     domains: ['localhost'],

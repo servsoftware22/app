@@ -112,7 +112,7 @@ export default function Home() {
               Simple, transparent pricing
             </h2>
             <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-              Choose the plan that's right for your business
+              Choose the plan that&apos;s right for your business
             </p>
           </div>
 
@@ -136,7 +136,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="px-6 pt-6 pb-8">
-                <h4 className="text-xs font-semibold text-gray-900 dark:text-white tracking-wide uppercase">What's included</h4>
+                <h4 className="text-xs font-semibold text-gray-900 dark:text-white tracking-wide uppercase">What&apos;s included</h4>
                 <ul className="mt-6 space-y-4">
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
@@ -173,7 +173,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="px-6 pt-6 pb-8">
-                <h4 className="text-xs font-semibold text-gray-900 dark:text-white tracking-wide uppercase">What's included</h4>
+                <h4 className="text-xs font-semibold text-gray-900 dark:text-white tracking-wide uppercase">What&apos;s included</h4>
                 <ul className="mt-6 space-y-4">
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
