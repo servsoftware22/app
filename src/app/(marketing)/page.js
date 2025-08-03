@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, Zap, Shield, Users, BarChart3 } from "lucide-react";
+import { Check, Zap, Shield, Users, BarChart3, Calendar, Phone, Mail } from "lucide-react";
 
 export default function Home() {
   return (
@@ -11,31 +11,28 @@ export default function Home() {
             <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
               <div className="sm:text-center lg:text-left">
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-                  <span className="block xl:inline">Modern SaaS</span>{" "}
-                  <span className="block text-blue-600 xl:inline">
-                    Solutions
-                  </span>
+                  <span className="block xl:inline">Professional Websites</span>{" "}
+                  <span className="block text-blue-600 xl:inline">Made Simple</span>
                 </h1>
                 <p className="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  Build, scale, and grow your business with our comprehensive
-                  SaaS platform. Everything you need to succeed in the digital
-                  age.
+                  Launch your professional website in minutes. Complete with CRM, scheduling, 
+                  and analytics - everything service professionals need to grow their business.
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
                     <Link
-                      href="#contact"
+                      href="/auth/signup"
                       className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                     >
-                      Get Started
+                      Start Free Trial
                     </Link>
                   </div>
                   <div className="mt-3 sm:mt-0 sm:ml-3">
                     <Link
-                      href="#features"
+                      href="/solutions"
                       className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10"
                     >
-                      Learn More
+                      View Templates
                     </Link>
                   </div>
                 </div>
@@ -53,14 +50,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:text-center">
             <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">
-              Features
+              Everything You Need
             </h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-              Everything you need to succeed
+              Complete business platform for service professionals
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-400 lg:mx-auto">
-              Our platform provides all the tools and features you need to
-              build, scale, and grow your business.
+              From website creation to customer management, we&apos;ve got you covered.
             </p>
           </div>
 
@@ -71,24 +67,10 @@ export default function Home() {
                   <Zap className="h-6 w-6" />
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Lightning Fast
+                  Professional Websites
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Built with Next.js for optimal performance and speed. Your
-                  users will love the fast loading times.
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                  <Shield className="h-6 w-6" />
-                </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Secure by Default
-                </p>
-                <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Enterprise-grade security with modern authentication and
-                  real-time database protection.
+                  Beautiful, mobile-ready websites with your branding. Launch in minutes.
                 </p>
               </div>
 
@@ -97,11 +79,22 @@ export default function Home() {
                   <Users className="h-6 w-6" />
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Team Collaboration
+                  Customer CRM
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Built for teams with role-based access control and real-time
-                  collaboration features.
+                  Manage customers, track leads, and organize your business efficiently.
+                </p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                  <Calendar className="h-6 w-6" />
+                </div>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                  Scheduling System
+                </p>
+                <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
+                  Online booking, appointment management, and calendar integration.
                 </p>
               </div>
 
@@ -113,8 +106,7 @@ export default function Home() {
                   Analytics & Insights
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Comprehensive analytics and reporting to help you make
-                  data-driven decisions.
+                  Track performance, understand your customers, and grow your business.
                 </p>
               </div>
             </div>
@@ -122,8 +114,42 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Pricing Section */}
+      {/* Industries Section */}
       <div className="py-12 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:text-center">
+            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">
+              Built for Service Professionals
+            </h2>
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              Perfect for your industry
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: "Plumbers", description: "Service scheduling, emergency calls, job tracking" },
+              { name: "Electricians", description: "Quote management, safety compliance, project tracking" },
+              { name: "HVAC Technicians", description: "Maintenance scheduling, emergency services, billing" },
+              { name: "Landscapers", description: "Seasonal services, project management, client portals" },
+              { name: "Contractors", description: "Project management, material tracking, client communication" },
+              { name: "Cleaning Services", description: "Recurring appointments, team management, quality control" },
+            ].map((industry) => (
+              <div key={industry.name} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                  {industry.name}
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  {industry.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Pricing Section */}
+      <div className="py-12 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="sm:text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
@@ -136,13 +162,13 @@ export default function Home() {
 
           <div className="mt-10 space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
             {/* Starter Plan */}
-            <div className="border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
               <div className="p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                   Starter
                 </h3>
                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                  Perfect for small teams and startups
+                  Perfect for solo professionals
                 </p>
                 <p className="mt-8">
                   <span className="text-4xl font-extrabold text-gray-900 dark:text-white">
@@ -153,7 +179,7 @@ export default function Home() {
                   </span>
                 </p>
                 <Link
-                  href="#contact"
+                  href="/auth/signup"
                   className="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700"
                 >
                   Get Started
@@ -167,13 +193,19 @@ export default function Home() {
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Up to 5 team members
+                      Professional website
                     </span>
                   </li>
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Basic analytics
+                      Basic CRM
+                    </span>
+                  </li>
+                  <li className="flex space-x-3">
+                    <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      Online scheduling
                     </span>
                   </li>
                   <li className="flex space-x-3">
@@ -187,13 +219,13 @@ export default function Home() {
             </div>
 
             {/* Pro Plan */}
-            <div className="border border-blue-500 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
+            <div className="border border-blue-500 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
               <div className="p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                  Pro
+                  Professional
                 </h3>
                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                  Best for growing businesses
+                  Best for growing teams
                 </p>
                 <p className="mt-8">
                   <span className="text-4xl font-extrabold text-gray-900 dark:text-white">
@@ -204,7 +236,7 @@ export default function Home() {
                   </span>
                 </p>
                 <Link
-                  href="#contact"
+                  href="/auth/signup"
                   className="mt-8 block w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-blue-700"
                 >
                   Get Started
@@ -218,13 +250,19 @@ export default function Home() {
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Unlimited team members
+                      Everything in Starter
                     </span>
                   </li>
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Advanced analytics
+                      Advanced CRM
+                    </span>
+                  </li>
+                  <li className="flex space-x-3">
+                    <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      Team management
                     </span>
                   </li>
                   <li className="flex space-x-3">
@@ -236,7 +274,7 @@ export default function Home() {
                   <li className="flex space-x-3">
                     <Check className="flex-shrink-0 h-5 w-5 text-green-500" />
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Custom integrations
+                      Advanced analytics
                     </span>
                   </li>
                 </ul>
@@ -246,33 +284,32 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Contact Section */}
-      <div id="contact" className="bg-blue-600">
+      {/* CTA Section */}
+      <div className="bg-blue-600">
         <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-            <span className="block">Ready to get started?</span>
+            <span className="block">Ready to grow your business?</span>
             <span className="block">Start your free trial today.</span>
           </h2>
           <p className="mt-4 text-lg leading-6 text-blue-200">
-            Join thousands of businesses that trust our platform to grow their
-            business.
+            Join thousands of service professionals who trust our platform.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="mailto:contact@servsoftware22.com"
+              href="/auth/signup"
               className="w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto"
             >
-              Contact Us
+              Start Free Trial
             </Link>
             <Link
-              href="tel:+1234567890"
+              href="/support"
               className="w-full inline-flex items-center justify-center px-5 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-blue-700 sm:w-auto"
             >
-              Call Now
+              Contact Support
             </Link>
           </div>
         </div>
       </div>
     </div>
   );
-}
+} 

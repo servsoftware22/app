@@ -4,18 +4,16 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "SaaS App - Modern Business Solutions",
+  title: "ServicePro - Professional Websites Made Simple",
   description:
-    "A modern SaaS application built with Next.js, Supabase, and Tailwind CSS",
+    "The complete platform for service professionals to launch websites, manage customers, and grow their business.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );
