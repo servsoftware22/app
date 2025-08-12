@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authAPI } from "@/lib/api";
@@ -16,7 +16,7 @@ import {
 import AuthHeader from "../components/AuthHeader";
 import AuthFooter from "../components/AuthFooter";
 
-export default function UpdatePasswordPage() {
+function UpdatePasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -348,5 +348,13 @@ export default function UpdatePasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function UpdatePasswordPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UpdatePasswordForm />
+    </Suspense>
   );
 }
