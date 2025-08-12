@@ -8,7 +8,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 // Check if we're in a build environment
-const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_SUPABASE_URL;
+const isBuildTime =
+  process.env.NODE_ENV === "production" &&
+  !process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 // Utility to check if we can run API routes
 export const canRunAPI = () => {
@@ -16,8 +18,8 @@ export const canRunAPI = () => {
 };
 
 // Client-side Supabase client
-export const supabase = isBuildTime 
-  ? null 
+export const supabase = isBuildTime
+  ? null
   : createBrowserClient(supabaseUrl, supabaseAnonKey);
 
 // Server-side Supabase client
@@ -28,7 +30,7 @@ export const createServerClient = (request) => {
   }
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase environment variables are not set');
+    console.warn("Supabase environment variables are not set");
     return null;
   }
 

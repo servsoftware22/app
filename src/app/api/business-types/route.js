@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+import { createServerClient, canRunAPI } from "@/lib/supabase";
 
 export async function GET(request) {
+  // Check if we can run this API route during build
+  if (!canRunAPI()) {
+    return NextResponse.json(
+      { error: "API not available during build" },
+      { status: 503 }
+    );
+  }
+
   try {
     const supabase = createServerClient(request);
 
