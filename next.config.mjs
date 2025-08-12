@@ -3,7 +3,7 @@ const nextConfig = {
   output: "standalone",
 
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "bnijneyvxdnvsrjohjpl.supabase.co"],
   },
 };
 

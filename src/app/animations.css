@@ -1,0 +1,85 @@
+/* Basic reusable animations */
+
+@keyframes sp-fade-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sp-fade-slide-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* Template card animations */
+@keyframes sp-template-expand {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    max-height: 300px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sp-template-collapse {
+  0% {
+    opacity: 1;
+    max-height: 300px;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* Apply to any card or block that should animate in */
+.sp-anim-card-enter {
+  animation: sp-fade-slide-in 300ms ease forwards;
+  will-change: opacity, transform;
+}
+
+/* Optional exit class (must be applied before unmount) */
+.sp-anim-card-exit {
+  animation: sp-fade-slide-out 250ms ease forwards;
+  will-change: opacity, transform;
+}
+
+/* Template card expand/collapse animations */
+.sp-anim-template-expand {
+  animation: sp-template-expand 300ms ease-out forwards;
+  will-change: opacity, max-height, transform;
+}
+
+.sp-anim-template-collapse {
+  animation: sp-template-collapse 250ms ease-in forwards;
+  will-change: opacity, max-height, transform;
+}
+
+/* Smooth width updates for progress/status bars */
+.sp-anim-progress {
+  transition: width 600ms ease;
+  will-change: width;
+}
+
+/* Smooth transitions for template cards */
+.sp-anim-template-smooth {
+  transition: all 300ms ease;
+  will-change: opacity, max-height, transform;
+}

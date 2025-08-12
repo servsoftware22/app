@@ -12,11 +12,14 @@ export default function SolutionsPage() {
               <div className="sm:text-center lg:text-left">
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
                   <span className="block xl:inline">Professional</span>{" "}
-                  <span className="block text-blue-600 xl:inline">Website Templates</span>
+                  <span className="block text-blue-600 xl:inline">
+                    Website Templates
+                  </span>
                 </h1>
                 <p className="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  Choose from our collection of professionally designed templates 
-                  tailored specifically for service professionals. Launch your website in minutes.
+                  Choose from our collection of professionally designed
+                  templates tailored specifically for service professionals.
+                  Launch your website in minutes.
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
@@ -57,35 +60,66 @@ export default function SolutionsPage() {
               {
                 name: "Plumbing",
                 description: "Emergency services, scheduling, testimonials",
-                features: ["Service areas", "Emergency contact", "Online booking"],
+                features: [
+                  "Service areas",
+                  "Emergency contact",
+                  "Online booking",
+                ],
               },
               {
                 name: "Electrical",
                 description: "Safety-focused, project showcase, certifications",
-                features: ["Safety compliance", "Project gallery", "Certifications"],
+                features: [
+                  "Safety compliance",
+                  "Project gallery",
+                  "Certifications",
+                ],
               },
               {
                 name: "HVAC",
-                description: "Maintenance plans, emergency services, energy efficiency",
-                features: ["Maintenance plans", "Emergency services", "Energy tips"],
+                description:
+                  "Maintenance plans, emergency services, energy efficiency",
+                features: [
+                  "Maintenance plans",
+                  "Emergency services",
+                  "Energy tips",
+                ],
               },
               {
                 name: "Landscaping",
-                description: "Portfolio showcase, seasonal services, project management",
-                features: ["Portfolio gallery", "Seasonal services", "Project tracking"],
+                description:
+                  "Portfolio showcase, seasonal services, project management",
+                features: [
+                  "Portfolio gallery",
+                  "Seasonal services",
+                  "Project tracking",
+                ],
               },
               {
                 name: "Cleaning",
-                description: "Service packages, team profiles, quality assurance",
-                features: ["Service packages", "Team profiles", "Quality guarantee"],
+                description:
+                  "Service packages, team profiles, quality assurance",
+                features: [
+                  "Service packages",
+                  "Team profiles",
+                  "Quality guarantee",
+                ],
               },
               {
                 name: "Contracting",
-                description: "Project management, client portals, progress tracking",
-                features: ["Project management", "Client portals", "Progress updates"],
+                description:
+                  "Project management, client portals, progress tracking",
+                features: [
+                  "Project management",
+                  "Client portals",
+                  "Progress updates",
+                ],
               },
             ].map((template) => (
-              <div key={template.name} className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+              <div
+                key={template.name}
+                className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+              >
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                   {template.name}
                 </h3>
@@ -94,7 +128,10 @@ export default function SolutionsPage() {
                 </p>
                 <ul className="space-y-2">
                   {template.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                    <li
+                      key={feature}
+                      className="flex items-center text-sm text-gray-600 dark:text-gray-300"
+                    >
                       <Check className="h-4 w-4 text-green-500 mr-2" />
                       {feature}
                     </li>
@@ -128,7 +165,8 @@ export default function SolutionsPage() {
                   Mobile-First Design
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  All templates are optimized for mobile devices, ensuring your customers can easily find and contact you.
+                  All templates are optimized for mobile devices, ensuring your
+                  customers can easily find and contact you.
                 </p>
               </div>
 
@@ -140,7 +178,8 @@ export default function SolutionsPage() {
                   Custom Branding
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Easily customize colors, fonts, and logos to match your brand identity.
+                  Easily customize colors, fonts, and logos to match your brand
+                  identity.
                 </p>
               </div>
 
@@ -152,7 +191,8 @@ export default function SolutionsPage() {
                   SEO Optimized
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Built-in SEO features help your website rank higher in search results.
+                  Built-in SEO features help your website rank higher in search
+                  results.
                 </p>
               </div>
 
@@ -164,7 +204,8 @@ export default function SolutionsPage() {
                   Fast Loading
                 </p>
                 <p className="mt-2 ml-16 text-base text-gray-500 dark:text-gray-400">
-                  Optimized for speed to provide the best user experience for your customers.
+                  Optimized for speed to provide the best user experience for
+                  your customers.
                 </p>
               </div>
             </div>
@@ -194,4 +235,4 @@ export default function SolutionsPage() {
       </div>
     </div>
   );
-} 
+}

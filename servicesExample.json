@@ -1,0 +1,933 @@
+[
+  {
+    "id": "b8f7c6d5-4e3a-4f2b-9c1d-8a9b7c6d5e4f",
+    "name": "Appliance Repair Service",
+    "slug": "appliance-repair-service",
+    "status": "active",
+    "category": "Home Services",
+    "tags": [
+      "appliance repair",
+      "home repair",
+      "maintenance",
+      "troubleshooting"
+    ],
+    "description": {
+      "short": "Professional repair and maintenance for all major household appliances.",
+      "long": "Our Appliance Repair Service provides expert diagnosis, repair, and maintenance for refrigerators, dishwashers, washing machines, dryers, ovens, microwaves, and more. We use quality parts and offer same-day service for urgent repairs to get your appliances working efficiently again."
+    },
+    "features": [
+      {
+        "title": "Comprehensive Appliance Coverage",
+        "description": "Repair and maintenance for refrigerators, dishwashers, washers, dryers, ovens, microwaves, and more."
+      },
+      {
+        "title": "Expert Diagnosis",
+        "description": "Professional troubleshooting to identify the root cause of appliance issues quickly and accurately."
+      },
+      {
+        "title": "Quality Parts & Service",
+        "description": "Use of manufacturer-approved parts and professional tools for reliable, long-lasting repairs."
+      },
+      {
+        "title": "Same-Day Service",
+        "description": "Emergency repairs available with same-day service for urgent appliance breakdowns."
+      },
+      {
+        "title": "Preventive Maintenance",
+        "description": "Regular maintenance plans to extend appliance lifespan and prevent costly breakdowns."
+      },
+      {
+        "title": "Warranty Protection",
+        "description": "All repairs come with a comprehensive warranty on parts and labor for your peace of mind."
+      }
+    ],
+    "faq": [
+      {
+        "question": "What appliances do you repair?",
+        "answer": "We repair all major household appliances including refrigerators, dishwashers, washing machines, dryers, ovens, ranges, microwaves, garbage disposals, and more."
+      },
+      {
+        "question": "Do you offer same-day service?",
+        "answer": "Yes, we offer same-day emergency service for urgent repairs. Contact us early in the day for best availability."
+      },
+      {
+        "question": "What warranty do you provide on repairs?",
+        "answer": "We provide a 90-day warranty on all parts and labor, with extended warranties available for premium parts."
+      },
+      {
+        "question": "Do you charge for diagnostic visits?",
+        "answer": "We offer free diagnostic visits for repairs we complete. If you choose not to proceed with the repair, there is a diagnostic fee."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/maintenance/appliance-repair.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 89.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["monthly", "quarterly", "semi-annually", "annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Clear access to the appliance needing repair",
+        "Provide appliance model and serial number if available",
+        "Ensure the area around the appliance is clear and safe for work",
+        "Have someone available to provide access during scheduled service"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "d8f9c0a7-2b63-4a72-8e2f-c4a5a1f3b7a9",
+    "name": "Housekeeping Service",
+    "slug": "housekeeping-service",
+    "status": "active",
+    "category": "Residential Services",
+    "tags": ["housekeeping", "residential", "cleaning", "routine"],
+    "description": {
+      "short": "Regular housekeeping to keep your home clean and organized.",
+      "long": "Our Housekeeping Service provides routine cleaning and tidying of your home on a scheduled basis. This includes dusting, vacuuming, laundry assistance, dishwashing, and organizing common areas to keep your living space comfortable and neat."
+    },
+    "features": [
+      {
+        "title": "Routine Cleaning",
+        "description": "Dusting, vacuuming, sweeping, and mopping all common areas and bedrooms."
+      },
+      {
+        "title": "Laundry and Linen Care",
+        "description": "Washing, drying, folding, and organizing laundry and linens as requested."
+      },
+      {
+        "title": "Dishwashing",
+        "description": "Cleaning and putting away dishes to keep your kitchen tidy."
+      },
+      {
+        "title": "Organization Assistance",
+        "description": "Tidying up rooms, organizing clutter, and maintaining orderly spaces."
+      },
+      {
+        "title": "Bathroom Cleaning",
+        "description": "Sanitizing sinks, toilets, showers, and mirrors for a fresh bathroom."
+      },
+      {
+        "title": "Trash Removal",
+        "description": "Emptying trash bins and disposing of waste properly."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How often can housekeeping services be scheduled?",
+        "answer": "We offer flexible scheduling options including weekly, bi-weekly, or monthly visits to fit your needs."
+      },
+      {
+        "question": "Do I need to provide cleaning supplies?",
+        "answer": "We bring our own eco-friendly cleaning products, but you can provide your preferred supplies if you wish."
+      },
+      {
+        "question": "Can housekeeping services include special requests?",
+        "answer": "Yes, please let us know any special tasks or areas you want us to focus on during your visits."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/housekeeping.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 120.0,
+      "unit": "hour",
+      "price_type": "hourly",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["weekly", "bi-weekly", "monthly"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Provide access to the home during scheduled visits",
+        "Ensure any pets are secured or accounted for",
+        "Notify of any special instructions or areas to avoid"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "6f3e4fe1-7058-4050-9314-4e83bbb1f695",
+    "name": "Residential Deep Cleaning",
+    "slug": "residential-deep-cleaning",
+    "status": "active",
+    "category": "Residential Services",
+    "tags": ["home cleaning", "residential", "eco-friendly"],
+    "description": {
+      "short": "A complete top-to-bottom cleaning service for your home.",
+      "long": "Our premium deep cleaning service covers all rooms, appliances, and hard-to-reach areas. Using eco-friendly products, we ensure your home is fresh, sanitized, and spotless."
+    },
+    "features": [
+      {
+        "title": "Deep Cleaning",
+        "description": "A thorough top-to-bottom cleaning for every room, including baseboards, vents, and hard-to-reach areas."
+      },
+      {
+        "title": "Regular Maintenance Cleaning",
+        "description": "Scheduled weekly, bi-weekly, or monthly cleanings to keep your home consistently fresh and tidy."
+      },
+      {
+        "title": "Move-In/Move-Out Cleaning",
+        "description": "Comprehensive cleaning to prepare a home for moving in or to leave it spotless when moving out."
+      },
+      {
+        "title": "Kitchen & Appliance Detailing",
+        "description": "Full cleaning of kitchen surfaces, cabinets, and appliances inside and out for a sparkling, sanitary space."
+      },
+      {
+        "title": "Bathroom Sanitization",
+        "description": "Disinfection and scrubbing of sinks, tubs, showers, toilets, and tile for a hygienic and fresh-smelling bathroom."
+      },
+      {
+        "title": "Allergen Reduction Cleaning",
+        "description": "Special dusting and vacuuming with HEPA filters to reduce allergens like pet hair, pollen, and dust mites."
+      }
+    ],
+    "faq": [
+      {
+        "question": "What areas of my home do you clean?",
+        "answer": "We clean all common living spaces including bedrooms, bathrooms, kitchens, living rooms, and dining areas. Specialized cleaning like inside appliances or windows can be added upon request."
+      },
+      {
+        "question": "Do I need to be home during the cleaning service?",
+        "answer": "No, you don’t need to be home. Many of our clients provide access instructions so our team can clean your home securely while you're away."
+      },
+      {
+        "question": "What cleaning products do you use?",
+        "answer": "We use high-quality, eco-friendly cleaning products that are safe for children and pets, but we can also accommodate any specific product requests you may have."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/residential-home-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 299.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["weekly", "bi-weekly", "monthly"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Complete access to your property",
+        "Usage of your property's utilities",
+        "Provide notice of any safety concerns"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "c9b2d9f1-8b35-4e2a-9a62-3d7f6f0a1b47",
+    "name": "Move-In/Move-Out Cleaning",
+    "slug": "move-in-move-out-cleaning",
+    "status": "active",
+    "category": "Residential Services",
+    "tags": ["move cleaning", "residential", "deep clean"],
+    "description": {
+      "short": "Thorough cleaning to prepare your home for moving in or out.",
+      "long": "Our comprehensive Move-In/Move-Out Cleaning service ensures your home is spotless and ready for the next occupant. We focus on all rooms, surfaces, appliances, and hidden spots to remove dust, dirt, and grime left behind during the moving process."
+    },
+    "features": [
+      {
+        "title": "Complete Home Cleaning",
+        "description": "Cleans every room including bedrooms, bathrooms, kitchen, living, and dining areas."
+      },
+      {
+        "title": "Appliance Cleaning",
+        "description": "Thorough cleaning inside and outside of kitchen appliances."
+      },
+      {
+        "title": "Cabinet and Closet Cleaning",
+        "description": "Inside and outside cleaning of cabinets, closets, and storage spaces."
+      },
+      {
+        "title": "Floor and Carpet Cleaning",
+        "description": "Vacuuming, mopping, and spot cleaning of floors and carpets."
+      },
+      {
+        "title": "Window and Door Detailing",
+        "description": "Cleaning window sills, tracks, and door frames."
+      },
+      {
+        "title": "Sanitization & Disinfection",
+        "description": "Sanitizing high-touch areas to ensure a safe and fresh environment."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How long does the Move-In/Move-Out cleaning take?",
+        "answer": "Typically between 4 to 8 hours depending on the size and condition of the property."
+      },
+      {
+        "question": "Do I need to be present during the cleaning?",
+        "answer": "No, you can provide access instructions and our team will take care of the cleaning while you’re away."
+      },
+      {
+        "question": "Can I customize the cleaning for specific areas?",
+        "answer": "Yes, you can request special focus areas or additional services to meet your needs."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/move-in-out-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 349.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": []
+    },
+    "requirements": {
+      "customer_provided": [
+        "Complete access to the property",
+        "Usage of utilities",
+        "Notify of any fragile or special items"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "a12d4e87-6e5c-4b4f-9eac-9b81f0a3f9d1",
+    "name": "Carpet Cleaning",
+    "slug": "carpet-cleaning",
+    "status": "active",
+    "category": "Specialty Services",
+    "tags": ["carpet", "cleaning", "steam cleaning", "stain removal"],
+    "description": {
+      "short": "Professional steam cleaning and stain removal for your carpets.",
+      "long": "Our Carpet Cleaning service uses advanced steam cleaning techniques to remove dirt, allergens, and tough stains. We revitalize your carpets, extending their lifespan and improving indoor air quality."
+    },
+    "features": [
+      {
+        "title": "Deep Steam Cleaning",
+        "description": "Penetrates deep into carpet fibers to lift dirt and grime."
+      },
+      {
+        "title": "Stain Removal",
+        "description": "Specialized treatments for removing common carpet stains."
+      },
+      {
+        "title": "Odor Elimination",
+        "description": "Removes unpleasant odors leaving carpets fresh and clean."
+      },
+      {
+        "title": "Eco-Friendly Products",
+        "description": "Uses safe, environmentally friendly cleaning solutions."
+      },
+      {
+        "title": "Quick Drying Time",
+        "description": "Our process minimizes drying time so you can use your space sooner."
+      },
+      {
+        "title": "Furniture Protection",
+        "description": "Careful handling of furniture and belongings during cleaning."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How long does carpet cleaning take?",
+        "answer": "Most carpet cleaning sessions take between 1 to 3 hours depending on the size and condition of your carpets."
+      },
+      {
+        "question": "Is the cleaning solution safe for pets and children?",
+        "answer": "Yes, we use eco-friendly and non-toxic products that are safe for your family and pets."
+      },
+      {
+        "question": "How long does it take for carpets to dry?",
+        "answer": "Carpets typically dry within 2 to 6 hours after cleaning, depending on ventilation and humidity."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/carpet-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 149.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["quarterly", "semi-annually", "annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Clear carpeted areas of furniture or valuables",
+        "Ensure access to electrical outlets",
+        "Notify us of any special stains or issues"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "d39f1b72-ec77-4a5e-8bce-9e3c9d8f1a26",
+    "name": "Window Cleaning",
+    "slug": "window-cleaning",
+    "status": "active",
+    "category": "Specialty Services",
+    "tags": ["window", "cleaning", "residential", "commercial"],
+    "description": {
+      "short": "Professional interior and exterior window washing for sparkling clarity.",
+      "long": "Our Window Cleaning service ensures streak-free, crystal-clear windows inside and out. We handle all types of windows including hard-to-reach spots with safe, effective cleaning techniques."
+    },
+    "features": [
+      {
+        "title": "Interior & Exterior Cleaning",
+        "description": "Complete cleaning on both sides of your windows for maximum brightness."
+      },
+      {
+        "title": "Screen & Sill Cleaning",
+        "description": "Thorough cleaning of window screens and sills to remove dust and debris."
+      },
+      {
+        "title": "Hard-to-Reach Windows",
+        "description": "Safe access and cleaning for upper floors and challenging locations."
+      },
+      {
+        "title": "Eco-Friendly Solutions",
+        "description": "We use non-toxic, environmentally safe cleaning products."
+      },
+      {
+        "title": "Streak-Free Finish",
+        "description": "Expert techniques to leave your windows spotless without residue."
+      },
+      {
+        "title": "Flexible Scheduling",
+        "description": "Book regular or one-time cleanings to fit your needs."
+      }
+    ],
+    "faq": [
+      {
+        "question": "Do you clean window screens?",
+        "answer": "Yes, we carefully clean and reinstall your window screens as part of our service."
+      },
+      {
+        "question": "Can you clean windows on upper floors?",
+        "answer": "Absolutely, we have the equipment and training to safely clean windows on multiple stories."
+      },
+      {
+        "question": "Are your cleaning products safe for pets?",
+        "answer": "Yes, we use eco-friendly and pet-safe cleaning solutions."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/window-washing.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 199.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["monthly", "quarterly", "bi-annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Clear access to all windows",
+        "Remove fragile items near windows",
+        "Ensure safe parking for our team"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "e52c9b27-f08b-4f3a-bca5-97d1a1df7e12",
+    "name": "Pressure Washing",
+    "slug": "pressure-washing",
+    "status": "active",
+    "category": "Specialty Services",
+    "tags": [
+      "pressure washing",
+      "exterior cleaning",
+      "residential",
+      "commercial"
+    ],
+    "description": {
+      "short": "High-powered cleaning for exterior surfaces to remove dirt, grime, and stains.",
+      "long": "Our Pressure Washing service revitalizes the exterior of your property by removing dirt, mold, mildew, and stains from driveways, decks, patios, siding, and more using professional-grade equipment and eco-friendly detergents."
+    },
+    "features": [
+      {
+        "title": "Driveway & Sidewalk Cleaning",
+        "description": "Eliminate oil stains, dirt, and grime from concrete and paved surfaces."
+      },
+      {
+        "title": "Deck & Patio Washing",
+        "description": "Restore wood and stone surfaces to their natural beauty with gentle pressure washing."
+      },
+      {
+        "title": "Siding & Fence Cleaning",
+        "description": "Remove dirt, mildew, and algae from home siding and fences."
+      },
+      {
+        "title": "Commercial Property Services",
+        "description": "Safe and effective cleaning for business storefronts, parking lots, and walkways."
+      },
+      {
+        "title": "Eco-Friendly Solutions",
+        "description": "Use of biodegradable and environmentally safe detergents to protect plants and landscaping."
+      },
+      {
+        "title": "Flexible Scheduling",
+        "description": "Options for one-time or recurring cleanings tailored to your needs."
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is pressure washing safe for all surfaces?",
+        "answer": "We use appropriate pressure settings for different surfaces to avoid damage, ensuring safe and effective cleaning."
+      },
+      {
+        "question": "Do I need to prepare my property before service?",
+        "answer": "We recommend clearing delicate items and closing windows and doors for safety."
+      },
+      {
+        "question": "How often should I schedule pressure washing?",
+        "answer": "Typically, once or twice a year is sufficient, but high-traffic or shaded areas may require more frequent cleanings."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/pressure-washing.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 249.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["annually", "bi-annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Clear access to all areas to be cleaned",
+        "Remove fragile outdoor items",
+        "Ensure water source availability"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "a4b7c8d9-e123-4f56-7890-abcdef123456",
+    "name": "Gutter Cleaning",
+    "slug": "gutter-cleaning",
+    "status": "active",
+    "category": "Specialty Services",
+    "tags": [
+      "gutter cleaning",
+      "exterior maintenance",
+      "residential",
+      "commercial"
+    ],
+    "description": {
+      "short": "Professional gutter cleaning to prevent clogs and water damage.",
+      "long": "Our gutter cleaning service removes leaves, debris, and buildup to ensure proper water flow and protect your home’s foundation. We also inspect gutters for damage and recommend repairs if needed."
+    },
+    "features": [
+      {
+        "title": "Debris Removal",
+        "description": "Thorough clearing of leaves, dirt, and other debris from gutters and downspouts."
+      },
+      {
+        "title": "Downspout Cleaning",
+        "description": "Ensures downspouts are free-flowing and clear of obstructions."
+      },
+      {
+        "title": "Gutter Inspection",
+        "description": "Check for leaks, loose brackets, and signs of damage to prevent future issues."
+      },
+      {
+        "title": "Prevent Water Damage",
+        "description": "Maintain proper water flow to protect your roof, siding, and foundation."
+      },
+      {
+        "title": "Residential and Commercial",
+        "description": "Service available for homes, offices, and commercial buildings of all sizes."
+      },
+      {
+        "title": "Flexible Scheduling",
+        "description": "One-time cleanings or seasonal maintenance plans tailored to your needs."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How often should gutters be cleaned?",
+        "answer": "We recommend cleaning gutters at least twice a year, typically in spring and fall, to prevent clogs and damage."
+      },
+      {
+        "question": "Do I need to be home during gutter cleaning?",
+        "answer": "No, you don’t need to be home. Our team can clean gutters safely with proper access."
+      },
+      {
+        "question": "Do you offer gutter repair services?",
+        "answer": "While our primary service is cleaning, we can identify issues and recommend trusted professionals for repairs."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/gutter-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 199.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["bi-annually", "annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Safe and clear access to gutters",
+        "Remove obstacles near gutter areas",
+        "Notify of any safety hazards on property"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "d7f9a1c3-4b27-4e10-8a6b-6e3c52f7e8a9",
+    "name": "Duct Cleaning",
+    "slug": "duct-cleaning",
+    "status": "active",
+    "category": "Specialty Services",
+    "tags": [
+      "duct cleaning",
+      "HVAC maintenance",
+      "air quality",
+      "residential",
+      "commercial"
+    ],
+    "description": {
+      "short": "Professional duct cleaning to improve air quality and HVAC efficiency.",
+      "long": "Our duct cleaning service removes dust, allergens, and debris from your HVAC system’s ductwork, improving indoor air quality and helping your heating and cooling system run more efficiently. Regular duct cleaning can reduce allergens and extend the life of your system."
+    },
+    "features": [
+      {
+        "title": "Complete Duct Cleaning",
+        "description": "Thorough cleaning of all accessible ductwork including supply and return vents."
+      },
+      {
+        "title": "Allergen Reduction",
+        "description": "Removal of dust, pollen, pet dander, and other allergens to improve indoor air quality."
+      },
+      {
+        "title": "HVAC System Efficiency",
+        "description": "Cleaner ducts help your HVAC system work more effectively, potentially reducing energy costs."
+      },
+      {
+        "title": "Mold and Mildew Prevention",
+        "description": "Cleaning reduces the risk of mold growth inside ducts which can cause health issues."
+      },
+      {
+        "title": "Residential and Commercial Service",
+        "description": "Services tailored for homes, offices, and commercial buildings."
+      },
+      {
+        "title": "Flexible Scheduling",
+        "description": "One-time cleanings or recurring maintenance plans available."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How often should duct cleaning be done?",
+        "answer": "Typically, every 3 to 5 years, but more frequent cleaning may be needed for homes with pets or allergies."
+      },
+      {
+        "question": "Will duct cleaning reduce dust in my home?",
+        "answer": "Yes, removing dust and allergens from ducts helps reduce dust buildup in your living spaces."
+      },
+      {
+        "question": "Is duct cleaning safe?",
+        "answer": "Yes, our trained technicians use safe, EPA-approved methods to clean ducts without damaging your HVAC system."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/duct-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 199.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["bi-annually", "annually"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Clear access to HVAC system and vents",
+        "Ensure power supply is accessible",
+        "Notify of any indoor air quality concerns"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  },
+  {
+    "id": "a9c3f4d2-3b56-4d1a-8f6e-1c4b7d2e9f70",
+    "name": "Short Term Rental Cleaning",
+    "slug": "short-term-rental-cleaning",
+    "status": "active",
+    "category": "Residential Services",
+    "tags": [
+      "rental cleaning",
+      "short term rental",
+      "vacation rental",
+      "turnover cleaning"
+    ],
+    "description": {
+      "short": "Fast, thorough cleaning designed for short term rental turnovers.",
+      "long": "Our short term rental cleaning service ensures your property is spotless and guest-ready between stays. We focus on quick turnaround, high-impact cleaning, fresh linens, and replenishing essentials to keep your guests satisfied."
+    },
+    "features": [
+      {
+        "title": "Quick Turnaround Cleaning",
+        "description": "Efficient cleaning to prepare your rental quickly for the next guest."
+      },
+      {
+        "title": "Linen and Towel Service",
+        "description": "Changing bed linens and towels with fresh, clean replacements."
+      },
+      {
+        "title": "Restocking Essentials",
+        "description": "Replenishing toiletries, paper products, and cleaning supplies."
+      },
+      {
+        "title": "Kitchen and Bathroom Sanitization",
+        "description": "Deep cleaning and disinfecting of all kitchen and bathroom surfaces."
+      },
+      {
+        "title": "Trash Removal",
+        "description": "Complete removal of trash and recycling from the property."
+      },
+      {
+        "title": "Inspection and Reporting",
+        "description": "Checking for damages and reporting issues to property owners."
+      }
+    ],
+    "faq": [
+      {
+        "question": "How soon can you clean between guest stays?",
+        "answer": "We offer same-day or next-day cleaning to accommodate quick guest turnovers."
+      },
+      {
+        "question": "Do you provide linens and towels?",
+        "answer": "We can change linens and towels you provide, but do not supply them ourselves."
+      },
+      {
+        "question": "Can you handle multiple properties?",
+        "answer": "Yes, we manage cleaning schedules for multiple short term rentals efficiently."
+      }
+    ],
+    "media": {
+      "main_image": "https://bnijneyvxdnvsrjohjpl.supabase.co/storage/v1/object/public/stock-content/cleaning/images/short-term-rental-cleaning.jpg",
+      "images": [],
+      "videos": []
+    },
+    "pricing": {
+      "currency": "USD",
+      "base_price": 149.0,
+      "unit": "service",
+      "price_type": "flat",
+      "pricing_tiers": [],
+      "discounts": [],
+      "travel_fee": {
+        "is_enabled": false,
+        "type": "distance",
+        "unit": "mile",
+        "start_distance": 0.0,
+        "unit_price": 0.0
+      }
+    },
+    "booking": {
+      "is_bookable": true,
+      "is_quotable": true
+    },
+    "recurring": {
+      "recurring": false,
+      "can_recur": true,
+      "options": ["weekly", "monthly"]
+    },
+    "requirements": {
+      "customer_provided": [
+        "Access instructions for property entry",
+        "Availability of linens and towels",
+        "Clear areas for cleaning"
+      ]
+    },
+    "addOns": [],
+    "metadata": []
+  }
+]
