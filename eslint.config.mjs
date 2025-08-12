@@ -16,9 +16,9 @@ const eslintConfig = [
       "react/no-unescaped-entities": "warn",
       "react-hooks/exhaustive-deps": "warn",
       "jsx-a11y/alt-text": "warn",
-      "@next/next/no-page-custom-font": "warn"
-    }
-  }
+      "@next/next/no-page-custom-font": "warn",
+    },
+  },
 ];
 
 export default eslintConfig;
