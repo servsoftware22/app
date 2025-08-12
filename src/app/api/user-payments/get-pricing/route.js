@@ -1,13 +1,39 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// Initialize Stripe with secret key for this API route
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-12-18.acacia",
-});
+// Only create Stripe client if environment variables are available
+const createStripeClient = () => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  
+  if (!stripeSecretKey) {
+    return null;
+  }
+  
+  return new Stripe(stripeSecretKey, {
+    apiVersion: "2024-12-18.acacia",
+  });
+};
 
 export async function POST(request) {
+  // Check if we can run this API route during build
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json(
+      { error: "API not available during build" },
+      { status: 503 }
+    );
+  }
+
   try {
+    const stripe = createStripeClient();
+    
+    // If we can't create a Stripe client (e.g., during build), return an error
+    if (!stripe) {
+      return NextResponse.json(
+        { error: "Payment service not available" },
+        { status: 503 }
+      );
+    }
+
     const { priceId } = await request.json();
 
     if (!priceId) {

@@ -1,17 +1,42 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { createServerClient } from "@/lib/supabase";
+import { createServerClient, canRunAPI } from "@/lib/supabase";
 
-// Initialize Stripe with secret key for this API route
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-12-18.acacia",
-});
+// Only create Stripe client if environment variables are available
+const createStripeClient = () => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  
+  if (!stripeSecretKey) {
+    return null;
+  }
+  
+  return new Stripe(stripeSecretKey, {
+    apiVersion: "2024-12-18.acacia",
+  });
+};
 
 export async function POST(request) {
-  try {
-    const { priceId, billingCycle, paymentMethodId } = await request.json();
+  // Check if we can run this API route during build
+  if (!canRunAPI() || !process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json(
+      { error: "API not available during build" },
+      { status: 503 }
+    );
+  }
 
+  try {
+    const stripe = createStripeClient();
     const supabase = createServerClient(request);
+    
+    // If we can't create clients (e.g., during build), return an error
+    if (!stripe || !supabase) {
+      return NextResponse.json(
+        { error: "Services not available" },
+        { status: 503 }
+      );
+    }
+
+    const { priceId, billingCycle, paymentMethodId } = await request.json();
 
     // Get the current user
     const {

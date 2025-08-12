@@ -5,11 +5,11 @@ import { canRunAPI } from "@/lib/supabase";
 const createSupabaseClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !serviceRoleKey) {
     return null;
   }
-  
+
   return createClient(supabaseUrl, serviceRoleKey);
 };
 
@@ -24,7 +24,7 @@ export async function GET() {
 
   try {
     const supabase = createSupabaseClient();
-    
+
     // If we can't create a Supabase client (e.g., during build), return an error
     if (!supabase) {
       return Response.json(
