@@ -238,7 +238,19 @@ export default function DashboardLayout({ children }) {
           </button>
         )}
         <div className="flex flex-1 items-center gap-x-4 self-stretch lg:gap-x-6">
-          <span className="text-lg font-semibold text-gray-900">Toolpage</span>
+          <Link href="/" className="flex items-center">
+            <img
+              src="/logos/ToolpageIcon.png"
+              alt="Toolpage"
+              className="h-6 mb-1 w-auto"
+            />
+            <span
+              className="ml-2 text-xl font-semibold text-[#191C27]"
+              style={{ fontFamily: "Fustat, sans-serif" }}
+            >
+              ToolPage
+            </span>
+          </Link>
           <div className="flex flex-1" />
           {needsSetup ? (
             <div className="flex items-center gap-6">

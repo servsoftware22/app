@@ -5,11 +5,11 @@ import { createServerClient, canRunAPI } from "@/lib/supabase";
 // Only create Stripe client if environment variables are available
 const createStripeClient = () => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-  
+
   if (!stripeSecretKey) {
     return null;
   }
-  
+
   return new Stripe(stripeSecretKey, {
     apiVersion: "2024-12-18.acacia",
   });
@@ -27,7 +27,7 @@ export async function POST(request) {
   try {
     const stripe = createStripeClient();
     const supabase = createServerClient(request);
-    
+
     // If we can't create clients (e.g., during build), return an error
     if (!stripe || !supabase) {
       return NextResponse.json(

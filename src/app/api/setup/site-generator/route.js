@@ -164,9 +164,9 @@ export async function POST(request) {
     const domainConfig = {
       // Domain information
       subdomain: uniqueDomain,
-      full_domain: `${uniqueDomain}.toolpage.io`,
+      full_domain: `${uniqueDomain}.toolpage.site`,
       custom_domain: null,
-      primary_domain: `${uniqueDomain}.toolpage.io`,
+      primary_domain: `${uniqueDomain}.toolpage.site`,
 
       // Domain settings
       settings: {
@@ -185,7 +185,7 @@ export async function POST(request) {
 
       // DNS and technical settings
       dns: {
-        nameservers: ["ns1.toolpage.io", "ns2.toolpage.io"],
+        nameservers: ["ns1.toolpage.site", "ns2.toolpage.site"],
         a_record: null,
         cname_record: null,
         mx_records: [],
@@ -207,7 +207,7 @@ export async function POST(request) {
 
       // SEO and performance
       seo: {
-        canonical_url: `https://${uniqueDomain}.toolpage.io`,
+        canonical_url: `https://${uniqueDomain}.toolpage.site`,
         meta_title: `${businessName} - Professional Services`,
         meta_description: `Professional ${businessType} services by ${businessName}. Get quality work done right.`,
         og_image: null,
@@ -217,7 +217,7 @@ export async function POST(request) {
           "@type": "LocalBusiness",
           name: businessName,
           description: `Professional ${businessType} services`,
-          url: `https://${uniqueDomain}.toolpage.io`,
+          url: `https://${uniqueDomain}.toolpage.site`,
         },
       },
 
@@ -451,11 +451,45 @@ export async function POST(request) {
     console.log("Website created successfully:", website);
     console.log("Generated domain:", domainConfig.full_domain);
 
+    // Trigger Netlify subdomain setup asynchronously
+    try {
+      const netlifySetupResponse = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+        }/api/setup/site-generator/netlify-setup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${request.headers.get("authorization")}`,
+          },
+          body: JSON.stringify({
+            websiteId: website.id,
+            subdomain: uniqueDomain,
+          }),
+        }
+      );
+
+      if (netlifySetupResponse.ok) {
+        const netlifyResult = await netlifySetupResponse.json();
+        console.log("Netlify setup initiated:", netlifyResult);
+      } else {
+        console.warn(
+          "Netlify setup failed, but website was created:",
+          await netlifySetupResponse.text()
+        );
+      }
+    } catch (netlifyError) {
+      console.warn("Failed to initiate Netlify setup:", netlifyError);
+      // Don't fail the website creation if Netlify setup fails
+    }
+
     return NextResponse.json({
       success: true,
       website: website,
       domain: domainConfig,
       message: "Website generated successfully",
+      netlify_setup_initiated: true,
     });
   } catch (error) {
     console.error("Website generation error:", error);

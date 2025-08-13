@@ -209,7 +209,7 @@ export default function MarketingLayout({ children }) {
       return (
         <Link
           href="/dashboard"
-          className="bg-[#FF5E00] hover:bg-[#FF4A00] text-white px-3 py-2 rounded-md text-sm font-semibold transition-all duration-300 ease-in-out ml-2"
+          className="bg-[#ff5500] hover:bg-[#ff4400] text-white px-4 py-3 rounded-md text-md font-semibold transition-all duration-300 ease-in-out ml-2 leading-none"
           onClick={() => setActiveDropdown(null)}
         >
           Dashboard
@@ -220,7 +220,7 @@ export default function MarketingLayout({ children }) {
     return (
       <Link
         href="/auth/signup"
-        className="bg-[#FF5E00] hover:bg-[#FF4A00] text-white px-3 py-2 rounded-md text-sm font-semibold transition-all duration-300 ease-in-out ml-2"
+        className="bg-[#ff5500] hover:bg-[#ff4400] text-white px-6 py-3 rounded-md text-md font-semibold transition-all duration-300 ease-in-out ml-2 leading-none"
         onClick={() => setActiveDropdown(null)}
       >
         Start for free
@@ -232,24 +232,24 @@ export default function MarketingLayout({ children }) {
     <div className="min-h-screen">
       {/* Top Banner - Zapier Style */}
       {isBannerVisible && (
-        <div className="bg-[#848D6F] text-white py-2 px-4 relative">
+        <div className="bg-[#191C27] text-white py-2 px-4 relative font-fustat">
           <div className="w-full flex items-center justify-between">
             <span className="text-sm font-medium">
-              ⚡ From concept to launch—see what ServicePro can really do. Start
+              ⚡ From concept to launch—see what ToolPage can really do. Start
               your free trial today.
             </span>
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span className="text-sm">info@servicepro.com</span>
+                <span className="text-sm">info@toolpage.io</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span className="text-sm">+1(650)880-2099</span>
+                <span className="text-sm">650-880-2099</span>
               </div>
               <button
                 onClick={() => setIsBannerVisible(false)}
-                className="text-white hover:text-gray-200 transition-colors ml-4"
+                className="text-white hover:text-gray-200 transition-colors ml-0"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -259,31 +259,40 @@ export default function MarketingLayout({ children }) {
       )}
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-fustat">
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
+          <div className="flex items-center h-16">
+            {/* Left: Logo */}
+            <div className="flex items-center flex-shrink-0">
               <Link
                 href="/"
-                className="flex-shrink-0 flex items-center"
+                className="flex items-center"
                 onClick={() => setActiveDropdown(null)}
               >
-                <span className="text-xl font-semibold text-[#191C27]">
-                  Toolpage
+                <img
+                  src="/logos/ToolpageIcon.png"
+                  alt="Toolpage"
+                  className="h-6 mb-1 w-auto"
+                />
+                <span
+                  className="ml-2 text-xl font-semibold text-[#191C27]"
+                  style={{ fontFamily: "Fustat, sans-serif" }}
+                >
+                  ToolPage
                 </span>
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Right: Navigation and Auth Button */}
             <div
-              className="hidden md:flex items-center space-x-2"
+              className="hidden md:flex items-center space-x-2 ml-auto"
               ref={dropdownRef}
             >
               {/* Solutions Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown("solutions")}
-                  className="text-[#191C27] hover:text-[#848D6F] px-2 py-2 rounded-md text-sm font-normal flex items-center"
+                  className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium flex items-center"
                 >
                   Products
                   <div className="relative w-3 h-3 ml-1">
@@ -317,14 +326,14 @@ export default function MarketingLayout({ children }) {
                             className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer bg-gray-50/50"
                             onClick={() => setActiveDropdown(null)}
                           >
-                            <div className="text-[#848D6F] mr-3 mt-0.5">
+                            <div className="text-[#ff5500] mr-3 mt-0.5">
                               {item.icon}
                             </div>
                             <div className="flex-1">
                               <div className="text-sm font-semibold text-[#191C27] mb-1">
                                 {item.name}
                               </div>
-                              <div className="text-xs text-[#848D6F] leading-relaxed">
+                              <div className="text-xs text-gray-500 leading-relaxed">
                                 {item.description}
                               </div>
                             </div>
@@ -378,7 +387,7 @@ export default function MarketingLayout({ children }) {
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown("industries")}
-                  className="text-[#191C27] hover:text-[#848D6F] px-2 py-2 rounded-md text-sm font-normal flex items-center"
+                  className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium flex items-center"
                 >
                   Industries
                   <div className="relative w-3 h-3 ml-1">
@@ -412,7 +421,7 @@ export default function MarketingLayout({ children }) {
                             className="flex items-center p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
                             onClick={() => setActiveDropdown(null)}
                           >
-                            <div className="text-[#848D6F] mr-2">
+                            <div className="text-[#ff5500] mr-2">
                               {item.icon}
                             </div>
                             <span className="text-sm font-normal text-[#191C27]">
@@ -428,7 +437,7 @@ export default function MarketingLayout({ children }) {
 
               <Link
                 href="/templates"
-                className="text-[#191C27] hover:text-[#848D6F] px-2 py-2 rounded-md text-sm font-normal"
+                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
                 onClick={() => setActiveDropdown(null)}
               >
                 Templates
@@ -436,7 +445,7 @@ export default function MarketingLayout({ children }) {
 
               <Link
                 href="/pricing"
-                className="text-[#191C27] hover:text-[#848D6F] px-2 py-2 rounded-md text-sm font-normal"
+                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
                 onClick={() => setActiveDropdown(null)}
               >
                 Pricing
@@ -444,7 +453,7 @@ export default function MarketingLayout({ children }) {
 
               <Link
                 href="/support"
-                className="text-[#191C27] hover:text-[#848D6F] px-2 py-2 rounded-md text-sm font-normal"
+                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
                 onClick={() => setActiveDropdown(null)}
               >
                 Support
@@ -489,7 +498,7 @@ export default function MarketingLayout({ children }) {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-medium"
+                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
                       >
                         {item.name}
                       </Link>
@@ -506,7 +515,7 @@ export default function MarketingLayout({ children }) {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-medium"
+                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
                       >
                         {item.name}
                       </Link>
@@ -516,19 +525,19 @@ export default function MarketingLayout({ children }) {
 
                 <Link
                   href="/templates"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-normal"
+                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
                 >
                   Templates
                 </Link>
                 <Link
                   href="/pricing"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-normal"
+                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
                 >
                   Pricing
                 </Link>
                 <Link
                   href="/support"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-normal"
+                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
                 >
                   Support
                 </Link>

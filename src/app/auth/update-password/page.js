@@ -130,15 +130,25 @@ function UpdatePasswordForm() {
         <div className="hidden lg:flex lg:w-1/2 bg-[#191C27] relative">
           {/* Auth Header for desktop */}
           <div className="absolute top-8 left-8">
-            <Link href="/" className="text-2xl font-bold text-white">
-              ServicePro
+            <Link href="/" className="flex items-center">
+              <img
+                src="/logos/ToolpageIcon.png"
+                alt="Toolpage"
+                className="h-8 mb-1 w-auto"
+              />
+              <span
+                className="ml-2 text-2xl font-bold text-white"
+                style={{ fontFamily: "Fustat, sans-serif" }}
+              >
+                ToolPage
+              </span>
             </Link>
           </div>
 
           {/* Auth Footer for desktop */}
           <div className="absolute bottom-8 left-8">
             <p className="text-sm text-gray-300">
-              © 2025 ServicePro. All rights reserved.
+              © 2025 ToolPage. All rights reserved.
             </p>
           </div>
         </div>
@@ -190,15 +200,25 @@ function UpdatePasswordForm() {
       <div className="hidden lg:flex lg:w-1/2 bg-[#191C27] relative">
         {/* Logo/Page Name - Top Left */}
         <div className="absolute top-8 left-8">
-          <Link href="/" className="text-2xl font-bold text-white">
-            ServicePro
+          <Link href="/" className="flex items-center">
+            <img
+              src="/logos/ToolpageIcon.png"
+              alt="Toolpage"
+              className="h-8 mb-1 w-auto"
+            />
+            <span
+              className="ml-2 text-2xl font-bold text-white"
+              style={{ fontFamily: "Fustat, sans-serif" }}
+            >
+              ToolPage
+            </span>
           </Link>
         </div>
 
         {/* Copyright - Bottom Left */}
         <div className="absolute bottom-8 left-8">
           <p className="text-sm text-gray-300">
-            © 2025 ServicePro. All rights reserved.
+            © 2025 ToolPage. All rights reserved.
           </p>
         </div>
       </div>

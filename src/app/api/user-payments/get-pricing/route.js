@@ -4,11 +4,11 @@ import Stripe from "stripe";
 // Only create Stripe client if environment variables are available
 const createStripeClient = () => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-  
+
   if (!stripeSecretKey) {
     return null;
   }
-  
+
   return new Stripe(stripeSecretKey, {
     apiVersion: "2024-12-18.acacia",
   });
@@ -25,7 +25,7 @@ export async function POST(request) {
 
   try {
     const stripe = createStripeClient();
-    
+
     // If we can't create a Stripe client (e.g., during build), return an error
     if (!stripe) {
       return NextResponse.json(
@@ -45,12 +45,12 @@ export async function POST(request) {
 
     // Get the price from Stripe
     const price = await stripe.prices.retrieve(priceId);
-    
+
     console.log("Stripe price retrieved:", {
       id: price.id,
       unitAmount: price.unit_amount,
       currency: price.currency,
-      recurring: price.recurring
+      recurring: price.recurring,
     });
 
     return NextResponse.json({ price });
