@@ -80,7 +80,7 @@ export async function POST(request) {
       secondaryColor,
       accentColor,
       neutralColor,
-      businessName, // Add businessName to the destructuring
+      businessName,
     } = await request.json();
 
     if (!businessType) {
@@ -185,7 +185,10 @@ export async function POST(request) {
 
       // DNS and technical settings
       dns: {
-        nameservers: ["ns1.toolpage.site", "ns2.toolpage.site"],
+        nameservers: [
+          "dns1.registrar-servers.com",
+          "dns2.registrar-servers.com",
+        ],
         a_record: null,
         cname_record: null,
         mx_records: [],
@@ -451,45 +454,38 @@ export async function POST(request) {
     console.log("Website created successfully:", website);
     console.log("Generated domain:", domainConfig.full_domain);
 
-    // Trigger Netlify subdomain setup asynchronously
-    try {
-      const netlifySetupResponse = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-        }/api/setup/site-generator/netlify-setup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${request.headers.get("authorization")}`,
+    // Update website status to indicate it's ready
+    await supabase
+      .from("websites")
+      .update({
+        domain: {
+          ...website.domain,
+          status: {
+            ...website.domain.status,
+            dns_configured: true,
+            last_dns_update: new Date().toISOString(),
           },
-          body: JSON.stringify({
-            websiteId: website.id,
-            subdomain: uniqueDomain,
-          }),
-        }
-      );
+        },
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", website.id);
 
-      if (netlifySetupResponse.ok) {
-        const netlifyResult = await netlifySetupResponse.json();
-        console.log("Netlify setup initiated:", netlifyResult);
-      } else {
-        console.warn(
-          "Netlify setup failed, but website was created:",
-          await netlifySetupResponse.text()
-        );
-      }
-    } catch (netlifyError) {
-      console.warn("Failed to initiate Netlify setup:", netlifyError);
-      // Don't fail the website creation if Netlify setup fails
-    }
+    console.log(
+      "Website status updated - DNS is automatically configured via Namecheap wildcard"
+    );
 
     return NextResponse.json({
       success: true,
       website: website,
       domain: domainConfig,
       message: "Website generated successfully",
-      netlify_setup_initiated: true,
+      subdomain_url: `https://${uniqueDomain}.toolpage.site`,
+      dns_status: "Automatically configured via Namecheap wildcard DNS",
+      next_steps: [
+        "Subdomain is automatically accessible via wildcard DNS",
+        "Visit the subdomain to see your website",
+        "Custom domains can be added later via Namecheap API",
+      ],
     });
   } catch (error) {
     console.error("Website generation error:", error);
