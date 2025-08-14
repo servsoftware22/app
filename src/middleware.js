@@ -3,18 +3,25 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname, host } = request.nextUrl;
 
+  // Get the original host from x-forwarded-host (preserved by Cloudflare)
+  const originalHost = request.headers.get("x-forwarded-host") || host;
+
   // Log all request details for debugging
   console.log("=== MIDDLEWARE DEBUG ===");
   console.log("Request URL:", request.url);
   console.log("Host header:", request.headers.get("host"));
+  console.log("X-Forwarded-Host:", request.headers.get("x-forwarded-host"));
+  console.log("Original Host (detected):", originalHost);
   console.log("NextURL host:", host);
   console.log("Pathname:", pathname);
-  console.log("All headers:", Object.fromEntries(request.headers.entries()));
   console.log("========================");
 
-  // Check if this is a subdomain request
-  if (host.includes(".toolpage.site") && !host.startsWith("www.")) {
-    const subdomain = host.split(".")[0];
+  // Check if this is a subdomain request using the original host
+  if (
+    originalHost.includes(".toolpage.site") &&
+    !originalHost.startsWith("www.")
+  ) {
+    const subdomain = originalHost.split(".")[0];
 
     // Skip if it's the main domain
     if (subdomain === "toolpage") {
