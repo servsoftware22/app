@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  // Removed output: "standalone" to fix middleware issues
 
   images: {
     domains: ["localhost", "bnijneyvxdnvsrjohjpl.supabase.co"],

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
+  // Simple test to verify middleware is running
+  console.log("🔧 MIDDLEWARE IS RUNNING for:", request.url);
+
   const { pathname, host } = request.nextUrl;
 
   // Get the original host from x-forwarded-host (preserved by Cloudflare)
