@@ -3,7 +3,14 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname, host } = request.nextUrl;
 
-  console.log("Middleware running for:", { host, pathname });
+  // Log all request details for debugging
+  console.log("=== MIDDLEWARE DEBUG ===");
+  console.log("Request URL:", request.url);
+  console.log("Host header:", request.headers.get("host"));
+  console.log("NextURL host:", host);
+  console.log("Pathname:", pathname);
+  console.log("All headers:", Object.fromEntries(request.headers.entries()));
+  console.log("========================");
 
   // Check if this is a subdomain request
   if (host.includes(".toolpage.site") && !host.startsWith("www.")) {
