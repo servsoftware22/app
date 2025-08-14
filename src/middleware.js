@@ -3,12 +3,15 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname, host } = request.nextUrl;
 
+  console.log("Middleware running for:", { host, pathname });
+
   // Check if this is a subdomain request
   if (host.includes(".toolpage.site") && !host.startsWith("www.")) {
     const subdomain = host.split(".")[0];
 
     // Skip if it's the main domain
     if (subdomain === "toolpage") {
+      console.log("Main domain detected, skipping");
       return NextResponse.next();
     }
 
