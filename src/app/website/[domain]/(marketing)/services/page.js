@@ -1,10 +1,10 @@
+import UrbanServicesPage from "../../../Urban/(marketing)/services/page";
 import { createServerClient } from "@/lib/supabase";
-import UrbanPage from "../Urban/page";
 
-export default async function HomePage({ params }) {
+export default async function ServicesPage({ params }) {
   const { domain } = await params;
 
-  // Fetch website data server-side in the page component
+  // Fetch website data directly in this page
   const supabase = createServerClient();
   const { data: website, error } = await supabase
     .from("websites")
@@ -27,6 +27,6 @@ export default async function HomePage({ params }) {
     );
   }
 
-  // Pass data directly to UrbanPage - no client-side fetching needed
-  return <UrbanPage websiteData={website} />;
+  // Pass website data directly to the template component
+  return <UrbanServicesPage websiteData={website} />;
 }

@@ -1,10 +1,11 @@
 import { createServerClient } from "@/lib/supabase";
-import UrbanPage from "../Urban/page";
+import { Suspense } from "react";
+import MarketingLayoutClient from "./MarketingLayoutClient";
 
-export default async function HomePage({ params }) {
+export default async function MarketingLayout({ children, params }) {
   const { domain } = await params;
 
-  // Fetch website data server-side in the page component
+  // Fetch website data server-side
   const supabase = createServerClient();
   const { data: website, error } = await supabase
     .from("websites")
@@ -27,6 +28,10 @@ export default async function HomePage({ params }) {
     );
   }
 
-  // Pass data directly to UrbanPage - no client-side fetching needed
-  return <UrbanPage websiteData={website} />;
+  // Pass website data to the client layout component
+  return (
+    <MarketingLayoutClient websiteData={website}>
+      {children}
+    </MarketingLayoutClient>
+  );
 }

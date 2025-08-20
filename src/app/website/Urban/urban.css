@@ -1,0 +1,40 @@
+/* Urban Template Global Styles */
+
+/* Import Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
+
+/* CSS Variables */
+:root {
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Apply Inter font to entire template */
+html,
+body {
+  font-family: var(--font-primary) !important;
+}
+
+/* Font Family */
+.urban-font {
+  font-family: var(--font-primary) !important;
+}
+
+/* Font Weights */
+.urban-font-light {
+  font-weight: 200 !important;
+}
+
+.urban-font-normal {
+  font-weight: 300 !important;
+}
+
+.urban-font-medium {
+  font-weight: 400 !important;
+}
+
+/* Component Styles */
+.urban-header {
+  /* backdrop-filter: blur(10px); */
+  /* -webkit-backdrop-filter: blur(10px); */
+}

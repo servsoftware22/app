@@ -315,7 +315,7 @@ export async function POST(request) {
     // Get the business record for this user
     const { data: businessData, error: businessError } = await supabase
       .from("business")
-      .select("id")
+      .select("*")
       .eq("owner", user.id)
       .single();
 
@@ -335,8 +335,23 @@ export async function POST(request) {
       admins: [user.id], // User is the primary admin
       business: businessData.id,
 
+      // Add business information directly to website
+      business_info: {
+        name: businessData.name,
+        type: businessData.type,
+        phone: businessData.phone,
+        email: businessData.email,
+        address: businessData.address,
+        status: businessData.status,
+        integrations: businessData.integrations || {},
+        custom: businessData.custom || {},
+      },
+
       // Add the domain configuration
       domain: domainConfig,
+
+      // Store template name directly in template column for easy access
+      template: selectedTemplate,
 
       // Content from business type
       home: businessTypeData.default_home || {},
@@ -353,7 +368,6 @@ export async function POST(request) {
         secondary: secondaryColor,
         accent: accentColor,
         neutral: neutralColor,
-        template: selectedTemplate,
       },
 
       // Initialize other sections as empty
@@ -384,11 +398,17 @@ export async function POST(request) {
 
     // Validate website data structure
     console.log("Validating website data structure...");
-    if (!websiteData.owner || !websiteData.business || !websiteData.domain) {
+    if (
+      !websiteData.owner ||
+      !websiteData.business ||
+      !websiteData.domain ||
+      !websiteData.business_info
+    ) {
       console.error("Missing required fields:", {
         owner: !!websiteData.owner,
         business: !!websiteData.business,
         domain: !!websiteData.domain,
+        business_info: !!websiteData.business_info,
       });
       return NextResponse.json(
         { error: "Missing required website fields" },

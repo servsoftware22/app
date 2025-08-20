@@ -1,0 +1,1622 @@
+/* Header Entrance Animations */
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hero Entrance Animations */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Hero Animation Classes - Simple Opacity Only */
+.hero-badge-entrance {
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+.hero-title-entrance {
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+.hero-description-entrance {
+  animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+.hero-buttons-entrance {
+  animation: fadeIn 0.8s ease-out 0.8s both;
+}
+
+.hero-right-entrance {
+  animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+/* Simple fadeIn animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Stats Section Animations - Hidden by default */
+.stats-badge-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.stats-description-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.stats-metrics-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Individual stat item animations - Hidden by default */
+.stats-metric-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .stats-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .stats-description-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .stats-metrics-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .stats-metric-item:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .stats-metric-item:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .stats-metric-item:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+/* Services Section Styles */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Force hover effect with multiple selectors */
+.services-grid .service-card:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Alternative hover selector */
+.service-card:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Service name and circle button layout */
+.service-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+
+.service-name {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+  flex: 1;
+  letter-spacing: -0.02em;
+}
+
+.service-circle-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #414141;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.service-card:hover .service-circle-button {
+  transform: rotate(-45deg);
+}
+
+.service-card:hover .service-circle-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.service-image {
+  height: 280px;
+  overflow: hidden;
+  padding: 0.5rem 0.5rem 1.2rem 0.5rem;
+}
+
+.service-image-actual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.service-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 6px;
+}
+
+.service-icon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+/* Remove duplicate rules */
+
+/* Services Section Entrance Animations - Hidden by default */
+.services-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.service-card-entrance-1,
+.service-card-entrance-2,
+.service-card-entrance-3,
+.service-card-entrance-4 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.services-button-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .services-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .service-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .service-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .service-card-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .service-card-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .services-button-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+/* Features Section Styles */
+.features-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+}
+
+/* Features Section Entrance Animations - Hidden by default */
+.features-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.features-navigation-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.feature-card-entrance-1,
+.feature-card-entrance-2 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .features-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .features-navigation-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .feature-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .feature-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.features-header-left {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.features-title {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--primary-color);
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.features-navigation {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.nav-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+}
+
+.nav-button:hover {
+  transform: scale(1.05);
+}
+
+.features-showcase {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+/* Force single column layout on smaller screens */
+@media (max-width: 1024px) {
+  .features-showcase {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive adjustments for features */
+@media (max-width: 1024px) {
+  .features-showcase {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+
+  .feature-showcase-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .feature-showcase-primary,
+  .feature-showcase-secondary {
+    grid-column: 1 !important;
+  }
+
+  .feature-showcase-primary .feature-showcase-image {
+    height: 350px;
+  }
+
+  .feature-showcase-secondary .feature-showcase-image {
+    height: 350px;
+  }
+}
+
+/* How It Works Section Styling */
+.how-it-works-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+/* How It Works Section Entrance Animations */
+.how-it-works-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: stretch;
+  padding: 2rem 2rem;
+}
+
+.how-it-works-left {
+  width: 100%;
+  position: relative;
+}
+
+.how-it-works-image {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.how-it-works-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.how-it-works-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.how-it-works-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  transition: all 0.8s ease 0.6s;
+}
+
+.how-it-works-hero.animate-in .how-it-works-steps {
+  animation: fadeInUp 0.8s ease 0.6s forwards;
+}
+
+.how-it-works-content {
+  max-width: 600px;
+  padding: 8rem 0; /* Added vertical padding to content */
+}
+
+.content-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 300;
+  margin-bottom: 2.5rem; /* Increased from 1.5rem */
+  letter-spacing: 0.025em;
+}
+
+.content-title {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: #111827;
+  margin: 0 0 2rem 0; /* Increased from 1.5rem */
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.content-description {
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 4.5rem 0; /* Increased from 3.5rem to 4.5rem for more gap above steps */
+}
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  height: fit-content;
+  min-height: 120px;
+}
+
+.step-number {
+  font-size: 1.5rem; /* Reduced from 2rem */
+  font-weight: 300;
+  color: var(--primary-color);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.125rem; /* Reduced from 1.25rem */
+  font-weight: 400;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.step-description {
+  font-size: 0.875rem; /* Reduced from 1rem */
+  font-weight: 300;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive adjustments for How It Works */
+@media (max-width: 1024px) {
+  .how-it-works-hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    min-height: auto;
+  }
+
+  .how-it-works-content {
+    max-width: 100%;
+  }
+
+  .how-it-works-steps {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .step-card {
+    gap: 0.75rem;
+    padding: 1.25rem; /* Slightly reduced padding on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .how-it-works-hero {
+    gap: 2rem;
+  }
+
+  .content-title {
+    font-size: 2rem;
+  }
+
+  .how-it-works-steps {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 1rem;
+  }
+
+  .step-card {
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.5rem; /* Maintain good padding on mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  .features-header {
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .features-title {
+    font-size: 2rem;
+  }
+
+  .features-showcase {
+    gap: 1rem;
+  }
+}
+
+.feature-showcase-card {
+  background: var(--primary-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.15s ease-in-out;
+  padding: 0.75rem;
+  opacity: 1;
+  transform: translateX(0);
+  will-change: transform, opacity;
+}
+
+.feature-showcase-card:hover {
+  transform: translateY(-4px) translateX(0);
+}
+
+/* Transition state animations */
+.features-showcase.transitioning .feature-showcase-card {
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* Fade in animation for new content */
+.feature-showcase-card {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Entrance animations for scroll trigger */
+.features-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.features-navigation-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.feature-card-entrance-1,
+.feature-card-entrance-2 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .features-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .features-navigation-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .feature-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .feature-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.feature-showcase-primary {
+  grid-column: 1;
+}
+
+.feature-showcase-secondary {
+  grid-column: 2;
+}
+
+.feature-showcase-image {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.feature-showcase-primary .feature-showcase-image {
+  height: 400px;
+}
+
+.feature-showcase-image-actual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+}
+
+.feature-showcase-card:hover .feature-showcase-image-actual {
+  transform: scale(1.05);
+}
+
+.feature-showcase-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+}
+
+.overlay-square {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.25rem;
+  border-radius: 2px;
+}
+
+.overlay-square-2 {
+  margin-left: 0.5rem;
+}
+
+.feature-showcase-content {
+  padding: 1.5rem;
+}
+
+.feature-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.feature-number {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #9ca3af;
+}
+
+.feature-showcase-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1.3;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.feature-showcase-primary .feature-showcase-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.feature-showcase-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: white;
+  font-weight: 200;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-image {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-image {
+    height: 280px;
+  }
+}
+
+/* Hero Section Height - Prevents Jumping */
+.hero-section {
+  height: var(--hero-height);
+  min-height: var(--hero-height);
+  max-height: var(--hero-height);
+}
+
+.hero-section .hero-right-section:last-child {
+  height: var(--hero-height);
+  min-height: var(--hero-height);
+  max-height: var(--hero-height);
+}
+
+/* Nav Link Underline Animation */
+@keyframes underlineExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.urban-nav-link {
+  position: relative;
+  padding: 0.1rem 0;
+  border-radius: 9999px;
+  margin-right: 1.7rem;
+  font-family: var(--font-primary) !important;
+  font-weight: 400 !important;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.urban-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: #374151;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.urban-nav-link:hover::after {
+  width: 100%;
+}
+
+/* Header Animation Classes - REMOVED - No more entrance animations */
+
+/* Prevent header flashing between page navigations */
+.urban-header {
+  /* Ensure header stays in place during navigation */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth header state transitions */
+.header-visible {
+  transform: translateY(0) translateZ(0);
+  opacity: 1;
+}
+
+.header-hidden {
+  transform: translateY(-100%) translateZ(0);
+  opacity: 0;
+}
+
+/* Smooth Header Transitions */
+.header-background-transition {
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.header-hide-show-transition {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Text Color Transitions */
+.header-text-transition {
+  transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Scroll Behavior */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* General Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animation Utility Classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out;
+}
+
+/* Staggered Animations */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Header Button Hover Animation */
+.urban-button {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+  isolation: isolate;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.urban-button-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.urban-button-secondary {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+.urban-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color);
+  transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
+}
+
+.urban-button:hover::before {
+  left: 0;
+}
+
+/* Force all direct children to be above the pseudo-element */
+.urban-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.urban-button:hover {
+  color: white !important;
+}
+
+/* Override Urban button for services button to work like hero primary button */
+.services-button-entrance.urban-button {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+}
+
+.services-button-entrance.urban-button::before {
+  background-color: var(--accent-color) !important;
+}
+
+.services-button-entrance.urban-button:hover {
+  color: white !important;
+}
+
+.services-button-entrance.urban-button:hover * {
+  color: white !important;
+}
+
+.services-button-entrance.urban-button:hover span {
+  color: white !important;
+}
+
+/* Force white text on hover with maximum specificity */
+.services-button-entrance.urban-button:hover,
+.services-button-entrance.urban-button:hover *,
+.services-button-entrance.urban-button:hover span,
+.services-button-entrance.urban-button:hover div,
+.services-button-entrance.urban-button:hover a,
+.services-button-entrance.urban-button:hover .urban-font {
+  color: white !important;
+}
+
+/* Nuclear option - override everything */
+.services-button-entrance.urban-button:hover,
+.services-button-entrance.urban-button:hover *,
+.services-button-entrance.urban-button:hover span,
+.services-button-entrance.urban-button:hover div,
+.services-button-entrance.urban-button:hover a,
+.services-button-entrance.urban-button:hover .urban-font,
+.services-button-entrance.urban-button:hover p,
+.services-button-entrance.urban-button:hover h1,
+.services-button-entrance.urban-button:hover h2,
+.services-button-entrance.urban-button:hover h3,
+.services-button-entrance.urban-button:hover h4,
+.services-button-entrance.urban-button:hover h5,
+.services-button-entrance.urban-button:hover h6 {
+  color: white !important;
+}
+
+/* Target the button text specifically by its content */
+.services-button-entrance.urban-button:hover:contains("View All Services") {
+  color: white !important;
+}
+
+/* Target specific button text elements */
+.services-button-entrance.urban-button:hover .button-text {
+  color: white !important;
+}
+
+.services-button-entrance.urban-button:hover .button-arrow {
+  color: white !important;
+}
+
+/* Force these elements to be white on hover */
+.services-button-entrance.urban-button:hover .button-text,
+.services-button-entrance.urban-button:hover .button-arrow {
+  color: white !important;
+}
+
+/* Override Urban button for services button to work like hero primary button */
+.services-button-entrance.urban-button {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+}
+
+.services-button-entrance.urban-button::before {
+  background-color: var(--accent-color) !important;
+}
+
+.services-button-entrance.urban-button:hover {
+  color: white !important;
+}
+
+.services-button-entrance.urban-button:hover * {
+  color: white !important;
+}
+
+.services-button-entrance.urban-button:hover span {
+  color: white !important;
+}
+
+/* Specific selectors for button content */
+.urban-button .urban-font {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.urban-button span {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Hamburger Menu Animations */
+.hamburger-line {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hamburger-line-1 {
+  transform-origin: center;
+}
+
+.hamburger-line-2 {
+  transform-origin: center;
+}
+
+.hamburger-line-3 {
+  transform-origin: center;
+}
+
+/* Mobile Navigation Card Animations */
+@keyframes mobileCardSlideIn {
+  from {
+    transform: translateY(-16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileCardSlideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-16px);
+    opacity: 0;
+  }
+}
+
+@keyframes mobileOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mobileOverlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Mobile Navigation Animation Classes */
+.mobile-card-open {
+  animation: mobileCardSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+}
+
+.mobile-card-close {
+  animation: mobileCardSlideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+}
+
+.mobile-overlay-open {
+  animation: mobileOverlayFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+}
+
+.mobile-overlay-close {
+  animation: mobileOverlayFadeOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+}
+
+/* FAQ Section Styles */
+.faq-card {
+  background: var(--neutral-color, #f8fafc);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-card:hover {
+  transform: translateY(-2px);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem;
+  background: var(--neutral-color, #f8fafc);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.faq-question:hover {
+  background: var(--neutral-color, #f8fafc);
+}
+
+.faq-question-text {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #111827;
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.faq-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-icon-open {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  background: var(--neutral-color, #f8fafc);
+}
+
+.faq-answer-open {
+  max-height: 200px;
+  padding: 0 2rem 2.5rem 2rem;
+}
+
+.faq-answer-text {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive FAQ adjustments */
+@media (max-width: 768px) {
+  .faq-question {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .faq-question-text {
+    font-size: 1rem;
+  }
+
+  .faq-answer-open {
+    padding: 0 1.5rem 1.25rem 1.5rem;
+  }
+
+  .faq-answer-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* How It Works Section Animations - Hidden by default */
+.how-it-works-left-entrance {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.how-it-works-right-entrance {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.how-it-works-badge-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.how-it-works-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.how-it-works-description-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.how-it-works-steps-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.step-card-entrance-1,
+.step-card-entrance-2,
+.step-card-entrance-3,
+.step-card-entrance-4,
+.step-card-entrance-5,
+.step-card-entrance-6 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .how-it-works-left-entrance {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .how-it-works-right-entrance {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .how-it-works-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .how-it-works-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .how-it-works-description-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .how-it-works-steps-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+.animate-in .step-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.4s;
+}
+
+.animate-in .step-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.5s;
+}
+
+.animate-in .step-card-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.6s;
+}
+
+.animate-in .step-card-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.7s;
+}
+
+.animate-in .step-card-entrance-5 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.8s;
+}
+
+.animate-in .step-card-entrance-6 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.9s;
+}
+
+/* CTA Section Entrance Animations - Hidden by default */
+.cta-badge-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cta-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cta-description-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cta-button-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .cta-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .cta-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .cta-description-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .cta-button-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+/* FAQ Section Entrance Animations - Hidden by default */
+.faq-badge-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.faq-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.faq-card-entrance-1,
+.faq-card-entrance-2,
+.faq-card-entrance-3,
+.faq-card-entrance-4,
+.faq-card-entrance-5,
+.faq-card-entrance-6 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .faq-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .faq-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .faq-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .faq-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.7s;
+}
+
+.animate-in .faq-card-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .faq-card-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.9s;
+}
+
+.animate-in .faq-card-entrance-5 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .faq-card-entrance-6 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.1s;
+}
+
+/* Footer Navigation Link Styles - Matching Header Nav Links */
+.urban-footer-nav-link {
+  position: relative;
+  padding: 0.1rem 0;
+  border-radius: 9999px;
+  font-family: var(--font-primary) !important;
+  font-weight: 200 !important;
+  font-size: 1.125rem;
+}
+
+.urban-footer-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: currentColor;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.urban-footer-nav-link:hover::after {
+  width: 100%;
+}
+
+/* Services Page Animations */
+.services-badge-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.services-title-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.hero-description-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animation triggers when animate-in class is added */
+.animate-in .services-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .services-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .hero-description-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
