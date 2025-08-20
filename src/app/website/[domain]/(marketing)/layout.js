@@ -1,6 +1,5 @@
 import { createServerClient } from "@/lib/supabase";
 import { Suspense } from "react";
-import MarketingLayoutClient from "./MarketingLayoutClient";
 
 export default async function MarketingLayout({ children, params }) {
   const { domain } = await params;
@@ -28,10 +27,37 @@ export default async function MarketingLayout({ children, params }) {
     );
   }
 
-  // Pass website data to the client layout component
+  // Dynamically import Header and Footer components on the server
+  const template = website.template?.name || "Urban";
+  const HeaderComponent = (await import(`../../${template}/components/Header`))
+    .default;
+  const FooterComponent = (await import(`../../${template}/components/Footer`))
+    .default;
+
+  const { business_info = {}, palette } = website;
+  const businessName = business_info?.name || "Business";
+  const businessType = business_info?.type || "Services";
+  const headerConfig = website?.header;
+
   return (
-    <MarketingLayoutClient websiteData={website}>
-      {children}
-    </MarketingLayoutClient>
+    <>
+      <HeaderComponent
+        key={`header-${website.id}-${template}`}
+        businessName={businessName}
+        businessType={businessType}
+        domain={domain}
+        palette={palette}
+        headerConfig={headerConfig}
+      />
+
+      <main>{children}</main>
+
+      <FooterComponent
+        key={`footer-${website.id}-${template}`}
+        palette={palette}
+        businessName={businessName}
+        websiteData={website}
+      />
+    </>
   );
 }
