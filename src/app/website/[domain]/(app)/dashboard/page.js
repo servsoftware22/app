@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import UrbanDashboardPage from "../../../Urban/components/DashboardPage";
+import UrbanDashboardPage from "../../../Urban/(app)/dashboard/page";
 
 export default function DashboardPage() {
   const [websiteData, setWebsiteData] = useState(null);

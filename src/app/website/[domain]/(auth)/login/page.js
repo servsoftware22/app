@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import UrbanLoginPage from "../../../Urban/components/LoginPage";
+import UrbanLoginPage from "../../../Urban/(auth)/login/page";
 
 export default function LoginPage() {
   const [websiteData, setWebsiteData] = useState(null);
