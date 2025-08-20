@@ -44,6 +44,17 @@ function FAQCard({ question, answer }) {
 }
 
 export default function UrbanPage({ websiteData }) {
+  // Guard clause for build time when websiteData is undefined
+  if (!websiteData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   const { business_info = {}, palette } = websiteData;
   const statsSectionRef = useRef(null);
   const servicesSectionRef = useRef(null);
