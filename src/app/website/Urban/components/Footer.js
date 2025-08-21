@@ -89,49 +89,49 @@ export default function Footer({
                   >
                     {social.icon === "whatsapp" && (
                       <img
-                        src="/apps/whatsapp.png"
+                        src="https://toolpage.site/apps/whatsapp.png"
                         alt="WhatsApp"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "facebook" && (
                       <img
-                        src="/apps/facebook.png"
+                        src="https://toolpage.site/apps/facebook.png"
                         alt="Facebook"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "instagram" && (
                       <img
-                        src="/apps/instagram.png"
+                        src="https://toolpage.site/apps/instagram.png"
                         alt="Instagram"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "twitter" && (
                       <img
-                        src="/apps/twitter.png"
+                        src="https://toolpage.site/apps/twitter.png"
                         alt="Twitter"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "linkedin" && (
                       <img
-                        src="/apps/linkedin.png"
+                        src="https://toolpage.site/apps/linkedin.png"
                         alt="LinkedIn"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "youtube" && (
                       <img
-                        src="/apps/youtube.png"
+                        src="https://toolpage.site/apps/youtube.png"
                         alt="YouTube"
                         className="w-6 h-6"
                       />
                     )}
                     {social.icon === "tiktok" && (
                       <img
-                        src="/apps/tiktok.png"
+                        src="https://toolpage.site/apps/tiktok.png"
                         alt="TikTok"
                         className="w-6 h-6"
                       />
@@ -177,7 +177,7 @@ export default function Footer({
                     />
                   </a>
                   <a
-                    href="/contact"
+                    href="contact"
                     className="transition-opacity duration-300 hover:opacity-80"
                   >
                     <MessageCircle
@@ -215,7 +215,7 @@ export default function Footer({
                 <>
                   <li>
                     <a
-                      href="/"
+                      href="./"
                       className="urban-footer-nav-link"
                       style={{ color: palette.neutral }}
                     >
@@ -224,7 +224,7 @@ export default function Footer({
                   </li>
                   <li>
                     <a
-                      href="/services"
+                      href="services"
                       className="urban-footer-nav-link"
                       style={{ color: palette.neutral }}
                     >
@@ -233,7 +233,7 @@ export default function Footer({
                   </li>
                   <li>
                     <a
-                      href="/about"
+                      href="about"
                       className="urban-footer-nav-link"
                       style={{ color: palette.neutral }}
                     >
@@ -242,7 +242,7 @@ export default function Footer({
                   </li>
                   <li>
                     <a
-                      href="/contact"
+                      href="contact"
                       className="urban-footer-nav-link"
                       style={{ color: palette.neutral }}
                     >
@@ -337,14 +337,14 @@ export default function Footer({
               )) || (
                 <>
                   <a
-                    href="/terms"
+                    href="terms"
                     className="text-base font-light urban-font transition-colors duration-300 hover:opacity-80"
                     style={{ color: palette.neutral }}
                   >
                     Terms of Service
                   </a>
                   <a
-                    href="/privacy"
+                    href="privacy"
                     className="text-base font-light urban-font transition-colors duration-300 hover:opacity-80"
                     style={{ color: palette.neutral }}
                   >

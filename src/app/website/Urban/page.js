@@ -186,14 +186,14 @@ export default function UrbanPage({ websiteData }) {
             ) : (
               <div className="flex flex-row gap-2 sm:gap-3 lg:gap-4 hero-buttons-entrance justify-center lg:justify-start">
                 <a
-                  href="/get-started"
+                  href="get-started"
                   className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer"
                 >
                   Get Started
                   <span className="text-sm sm:text-base lg:text-lg">→</span>
                 </a>
                 <a
-                  href="/learn-more"
+                  href="learn-more"
                   className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-secondary cursor-pointer"
                 >
                   Learn More
@@ -371,7 +371,7 @@ export default function UrbanPage({ websiteData }) {
                 ).length > 4 && (
                   <div className="text-center mt-16">
                     <a
-                      href="/services"
+                      href="services"
                       className="inline-flex items-center px-8 py-4 rounded-full text-base font-medium urban-button services-button-entrance"
                       style={{
                         backgroundColor: "white",

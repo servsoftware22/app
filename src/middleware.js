@@ -35,7 +35,14 @@ export function middleware(request) {
     // If it's a subdomain and not already a website route, rewrite to the website route
     if (!pathname.startsWith("/website/")) {
       const url = request.nextUrl.clone();
-      url.pathname = `/website/${subdomain}${pathname === "/" ? "" : pathname}`;
+
+      // For the home page, go to /website/[domain]
+      // For other pages, go to /website/[domain]/(marketing)/[page]
+      if (pathname === "/") {
+        url.pathname = `/website/${subdomain}`;
+      } else {
+        url.pathname = `/website/${subdomain}/(marketing)${pathname}`;
+      }
 
       console.log(
         `Subdomain ${subdomain} detected, rewriting to: ${url.pathname}`
