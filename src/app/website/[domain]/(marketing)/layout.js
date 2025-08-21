@@ -4,7 +4,7 @@ import { Suspense } from "react";
 export default async function MarketingLayout({ children, params }) {
   const { domain } = await params;
 
-  // Fetch website data server-side
+  // Fetch website data server-side for Header/Footer
   const supabase = createServerClient();
   const { data: website, error } = await supabase
     .from("websites")
