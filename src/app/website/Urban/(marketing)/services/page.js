@@ -3,21 +3,22 @@
 import "../../urban.css";
 import "../../urban-animations.css";
 import { useEffect, useRef, useState } from "react";
+import Header from "../../components/Header";
 
 export default function UrbanServicesPage({ websiteData }) {
-  console.log("UrbanServicesPage received websiteData:", websiteData); // Debug log
-
   const servicesSectionRef = useRef(null);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("View All");
   const [filteredServices, setFilteredServices] = useState([]);
+
+  // Extract services from websiteData - handle nested structure
+  const services =
+    websiteData?.services?.[0]?.services || websiteData?.services || [];
 
   // Filter services based on selected category - always call this hook
   useEffect(() => {
-    if (!websiteData?.services) return;
+    if (!services || services.length === 0) return;
 
-    const services = websiteData.services;
-
-    if (selectedCategory === "All") {
+    if (selectedCategory === "View All") {
       const activeServices = services.filter(
         (service) => service.status === "active"
       );
@@ -29,7 +30,7 @@ export default function UrbanServicesPage({ websiteData }) {
       );
       setFilteredServices(categoryServices);
     }
-  }, [selectedCategory, websiteData?.services]);
+  }, [selectedCategory, services]);
 
   // Scroll-triggered animations for services section - always call this hook
   useEffect(() => {
@@ -60,7 +61,6 @@ export default function UrbanServicesPage({ websiteData }) {
 
   // Don't render until we have the data
   if (!websiteData) {
-    console.log("No websiteData, showing loading"); // Debug log
     return <div>Loading...</div>;
   }
 
@@ -75,26 +75,32 @@ export default function UrbanServicesPage({ websiteData }) {
   // Extract header configuration
   const headerConfig = websiteData?.header;
 
-  // Extract services from websiteData
-  const services = websiteData?.services || [];
-
   // Get unique categories from services
   const categories = [
-    "All",
+    "View All",
     ...new Set(services.map((service) => service.category)),
   ];
 
-  console.log("Rendering with data:", {
-    businessName,
-    businessType,
-    services: services.length,
-  }); // Debug log
-
   return (
-    <>
+    <div
+      className="urban-font"
+      style={{
+        "--primary-color": palette.primary,
+        "--accent-color": palette.accent || palette.secondary,
+        "--neutral-color": palette.neutral,
+      }}
+    >
+      <Header
+        businessName={businessName}
+        businessType={businessType}
+        domain={domain}
+        palette={palette}
+        headerConfig={headerConfig}
+      />
+
       {/* Hero Section */}
       <section
-        className="py-20 px-8 lg:px-16"
+        className="pt-32 pb-20 px-8 lg:px-16"
         style={{ backgroundColor: palette.primary }}
         ref={servicesSectionRef}
       >
@@ -113,7 +119,9 @@ export default function UrbanServicesPage({ websiteData }) {
                   className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full mr-1.5 sm:mr-2"
                   style={{ backgroundColor: palette.primary }}
                 ></div>
-                SERVICES
+                {websiteData?.services?.[0]?.servicesPage?.hero?.badge?.text ||
+                  websiteData?.servicesPage?.hero?.badge?.text ||
+                  "SERVICES"}
               </div>
             </div>
 
@@ -125,20 +133,23 @@ export default function UrbanServicesPage({ websiteData }) {
                 letterSpacing: "-0.02em",
               }}
             >
-              Our Services
+              {websiteData?.services?.[0]?.servicesPage?.hero?.title?.text ||
+                websiteData?.servicesPage?.hero?.title?.text ||
+                "Our Services"}
             </h1>
 
             {/* Description */}
             <p
-              className="text-lg sm:text-xl mb-12 max-w-3xl mx-auto urban-hero-description hero-description-entrance"
+              className="text-lg sm:text-xl max-w-3xl mx-auto urban-hero-description hero-description-entrance"
               style={{
                 color: "white",
                 fontWeight: 300,
               }}
             >
-              Discover our comprehensive range of {businessType.toLowerCase()}{" "}
-              designed to meet your needs with quality, reliability, and
-              exceptional customer service.
+              {websiteData?.services?.[0]?.servicesPage?.hero?.description
+                ?.text ||
+                websiteData?.servicesPage?.hero?.description?.text ||
+                `Discover our comprehensive range of ${businessType.toLowerCase()} designed to meet your needs with quality, reliability, and exceptional customer service.`}
             </p>
           </div>
         </div>
@@ -152,24 +163,17 @@ export default function UrbanServicesPage({ websiteData }) {
         <div className="max-w-7xl mx-auto">
           {/* Category Filters */}
           <div className="mb-16 text-center">
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            <div className="flex flex-wrap justify-center gap-2">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-                    selectedCategory === category
-                      ? "urban-button-primary"
-                      : "urban-button-secondary"
-                  }`}
+                  className="px-6 py-3 rounded-full text-base font-light transition-all duration-300 cursor-pointer"
                   style={{
                     backgroundColor:
-                      selectedCategory === category
-                        ? palette.primary
-                        : "transparent",
+                      selectedCategory === category ? palette.primary : "white",
                     color:
                       selectedCategory === category ? "white" : palette.primary,
-                    borderColor: palette.primary,
                   }}
                 >
                   {category}
@@ -183,19 +187,11 @@ export default function UrbanServicesPage({ websiteData }) {
             <div className="services-grid">
               {filteredServices.map((service, index) => (
                 <div
-                  key={service.id}
-                  className={`service-card service-card-entrance-${
-                    (index % 4) + 1
-                  }`}
+                  key={service.id || `service-${index}`}
+                  className="service-card"
                   style={{
                     transition: "all 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform =
-                      "translateY(-4px) scale(1.02)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    boxShadow: "none",
                   }}
                 >
                   <div className="service-image">
@@ -208,7 +204,7 @@ export default function UrbanServicesPage({ websiteData }) {
                     ) : (
                       <div
                         className="service-image-placeholder"
-                        style={{ backgroundColor: palette.primary }}
+                        style={{ backgroundColor: palette.neutral }}
                       >
                         <span className="service-icon">🔧</span>
                       </div>
@@ -228,19 +224,14 @@ export default function UrbanServicesPage({ websiteData }) {
               <p className="text-lg text-gray-600">
                 No services found in this category.
               </p>
+              <p className="text-sm text-gray-500 mt-2">
+                Debug: Total services: {services.length}, Filtered:{" "}
+                {filteredServices.length}, Selected category: {selectedCategory}
+              </p>
             </div>
           )}
-
-          {/* Service Count */}
-          <div className="text-center mt-12">
-            <p className="text-sm text-gray-500">
-              Showing {filteredServices.length}{" "}
-              {filteredServices.length === 1 ? "service" : "services"}
-              {selectedCategory !== "All" && ` in ${selectedCategory}`}
-            </p>
-          </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -66,6 +66,7 @@ export default function UrbanPage({ websiteData }) {
       style={{
         "--primary-color": palette.primary,
         "--accent-color": palette.accent || palette.secondary,
+        "--neutral-color": palette.neutral,
       }}
     >
       <Header
@@ -303,8 +304,8 @@ export default function UrbanPage({ websiteData }) {
 
       {/* Services Section */}
       {homeConfig?.services?.visible &&
-        websiteData?.services &&
-        websiteData.services.length > 0 && (
+        websiteData?.services?.[0]?.services &&
+        websiteData.services[0].services.length > 0 && (
           <section
             className="py-20 px-8 lg:px-16 services-section"
             style={{ backgroundColor: palette.primary }}
@@ -322,7 +323,7 @@ export default function UrbanPage({ websiteData }) {
                 </h2>
               )}
               <div className="services-grid">
-                {websiteData.services
+                {websiteData.services[0].services
                   .filter((service) => service.status === "active")
                   .slice(0, 4)
                   .map((service, index) => (
@@ -365,8 +366,8 @@ export default function UrbanPage({ websiteData }) {
               </div>
 
               {/* View All Button */}
-              {websiteData.services &&
-                websiteData.services.filter(
+              {websiteData.services?.[0]?.services &&
+                websiteData.services[0].services.filter(
                   (service) => service.status === "active"
                 ).length > 4 && (
                   <div className="text-center mt-16">

@@ -1226,91 +1226,84 @@
 /* FAQ Section Styles */
 .faq-card {
   background: var(--neutral-color, #f8fafc);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.faq-card:hover {
-  transform: translateY(-2px);
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .faq-question {
   width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-question summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 2rem;
-  background: var(--neutral-color, #f8fafc);
-  border: none;
+  padding: 1.5rem 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: left;
-}
-
-.faq-question:hover {
-  background: var(--neutral-color, #f8fafc);
-}
-
-.faq-question-text {
-  font-size: 1.25rem;
-  font-weight: 300;
+  list-style: none;
+  font-size: 1.125rem;
+  font-weight: 400;
   color: #111827;
-  line-height: 1.4;
-  margin: 0;
-  letter-spacing: -0.01em;
 }
 
-.faq-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  transition: transform 0.3s ease;
+/* Remove default summary marker */
+.faq-question summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question summary::marker {
+  display: none;
+}
+
+/* Add custom dropdown arrow using image */
+.faq-question summary::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-image: url("/icons/down-arrow.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s ease;
   flex-shrink: 0;
 }
 
-.faq-icon-open {
+/* Rotate arrow when open */
+.faq-question[open] summary::after {
   transform: rotate(180deg);
-  color: var(--primary-color);
+}
+
+.faq-question-text {
+  flex: 1;
+  margin: 0;
+  padding: 0;
 }
 
 .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  background: var(--neutral-color, #f8fafc);
-}
-
-.faq-answer-open {
-  max-height: 200px;
-  padding: 0 2rem 2.5rem 2rem;
+  padding: 0 2rem 1.5rem 2rem;
 }
 
 .faq-answer-text {
-  font-size: 1rem;
-  font-weight: 300;
+  margin: 0;
   color: #6b7280;
   line-height: 1.6;
-  margin: 0;
+  font-size: 0.95rem;
 }
 
 /* Responsive FAQ adjustments */
 @media (max-width: 768px) {
-  .faq-question {
+  .faq-question summary {
     padding: 1.25rem 1.5rem;
-  }
-
-  .faq-question-text {
     font-size: 1rem;
   }
 
-  .faq-answer-open {
+  .faq-answer {
     padding: 0 1.5rem 1.25rem 1.5rem;
-  }
-
-  .faq-answer-text {
-    font-size: 0.875rem;
   }
 }
 
