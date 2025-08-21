@@ -1,24 +1,5 @@
 import { createServerClient } from "@/lib/supabase";
 import { Suspense } from "react";
-import UrbanHeader from "../../Urban/components/Header";
-import UrbanFooter from "../../Urban/components/Footer";
-
-// Template component mapping - add more templates here as needed
-const templateComponents = {
-  Urban: {
-    Header: UrbanHeader,
-    Footer: UrbanFooter,
-  },
-  // Add other templates here when you have them
-  // Luxury: {
-  //   Header: LuxuryHeader,
-  //   Footer: LuxuryFooter,
-  // },
-  // Industrial: {
-  //   Header: IndustrialHeader,
-  //   Footer: IndustrialFooter,
-  // },
-};
 
 export default async function MarketingLayout({ children, params }) {
   const { domain } = await params;
@@ -46,13 +27,12 @@ export default async function MarketingLayout({ children, params }) {
     );
   }
 
-  // Get template components safely
+  // Dynamically import Header and Footer components on the server
   const template = website.template?.name || "Urban";
-  const templateConfig =
-    templateComponents[template] || templateComponents.Urban;
-
-  const HeaderComponent = templateConfig.Header;
-  const FooterComponent = templateConfig.Footer;
+  const HeaderComponent = (await import(`../../${template}/components/Header`))
+    .default;
+  const FooterComponent = (await import(`../../${template}/components/Footer`))
+    .default;
 
   const { business_info = {}, palette } = website;
   const businessName = business_info?.name || "Business";

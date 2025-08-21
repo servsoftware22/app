@@ -1,32 +1,34 @@
+"use client";
+
 import UrbanPage from "../../Urban/page";
-import { createServerClient } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 
-export default async function HomePage({ params }) {
-  const { domain } = await params;
+export default function HomePage({ params }) {
+  const [websiteData, setWebsiteData] = useState(null);
 
-  // Fetch website data server-side for this page
-  const supabase = createServerClient();
-  const { data: website, error } = await supabase
-    .from("websites")
-    .select("*, template, home, services, faq, cta")
-    .eq("domain->>subdomain", domain)
-    .single();
+  useEffect(() => {
+    // Extract website data from the data-website attribute set by the layout
+    const websiteElement = document.querySelector("[data-website]");
+    if (websiteElement) {
+      try {
+        const data = JSON.parse(websiteElement.getAttribute("data-website"));
+        setWebsiteData(data);
+      } catch (error) {
+        console.error("Error parsing website data:", error);
+      }
+    }
+  }, []);
 
-  if (error || !website) {
+  // Show loading state while data is being extracted
+  if (!websiteData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Website Not Found
-          </h1>
-          <p className="text-gray-600 mb-4">
-            No website found for subdomain: {domain}
-          </p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // This will be server-side rendered, no loading states needed
-  return <UrbanPage websiteData={website} />;
+  return <UrbanPage websiteData={websiteData} />;
 }

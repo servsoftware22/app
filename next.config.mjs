@@ -11,13 +11,6 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-
-  experimental: {
-    // This helps resolve clientReferenceManifest issues with dynamic routes
-    serverComponentsExternalPackages: [],
-    // Ensure proper handling of dynamic imports
-    esmExternals: "loose",
-  },
 };
 
 export default nextConfig;
