@@ -1,6 +1,7 @@
 import { createServerClient } from "@/lib/supabase";
 import UrbanPage from "../Urban/page";
 
+// This is a server component that fetches data and renders the template server-side
 export default async function HomePage({ params }) {
   const { domain } = await params;
 
@@ -27,6 +28,6 @@ export default async function HomePage({ params }) {
     );
   }
 
-  // Pass data directly to UrbanPage - no client-side fetching needed
+  // Pass data directly to UrbanPage for server-side rendering
   return <UrbanPage websiteData={website} />;
 }
