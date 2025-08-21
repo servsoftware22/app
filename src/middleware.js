@@ -43,11 +43,11 @@ export function middleware(request) {
       const url = request.nextUrl.clone();
 
       // For the home page, go to /website/[domain]
-      // For other pages, go to /website/[domain]/(marketing)/[page]
+      // For other pages, go to /website/[domain]/[page] (without route group)
       if (pathname === "/") {
         url.pathname = `/website/${subdomain}`;
       } else {
-        url.pathname = `/website/${subdomain}/(marketing)${pathname}`;
+        url.pathname = `/website/${subdomain}${pathname}`;
       }
 
       console.log(
