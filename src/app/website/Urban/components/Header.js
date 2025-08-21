@@ -17,7 +17,8 @@ export default function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const pathname = usePathname();
-  const currentPath = pathname.replace(`/website/${domain}`, "");
+  // We don't need currentPath logic anymore since we're using relative paths
+  // const currentPath = pathname.replace(`/website/${domain}`, "");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,8 +53,19 @@ export default function Header({
 
   const firstLetter = businessName.charAt(0).toUpperCase();
 
-  // Construct the base URL for this domain
-  const baseUrl = `/website/${domain}`;
+  // Check if we're in local development (localhost:3000)
+  // Use useEffect to avoid hydration mismatch
+  const [isLocalDev, setIsLocalDev] = useState(false);
+
+  useEffect(() => {
+    setIsLocalDev(window.location.host === "localhost:3000");
+  }, []);
+
+  // Use baseUrl for local development, relative paths for production
+  const baseUrl = isLocalDev ? `/website/${domain}` : "";
+
+  // Helper function to get the correct href
+  const getHref = (url) => (isLocalDev ? `${baseUrl}${url}` : url);
 
   // Use header config if available, otherwise fall back to default
   const logo = headerConfig?.logo || {
@@ -101,13 +113,13 @@ export default function Header({
                 {/* Logo - Text or Image */}
                 {logo.type === "text" ? (
                   <Link
-                    href={baseUrl}
+                    href={getHref("/")}
                     className="text-xl font-medium urban-font hover:opacity-80 header-text-transition text-gray-900"
                   >
                     {logo.text}
                   </Link>
                 ) : logo.image_url ? (
-                  <Link href={baseUrl}>
+                  <Link href={getHref("/")}>
                     <img
                       src={logo.image_url}
                       alt={`${businessName} Logo`}
@@ -116,7 +128,7 @@ export default function Header({
                   </Link>
                 ) : (
                   <Link
-                    href={baseUrl}
+                    href={getHref("/")}
                     className="text-xl font-medium urban-font hover:opacity-80 header-text-transition text-gray-900"
                   >
                     {businessName}
@@ -131,13 +143,13 @@ export default function Header({
                   .sort((a, b) => a.rank - b.rank)
                   .map((link) => {
                     const isActive =
-                      currentPath === link.url ||
-                      (currentPath === "" && link.url === "/");
+                      pathname === link.url ||
+                      (pathname === "/" && link.url === "/");
 
                     return (
                       <Link
                         key={link.label}
-                        href={`${baseUrl}${link.url}`}
+                        href={getHref(link.url)}
                         className="urban-nav-link text-gray-800"
                       >
                         {link.label}
@@ -155,7 +167,7 @@ export default function Header({
                 .map((button) => (
                   <Link
                     key={button.label}
-                    href={`${baseUrl}${button.url}`}
+                    href={getHref(button.url)}
                     className={`px-6 py-3 rounded-full text-sm urban-button urban-font flex items-center gap-2 ${
                       button.style === "primary"
                         ? "urban-button-primary"
@@ -246,13 +258,13 @@ export default function Header({
                   .sort((a, b) => a.rank - b.rank)
                   .map((link) => {
                     const isActive =
-                      currentPath === link.url ||
-                      (currentPath === "" && link.url === "/");
+                      pathname === link.url ||
+                      (pathname === "/" && link.url === "/");
 
                     return (
                       <Link
                         key={link.label}
-                        href={`${baseUrl}${link.url}`}
+                        href={getHref(link.url)}
                         className={`block text-left text-4xl sm:text-5xl lg:text-6xl font-light urban-font tracking-tight transition-colors duration-200 ${
                           isActive
                             ? "text-gray-900"
@@ -278,7 +290,7 @@ export default function Header({
                     .map((button) => (
                       <Link
                         key={button.label}
-                        href={`${baseUrl}${button.url}`}
+                        href={getHref(button.url)}
                         className={`px-4 py-2.5 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-medium urban-button urban-font ${
                           button.style === "primary"
                             ? "urban-button-primary"

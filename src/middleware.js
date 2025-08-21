@@ -9,6 +9,12 @@ export function middleware(request) {
   // Get the original host from x-forwarded-host (preserved by Cloudflare)
   const originalHost = request.headers.get("x-forwarded-host") || host;
 
+  // Skip middleware for local development (localhost:3000)
+  if (host === "localhost:3000") {
+    console.log("Local development detected, skipping middleware");
+    return NextResponse.next();
+  }
+
   // Log all request details for debugging
   console.log("=== MIDDLEWARE DEBUG ===");
   console.log("Request URL:", request.url);
@@ -32,14 +38,8 @@ export function middleware(request) {
       return NextResponse.next();
     }
 
-    // Check if this is an internal navigation request (has referer from same subdomain)
-    const referer = request.headers.get("referer");
-    const isInternalNavigation =
-      referer && referer.includes(`${subdomain}.toolpage.site`);
-
     // If it's a subdomain and not already a website route, rewrite to the website route
-    // BUT only if it's NOT an internal navigation request
-    if (!pathname.startsWith("/website/") && !isInternalNavigation) {
+    if (!pathname.startsWith("/website/")) {
       const url = request.nextUrl.clone();
 
       // For the home page, go to /website/[domain]
@@ -55,14 +55,6 @@ export function middleware(request) {
       );
 
       return NextResponse.rewrite(url);
-    }
-
-    // If it's internal navigation, let it pass through without rewriting
-    if (isInternalNavigation) {
-      console.log(
-        `Internal navigation detected for ${subdomain}, not rewriting`
-      );
-      return NextResponse.next();
     }
   }
 
