@@ -1260,12 +1260,12 @@
   display: none;
 }
 
-/* Add custom dropdown arrow using image */
+/* Add custom dropdown arrow using hosted image */
 .faq-question summary::after {
   content: "";
   width: 24px;
   height: 24px;
-  background-image: url("/icons/down-arrow.png");
+  background-image: url("https://toolpage.site/icons/down-arrow.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
