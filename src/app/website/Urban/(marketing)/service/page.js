@@ -130,16 +130,30 @@ export default function UrbanServicePage({ websiteData, params }) {
 
       {/* Hero Section */}
       <section
-        className="pt-32 pb-20 px-8 lg:px-16"
-        style={{ backgroundColor: palette.neutral }}
+        className="pt-20 pb-20 px-4 lg:px-10"
+        style={{ backgroundColor: "white" }}
         ref={serviceSectionRef}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-8xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             {/* Left Column - Image */}
-            <div className="w-full lg:w-1/2 service-image-entrance">
+            <div className="w-full lg:w-1/2 service-image-entrance relative">
+              {/* Category Badge - Top Left Corner of Image */}
+              <div className="absolute top-4 left-4 z-10 service-badge-entrance">
+                <div
+                  className="inline-flex px-3 py-2 rounded-full text-sm font-light items-center"
+                  style={{
+                    backgroundColor: palette.neutral,
+                    color: "#374151",
+                  }}
+                >
+                  <div className="w-2 h-2 rounded-full bg-gray-600 mr-2"></div>
+                  {service.category}
+                </div>
+              </div>
+
               <div
-                className="w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden"
+                className="w-full h-[500px] lg:h-[700px] rounded-2xl overflow-hidden"
                 style={{ backgroundColor: palette.primary }}
               >
                 {service.media?.main_image ? (
@@ -157,25 +171,28 @@ export default function UrbanServicePage({ websiteData, params }) {
             </div>
 
             {/* Right Column - Content */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left service-content-entrance">
-              <div className="max-w-xl mx-auto lg:mx-0">
-                {/* Badge */}
-                <div className="mb-6 service-badge-entrance">
-                  <div
-                    className="inline-flex px-4 py-2 rounded-full text-sm font-light items-center"
-                    style={{
-                      backgroundColor: palette.primary,
-                      color: "white",
-                    }}
-                  >
-                    <div className="w-2 h-2 rounded-full bg-white mr-2"></div>
-                    {service.category}
+            <div className="w-full lg:w-1/2 service-content-entrance flex justify-center">
+              <div className="max-w-xl">
+                {/* Pricing Badge - Above Title */}
+                {service.pricing && (
+                  <div className="mb-8 service-pricing-entrance">
+                    <div
+                      className="inline-flex items-center px-4 py-2 rounded-full"
+                      style={{ backgroundColor: palette.primary }}
+                    >
+                      <span
+                        className="text-base font-normal"
+                        style={{ color: "white" }}
+                      >
+                        Starting at ${service.pricing.base_price}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Title */}
                 <h1
-                  className="text-4xl lg:text-5xl mb-8 urban-hero-headline service-title-entrance"
+                  className="text-4xl lg:text-5xl mb-12 urban-hero-headline service-title-entrance"
                   style={{
                     color: "#1f2937",
                     letterSpacing: "-0.02em",
@@ -186,7 +203,7 @@ export default function UrbanServicePage({ websiteData, params }) {
 
                 {/* Description */}
                 <p
-                  className="text-lg sm:text-xl leading-relaxed mb-8 service-description-entrance"
+                  className="text-lg sm:text-xl leading-relaxed mb-12 service-description-entrance"
                   style={{
                     color: "#6b7280",
                     fontWeight: 300,
@@ -195,26 +212,9 @@ export default function UrbanServicePage({ websiteData, params }) {
                   {service.description?.long || service.description?.short}
                 </p>
 
-                {/* Pricing */}
-                {service.pricing && (
-                  <div className="mb-8 service-pricing-entrance">
-                    <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white shadow-sm">
-                      <span
-                        className="text-2xl font-bold"
-                        style={{ color: palette.primary }}
-                      >
-                        ${service.pricing.base_price}
-                      </span>
-                      <span className="text-gray-600">
-                        per {service.pricing.unit}
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 service-buttons-entrance">
-                  {service.booking?.is_bookable && (
+                {/* Action Button */}
+                <div className="service-buttons-entrance">
+                  {service.booking?.is_bookable ? (
                     <button
                       className="px-8 py-4 rounded-full text-base font-medium urban-button urban-button-primary flex items-center justify-center gap-2 cursor-pointer"
                       style={{
@@ -225,21 +225,18 @@ export default function UrbanServicePage({ websiteData, params }) {
                       <span>Book Now</span>
                       <span>→</span>
                     </button>
-                  )}
-
-                  {service.booking?.is_quotable && (
+                  ) : service.booking?.is_quotable ? (
                     <button
-                      className="px-8 py-4 rounded-full text-base font-medium urban-button urban-button-secondary flex items-center justify-center gap-2 cursor-pointer"
+                      className="px-8 py-4 rounded-full text-base font-medium urban-button urban-button-primary flex items-center justify-center gap-2 cursor-pointer"
                       style={{
-                        backgroundColor: "white",
-                        color: palette.primary,
-                        border: `2px solid ${palette.primary}`,
+                        backgroundColor: palette.primary,
+                        color: "white",
                       }}
                     >
                       <span>Get Quote</span>
                       <span>→</span>
                     </button>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -251,34 +248,32 @@ export default function UrbanServicePage({ websiteData, params }) {
       {service.features && service.features.length > 0 && (
         <section
           className="py-20 px-8 lg:px-16"
-          style={{ backgroundColor: palette.primary }}
+          style={{ backgroundColor: "white" }}
           ref={featuresSectionRef}
         >
           <div className="max-w-7xl mx-auto">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <h2
-                className="text-4xl lg:text-5xl mb-8 urban-hero-headline features-title-entrance"
-                style={{
-                  color: "white",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                What's Included
-              </h2>
-            </div>
-
             {/* Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {service.features.map((feature, index) => (
                 <div
                   key={index}
-                  className={`bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow feature-card-entrance-${
+                  className={`rounded-lg p-6 feature-card-entrance-${
                     (index % 3) + 1
                   }`}
+                  style={{ backgroundColor: palette.neutral }}
                 >
+                  {/* Check Icon */}
+                  <div className="mb-4">
+                    <img
+                      src="https://toolpage.site/icons/check.png"
+                      alt="Included"
+                      className="w-8 h-8"
+                      style={{ filter: "invert(1) brightness(0) opacity(0.8)" }}
+                    />
+                  </div>
+
                   <h3
-                    className="text-xl font-light mb-4"
+                    className="text-2xl font-light mb-4"
                     style={{ color: "#1f2937", letterSpacing: "0em" }}
                   >
                     {feature.title}
