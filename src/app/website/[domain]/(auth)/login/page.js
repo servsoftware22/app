@@ -1,47 +1,46 @@
-"use client";
-import { useEffect, useState } from "react";
 import UrbanLoginPage from "../../../Urban/(auth)/login/page";
+import { createServerClient } from "@/lib/supabase";
 
-export default function LoginPage() {
-  const [websiteData, setWebsiteData] = useState(null);
+export default async function LoginPage({ params }) {
+  const { domain } = await params;
 
-  useEffect(() => {
-    // Get website data from the layout's data attribute
-    const websiteElement = document.querySelector("[data-website]");
-    if (websiteElement) {
-      const data = websiteElement.getAttribute("data-website");
-      if (data) {
-        setWebsiteData(JSON.parse(data));
-      }
-    }
-  }, []);
+  const supabase = createServerClient();
+  const { data: website, error } = await supabase
+    .from("websites")
+    .select("*, template, business_info")
+    .eq("domain->>subdomain", domain)
+    .single();
 
-  if (!websiteData) {
+  if (error || !website) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-          <p className="mt-4 text-gray-600">Loading website...</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Website Not Found
+          </h1>
+          <p className="text-gray-600 mb-4">
+            No website found for subdomain: {domain}
+          </p>
         </div>
       </div>
     );
   }
 
   // Render template-specific login page
-  const template = websiteData.template || "Urban";
+  const template = website.template || "Urban";
 
   if (template === "Urban") {
-    return <UrbanLoginPage websiteData={websiteData} />;
+    return <UrbanLoginPage websiteData={website} />;
   }
 
   // TODO: Add other templates when they're implemented
   // if (template === "Industrial") {
-  //   return <IndustrialLoginPage websiteData={websiteData} />;
+  //   return <IndustrialLoginPage websiteData={website} />;
   // }
   // if (template === "Luxury") {
-  //   return <LuxuryLoginPage websiteData={websiteData} />;
+  //   return <LuxuryLoginPage websiteData={website} />;
   // }
 
   // Fallback to Urban template
-  return <UrbanLoginPage websiteData={websiteData} />;
+  return <UrbanLoginPage websiteData={website} />;
 }

@@ -3,6 +3,7 @@
 import "../../urban.css";
 import "../../urban-animations.css";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Header from "../../components/Header";
 
 export default function UrbanServicePage({ websiteData, params }) {
@@ -11,6 +12,22 @@ export default function UrbanServicePage({ websiteData, params }) {
   const faqSectionRef = useRef(null);
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Check if we're in local development (localhost:3000)
+  const [isLocalDev, setIsLocalDev] = useState(false);
+
+  useEffect(() => {
+    setIsLocalDev(window.location.host === "localhost:3000");
+  }, []);
+
+  // Extract domain from websiteData
+  const domain = websiteData?.domain?.subdomain || "fieldsite";
+
+  // Use baseUrl for local development, relative paths for production (same pattern as Header)
+  const baseUrl = isLocalDev ? `/website/${domain}` : "";
+
+  // Helper function to get the correct href (same pattern as Header)
+  const getHref = (url) => (isLocalDev ? `${baseUrl}${url}` : url);
 
   // Extract services from websiteData - handle nested structure
   const services =
@@ -22,9 +39,6 @@ export default function UrbanServicePage({ websiteData, params }) {
   // Extract business info and palette
   const { business_info = {}, palette } = websiteData || {};
   const businessName = business_info?.name || "Business";
-
-  // Extract domain from websiteData
-  const domain = websiteData?.domain?.subdomain || "fieldsite";
 
   // Extract header configuration
   const headerConfig = websiteData?.header;
@@ -58,11 +72,22 @@ export default function UrbanServicePage({ websiteData, params }) {
       }
     });
 
+    // Also observe individual feature cards for better animation control
+    const featureCards = document.querySelectorAll(
+      ".feature-card-entrance-1, .feature-card-entrance-2, .feature-card-entrance-3, .feature-card-entrance-4, .feature-card-entrance-5, .feature-card-entrance-6"
+    );
+    featureCards.forEach((card) => {
+      observer.observe(card);
+    });
+
     return () => {
       sections.forEach((section) => {
         if (section) {
           observer.unobserve(section);
         }
+      });
+      featureCards.forEach((card) => {
+        observer.unobserve(card);
       });
     };
   }, []);
@@ -247,7 +272,7 @@ export default function UrbanServicePage({ websiteData, params }) {
       {/* Features Section */}
       {service.features && service.features.length > 0 && (
         <section
-          className="py-20 px-8 lg:px-16"
+          className="pt-8 pb-12 px-8 lg:px-16"
           style={{ backgroundColor: "white" }}
           ref={featuresSectionRef}
         >
@@ -258,7 +283,7 @@ export default function UrbanServicePage({ websiteData, params }) {
                 <div
                   key={index}
                   className={`rounded-lg p-6 feature-card-entrance-${
-                    (index % 3) + 1
+                    (index % 6) + 1
                   }`}
                   style={{ backgroundColor: palette.neutral }}
                 >
@@ -279,7 +304,7 @@ export default function UrbanServicePage({ websiteData, params }) {
                     {feature.title}
                   </h3>
                   <p
-                    className="text-sm leading-relaxed font-light"
+                    className="text-base leading-relaxed font-light"
                     style={{ color: "#6b7280" }}
                   >
                     {feature.description}
@@ -294,47 +319,109 @@ export default function UrbanServicePage({ websiteData, params }) {
       {/* FAQ Section */}
       {service.faq && service.faq.length > 0 && (
         <section
-          className="py-20 px-8 lg:px-16"
-          style={{ backgroundColor: palette.neutral }}
+          className="pt-16 pb-12 faq-section"
+          style={{ backgroundColor: "white" }}
           ref={faqSectionRef}
         >
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-5xl md:text-6xl font-normal text-[#191C27] mb-8 max-w-3xl mx-auto faq-title-entrance">
+                Frequently Asked Questions
+              </h2>
+            </div>
+
+            {/* FAQ Grid */}
+            <div className="space-y-4">
+              {service.faq.map((item, index) => (
+                <div
+                  key={index}
+                  className={`faq-card faq-card-entrance-${index + 1}`}
+                >
+                  <details className="faq-question">
+                    <summary className="faq-question-text">
+                      {item.question}
+                    </summary>
+                    <div className="faq-answer">
+                      <p className="faq-answer-text">{item.answer}</p>
+                    </div>
+                  </details>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Other Services Section */}
+      {services.length > 1 && (
+        <section
+          className="py-20 px-8 lg:px-16"
+          style={{ backgroundColor: palette.neutral }}
+        >
+          <div className="max-w-7xl mx-auto">
             {/* Section Header */}
             <div className="text-center mb-16">
               <h2
-                className="text-4xl lg:text-5xl mb-8 urban-hero-headline faq-title-entrance"
+                className="text-4xl lg:text-5xl mb-8 urban-hero-headline"
                 style={{
                   color: "#1f2937",
                   letterSpacing: "-0.02em",
                 }}
               >
-                Frequently Asked Questions
+                Other Services
               </h2>
+              <p
+                className="text-lg sm:text-xl max-w-3xl mx-auto"
+                style={{
+                  color: "#6b7280",
+                  fontWeight: 300,
+                }}
+              >
+                Explore our other professional services designed to meet your
+                needs.
+              </p>
             </div>
 
-            {/* FAQ Items */}
-            <div className="space-y-6">
-              {service.faq.map((item, index) => (
-                <div
-                  key={index}
-                  className={`bg-white rounded-lg p-6 shadow-sm faq-card-entrance-${
-                    (index % 6) + 1
-                  }`}
-                >
-                  <h3
-                    className="text-lg font-medium mb-3"
-                    style={{ color: "#1f2937" }}
+            {/* Services Grid - Show 3 other services */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {services
+                .filter((s) => s.slug !== params.slug) // Exclude current service
+                .slice(0, 3) // Show 3 other services
+                .map((otherService, index) => (
+                  <Link
+                    key={otherService.id}
+                    href={getHref(`/service/${otherService.slug}`)}
+                    className="service-card block"
+                    style={{
+                      transition: "all 0.5s ease-in-out",
+                      boxShadow: "none",
+                    }}
                   >
-                    {item.question}
-                  </h3>
-                  <p
-                    className="text-gray-600 leading-relaxed"
-                    style={{ color: "#6b7280" }}
-                  >
-                    {item.answer}
-                  </p>
-                </div>
-              ))}
+                    <div className="service-image">
+                      {otherService.media?.main_image ? (
+                        <img
+                          src={otherService.media.main_image}
+                          alt={otherService.name}
+                          className="service-image-actual"
+                        />
+                      ) : (
+                        <div
+                          className="service-image-placeholder"
+                          style={{ backgroundColor: palette.primary }}
+                        >
+                          <span className="service-icon">🔧</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="service-content">
+                      <h3 className="service-name" style={{ color: "#1f2937" }}>
+                        {otherService.name}
+                      </h3>
+                      <div className="service-circle-button">→</div>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </div>
         </section>

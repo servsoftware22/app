@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./urban.css";
@@ -39,6 +43,19 @@ export default function UrbanPage({ websiteData }) {
 
   // Extract header configuration
   const headerConfig = websiteData?.header;
+
+  // Check if we're in local development (localhost:3000)
+  const [isLocalDev, setIsLocalDev] = useState(false);
+
+  useEffect(() => {
+    setIsLocalDev(window.location.host === "localhost:3000");
+  }, []);
+
+  // Use baseUrl for local development, relative paths for production
+  const baseUrl = isLocalDev ? `/website/${domain}` : "";
+
+  // Helper function to get the correct href
+  const getHref = (url) => (isLocalDev ? `${baseUrl}${url}` : url);
 
   // Extract home page configuration
   const homeConfig = websiteData?.home;
@@ -170,7 +187,7 @@ export default function UrbanPage({ websiteData }) {
                   .map((button, index) => (
                     <a
                       key={index}
-                      href={button.url}
+                      href={getHref(button.url)}
                       className={`px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button flex items-center gap-2 cursor-pointer ${
                         button.style === "primary"
                           ? "urban-button-primary"
@@ -189,14 +206,14 @@ export default function UrbanPage({ websiteData }) {
             ) : (
               <div className="flex flex-row gap-2 sm:gap-3 lg:gap-4 hero-buttons-entrance justify-center lg:justify-start">
                 <a
-                  href="get-started"
+                  href={getHref("/get-started")}
                   className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer"
                 >
                   Get Started
                   <span className="text-sm sm:text-base lg:text-lg">→</span>
                 </a>
                 <a
-                  href="learn-more"
+                  href={getHref("/learn-more")}
                   className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-secondary cursor-pointer"
                 >
                   Learn More
@@ -329,13 +346,15 @@ export default function UrbanPage({ websiteData }) {
                   .filter((service) => service.status === "active")
                   .slice(0, 4)
                   .map((service, index) => (
-                    <div
+                    <Link
                       key={service.id}
+                      href={getHref(`/service/${service.slug}`)}
                       className={`service-card service-card-entrance-${
                         index + 1
-                      }`}
+                      } block`}
                       style={{
                         transition: "all 0.2s ease",
+                        boxShadow: "none",
                       }}
                     >
                       <div className="service-image">
@@ -363,7 +382,7 @@ export default function UrbanPage({ websiteData }) {
                         </h3>
                         <div className="service-circle-button">→</div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
               </div>
 
@@ -374,7 +393,7 @@ export default function UrbanPage({ websiteData }) {
                 ).length > 4 && (
                   <div className="text-center mt-16">
                     <a
-                      href="services"
+                      href={getHref("/services")}
                       className="inline-flex items-center px-8 py-4 rounded-full text-base font-medium urban-button services-button-entrance"
                       style={{
                         backgroundColor: "white",
@@ -566,7 +585,7 @@ export default function UrbanPage({ websiteData }) {
             {websiteData.cta.button?.visible && (
               <div className="flex flex-row gap-2 sm:gap-3 lg:gap-4 justify-center cta-button-entrance">
                 <a
-                  href={websiteData.cta.button.url}
+                  href={getHref(websiteData.cta.button.url)}
                   className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer"
                 >
                   {websiteData.cta.button.text}

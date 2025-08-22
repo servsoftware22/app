@@ -1,7 +1,7 @@
 import { createServerClient } from "@/lib/supabase";
-import UrbanInvoicePage from "../../../Urban/(app)/invoice/page";
+import UrbanQuotePage from "../../../Urban/(app)/quote/page";
 
-export default async function InvoicePage({ params }) {
+export default async function QuotePage({ params }) {
   const { domain } = await params;
 
   // Create Supabase client
@@ -29,5 +29,5 @@ export default async function InvoicePage({ params }) {
     );
   }
 
-  return <UrbanInvoicePage websiteData={websiteData} />;
+  return <UrbanQuotePage websiteData={websiteData} />;
 }

@@ -386,7 +386,11 @@
 }
 
 .feature-card-entrance-1,
-.feature-card-entrance-2 {
+.feature-card-entrance-2,
+.feature-card-entrance-3,
+.feature-card-entrance-4,
+.feature-card-entrance-5,
+.feature-card-entrance-6 {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -415,6 +419,30 @@
   opacity: 1;
   transform: translateY(0);
   transition-delay: 0.8s;
+}
+
+.animate-in .feature-card-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .feature-card-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+.animate-in .feature-card-entrance-5 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.4s;
+}
+
+.animate-in .feature-card-entrance-6 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.6s;
 }
 
 .features-header-left {

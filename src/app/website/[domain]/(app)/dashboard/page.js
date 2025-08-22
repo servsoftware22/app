@@ -1,47 +1,33 @@
-"use client";
-import { useEffect, useState } from "react";
+import { createServerClient } from "@/lib/supabase";
 import UrbanDashboardPage from "../../../Urban/(app)/dashboard/page";
 
-export default function DashboardPage() {
-  const [websiteData, setWebsiteData] = useState(null);
+export default async function DashboardPage({ params }) {
+  const { domain } = await params;
 
-  useEffect(() => {
-    // Get website data from the layout's data attribute
-    const websiteElement = document.querySelector("[data-website]");
-    if (websiteElement) {
-      const data = websiteElement.getAttribute("data-website");
-      if (data) {
-        setWebsiteData(JSON.parse(data));
-      }
-    }
-  }, []);
+  // Create Supabase client
+  const supabase = createServerClient();
 
-  if (!websiteData) {
+  // Fetch website data
+  const { data: websiteData, error } = await supabase
+    .from("websites")
+    .select("*, template, business_info, business")
+    .eq("domain->>subdomain", domain)
+    .single();
+
+  if (error || !websiteData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-          <p className="mt-4 text-gray-600">Loading website...</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Website Not Found
+          </h1>
+          <p className="text-gray-600">
+            No website found for subdomain: {domain}
+          </p>
         </div>
       </div>
     );
   }
 
-  // Render template-specific dashboard page
-  const template = websiteData.template || "Urban";
-
-  if (template === "Urban") {
-    return <UrbanDashboardPage websiteData={websiteData} />;
-  }
-
-  // TODO: Add other templates when they're implemented
-  // if (template === "Industrial") {
-  //   return <IndustrialDashboardPage websiteData={websiteData} />;
-  // }
-  // if (template === "Luxury") {
-  //   return <LuxuryDashboardPage websiteData={websiteData} />;
-  // }
-
-  // Fallback to Urban template
   return <UrbanDashboardPage websiteData={websiteData} />;
 }
