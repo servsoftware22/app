@@ -110,24 +110,26 @@ export default function UrbanPage({ websiteData }) {
             {/* Title */}
             {homeConfig?.hero?.title?.visible ? (
               <h1
-                className="text-4xl sm:text-5xl lg:text-4xl mb-8 sm:mb-10 urban-hero-headline !text-4xl sm:!text-5xl lg:!text-6xl hero-title-entrance"
+                className="text-4xl sm:text-5xl lg:text-4xl urban-hero-headline !text-4xl sm:!text-5xl lg:!text-6xl hero-title-entrance"
                 style={{
                   color: "#1f2937",
                   fontWeight: homeConfig.hero.title.fontWeight || 400,
                   letterSpacing:
                     homeConfig.hero.title.letterSpacing || "-0.025em",
+                  marginBottom: "1rem !important",
                 }}
               >
                 {homeConfig.hero.title.text}
               </h1>
             ) : (
               <h1
-                className="text-4xl sm:text-5xl lg:text-4xl mb-8 sm:mb-10 urban-hero-headline !text-4xl sm:!text-5xl lg:!text-6xl hero-title-entrance"
+                className="text-4xl sm:text-5xl lg:text-4xl urban-hero-headline !text-4xl sm:!text-5xl lg:!text-6xl hero-title-entrance"
                 style={{
                   color: "#1f2937",
                   fontWeight: homeConfig.hero.title.fontWeight || 400,
                   letterSpacing:
                     homeConfig.hero.title.letterSpacing || "-0.025em",
+                  marginBottom: "1rem !important",
                 }}
               >
                 Professional {businessType}

@@ -1613,3 +1613,124 @@
   transform: translateY(0);
   transition-delay: 0.6s;
 }
+
+/* About Page Entrance Animations - Hidden by default */
+.about-badge-entrance,
+.about-title-entrance,
+.about-description-entrance,
+.about-content-entrance,
+.about-image-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.value-card-entrance-1,
+.value-card-entrance-2,
+.value-card-entrance-3,
+.value-card-entrance-4,
+.value-card-entrance-5,
+.value-card-entrance-6 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.stat-item-entrance-1,
+.stat-item-entrance-2,
+.stat-item-entrance-3,
+.stat-item-entrance-4 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Show animations when parent has animate-in class */
+.animate-in .about-badge-entrance {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-in .about-title-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .about-description-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .about-content-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .about-image-entrance {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .value-card-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .value-card-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .value-card-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .value-card-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}
+
+.animate-in .value-card-entrance-5 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
+.animate-in .value-card-entrance-6 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+.animate-in .stat-item-entrance-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.animate-in .stat-item-entrance-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.animate-in .stat-item-entrance-3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.animate-in .stat-item-entrance-4 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.8s;
+}

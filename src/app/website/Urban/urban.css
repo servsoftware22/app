@@ -38,3 +38,16 @@ body {
   /* backdrop-filter: blur(10px); */
   /* -webkit-backdrop-filter: blur(10px); */
 }
+
+/* Form Input Focus Styles */
+.urban-font input:focus,
+.urban-font textarea:focus {
+  outline: none;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.1) !important;
+}
+
+/* Set RGB values for primary color to enable opacity in box-shadow */
+.urban-font {
+  --primary-color-rgb: 59, 130, 246; /* Default blue, will be overridden by inline styles */
+}
