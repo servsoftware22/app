@@ -9,6 +9,9 @@ export default function UrbanAboutPage({ websiteData }) {
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const aboutSectionRef = useRef(null);
+  const processSectionRef = useRef(null);
+  const videoGallerySectionRef = useRef(null);
+  const missionSectionRef = useRef(null);
 
   // Extract about page configuration from websiteData
   const aboutConfig = websiteData?.about;
@@ -67,6 +70,56 @@ export default function UrbanAboutPage({ websiteData }) {
 
   const hasMultipleFeatures = videoGallery.length > 2;
 
+  // Add animation trigger when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (aboutSectionRef.current) {
+        aboutSectionRef.current.classList.add("animate-in");
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Comprehensive scroll-triggered animations for all sections
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "0px 0px -100px 0px",
+      }
+    );
+
+    // Observe all sections
+    const sections = [
+      aboutSectionRef.current,
+      processSectionRef.current,
+      videoGallerySectionRef.current,
+      missionSectionRef.current,
+    ].filter(Boolean);
+
+    sections.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, []);
+
   // Always show 2 cards, but handle edge cases
   const getFeaturesToShow = () => {
     if (videoGallery.length === 0) return [];
@@ -101,33 +154,6 @@ export default function UrbanAboutPage({ websiteData }) {
       setIsTransitioning(false);
     }, 150);
   };
-
-  // Scroll-triggered animations for about section
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "0px 0px -100px 0px",
-      }
-    );
-
-    if (aboutSectionRef.current) {
-      observer.observe(aboutSectionRef.current);
-    }
-
-    return () => {
-      if (aboutSectionRef.current) {
-        observer.unobserve(aboutSectionRef.current);
-      }
-    };
-  }, []);
 
   // Guard clause for build time when websiteData is undefined
   if (!websiteData) {
@@ -181,7 +207,7 @@ export default function UrbanAboutPage({ websiteData }) {
         ref={aboutSectionRef}
       >
         {/* Left Column - Image */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8 pt-0 lg:pt-0">
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8 pt-0 lg:pt-0 about-image-entrance">
           <div
             className="w-full h-full rounded-2xl overflow-hidden"
             style={{ backgroundColor: palette.neutral }}
@@ -201,12 +227,12 @@ export default function UrbanAboutPage({ websiteData }) {
         </div>
 
         {/* Right Column - Content */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-12 text-center lg:text-left">
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-12 text-center lg:text-left about-content-entrance">
           <div className="max-w-xl">
             {/* Badge above title */}
             {heroConfig?.badge?.visible && (
               <div
-                className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-8 items-center"
+                className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-8 items-center about-badge-entrance"
                 style={{
                   backgroundColor: palette.primary,
                   color: "white",
@@ -220,7 +246,7 @@ export default function UrbanAboutPage({ websiteData }) {
             {/* Title */}
             {heroConfig?.title?.visible && (
               <h1
-                className="text-4xl lg:text-5xl mb-8 urban-hero-headline"
+                className="text-4xl lg:text-5xl mb-8 urban-hero-headline about-title-entrance"
                 style={{
                   color: "#1f2937",
                   letterSpacing: "-0.02em",
@@ -233,7 +259,7 @@ export default function UrbanAboutPage({ websiteData }) {
             {/* Description */}
             {heroConfig?.description?.visible && (
               <p
-                className="text-lg sm:text-xl leading-relaxed mb-8"
+                className="text-lg sm:text-xl leading-relaxed mb-8 about-description-entrance"
                 style={{
                   color: "#6b7280",
                   fontWeight: 300,
@@ -247,7 +273,7 @@ export default function UrbanAboutPage({ websiteData }) {
             {/* Primary Button */}
             {heroConfig?.buttons && heroConfig.buttons.length > 0 && (
               <button
-                className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer"
+                className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer about-button-entrance"
                 style={{
                   backgroundColor: palette.primary,
                   color: "white",
@@ -266,13 +292,14 @@ export default function UrbanAboutPage({ websiteData }) {
         <section
           className="py-20 px-8 lg:px-16"
           style={{ backgroundColor: palette.primary }}
+          ref={processSectionRef}
         >
           <div className="max-w-7xl mx-auto">
             {/* Section Header */}
             <div className="text-center mb-16">
               {processConfig.badge?.visible && (
                 <div
-                  className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-6 items-center"
+                  className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-6 items-center about-process-badge-entrance"
                   style={{
                     backgroundColor: "white",
                     color: "#1f2937",
@@ -285,7 +312,7 @@ export default function UrbanAboutPage({ websiteData }) {
 
               {processConfig.title?.visible && (
                 <h2
-                  className="text-4xl lg:text-5xl mb-8 urban-hero-headline"
+                  className="text-4xl lg:text-5xl mb-8 urban-hero-headline about-process-title-entrance"
                   style={{
                     color: "white",
                     letterSpacing: "-0.02em",
@@ -297,7 +324,7 @@ export default function UrbanAboutPage({ websiteData }) {
 
               {processConfig.description?.visible && (
                 <p
-                  className="text-lg sm:text-xl max-w-3xl mx-auto"
+                  className="text-lg sm:text-xl max-w-3xl mx-auto about-process-description-entrance"
                   style={{
                     color: "white",
                     fontWeight: 300,
@@ -318,7 +345,9 @@ export default function UrbanAboutPage({ websiteData }) {
                   .map((card, index) => (
                     <div
                       key={card.id || index}
-                      className="bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow"
+                      className={`bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow about-process-card-entrance-${
+                        index + 1
+                      }`}
                     >
                       <div
                         className="w-full h-32 rounded-lg mb-4"
@@ -360,15 +389,18 @@ export default function UrbanAboutPage({ websiteData }) {
 
       {/* Video Gallery Section */}
       {videoGalleryConfig?.visible && (
-        <section className="py-20 px-8 lg:px-16 features-section">
+        <section
+          className="py-20 px-8 lg:px-16 features-section"
+          ref={videoGallerySectionRef}
+        >
           <div className="max-w-7xl mx-auto">
             <div className="features-header">
               <div className="features-header-left">
-                <h2 className="features-title">
+                <h2 className="features-title features-title-entrance">
                   {videoGalleryConfig.title?.text || "See Our Work in Action"}
                 </h2>
               </div>
-              <div className="features-navigation">
+              <div className="features-navigation features-navigation-entrance">
                 <button
                   className="nav-button nav-button-prev"
                   onClick={hasMultipleFeatures ? prevFeature : undefined}
@@ -415,7 +447,9 @@ export default function UrbanAboutPage({ websiteData }) {
                     index === 0
                       ? "feature-showcase-primary"
                       : "feature-showcase-secondary"
-                  } ${isTransitioning ? "transitioning" : ""}`}
+                  } ${
+                    isTransitioning ? "transitioning" : ""
+                  } feature-card-entrance-${index + 1}`}
                 >
                   <div className="feature-showcase-image">
                     <img
@@ -442,6 +476,7 @@ export default function UrbanAboutPage({ websiteData }) {
         <section
           className="py-16 px-8 lg:px-16"
           style={{ backgroundColor: palette.neutral }}
+          ref={missionSectionRef}
         >
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16 min-h-[600px]">
@@ -451,7 +486,7 @@ export default function UrbanAboutPage({ websiteData }) {
                   {/* Badge above title */}
                   {missionConfig.badge?.visible && (
                     <div
-                      className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-8 items-center"
+                      className="inline-flex px-4 py-2 rounded-full text-sm font-light mb-8 items-center about-badge-entrance"
                       style={{
                         backgroundColor: "white",
                         color: "#1f2937",
@@ -465,7 +500,7 @@ export default function UrbanAboutPage({ websiteData }) {
                   {/* Title */}
                   {missionConfig.title?.visible && (
                     <h2
-                      className="text-4xl lg:text-5xl mb-8 urban-hero-headline"
+                      className="text-4xl lg:text-5xl mb-8 urban-hero-headline about-title-entrance"
                       style={{
                         color: "#1f2937",
                         letterSpacing: "-0.02em",
@@ -479,7 +514,7 @@ export default function UrbanAboutPage({ websiteData }) {
                   {/* Description */}
                   {missionConfig.description?.visible && (
                     <p
-                      className="text-lg sm:text-xl leading-relaxed mb-8"
+                      className="text-lg sm:text-xl leading-relaxed mb-8 about-description-entrance"
                       style={{
                         color: "#6b7280",
                         fontWeight: 300,
@@ -494,7 +529,7 @@ export default function UrbanAboutPage({ websiteData }) {
                   {missionConfig.buttons &&
                     missionConfig.buttons.length > 0 && (
                       <button
-                        className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer"
+                        className="px-5 py-3 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full text-sm sm:text-sm lg:text-base font-medium urban-button urban-button-primary flex items-center gap-2 cursor-pointer about-button-entrance"
                         style={{
                           backgroundColor: palette.primary,
                           color: "white",
@@ -510,7 +545,7 @@ export default function UrbanAboutPage({ websiteData }) {
               </div>
 
               {/* Right Column - Image */}
-              <div className="w-full lg:w-1/2">
+              <div className="w-full lg:w-1/2 about-image-entrance">
                 <div
                   className="w-full h-full rounded-2xl overflow-hidden"
                   style={{ backgroundColor: "white" }}

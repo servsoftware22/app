@@ -1,15 +1,14 @@
+import UrbanServicePage from "../../../../Urban/(marketing)/service/page";
 import { createServerClient } from "@/lib/supabase";
-import UrbanContactPage from "../../../Urban/(marketing)/contact/page";
 
-// This is a server component that fetches data and renders the template server-side
-export default async function ContactPage({ params }) {
-  const { domain } = await params;
-  const supabase = createServerClient();
+export default async function ServicePage({ params }) {
+  const { domain, slug } = await params;
 
   // Fetch website data directly in this page
+  const supabase = createServerClient();
   const { data: website, error } = await supabase
     .from("websites")
-    .select("*, template, home, contact")
+    .select("*, template, home, services")
     .eq("domain->>subdomain", domain)
     .single();
 
@@ -28,6 +27,6 @@ export default async function ContactPage({ params }) {
     );
   }
 
-  // Pass website data directly to the template component
-  return <UrbanContactPage websiteData={website} />;
+  // Pass website data and resolved params to the template component
+  return <UrbanServicePage websiteData={website} params={{ domain, slug }} />;
 }
