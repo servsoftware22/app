@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import {
-  Menu,
-  X,
   ChevronDown,
   Grid3X3,
   Globe,
@@ -25,38 +23,22 @@ import {
   Bot,
   Mail,
   Phone,
+  Shield,
+  BookOpen,
+  TrendingUp,
+  X,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { authAPI } from "@/lib/api";
 
 export default function MarketingLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [isBannerVisible, setIsBannerVisible] = useState(true);
-  const [authStatus, setAuthStatus] = useState({
-    isAuthenticated: false,
-    isOwner: false,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const dropdownRef = useRef(null);
-
-  // Check authentication status
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await authAPI.checkAuth();
-        setAuthStatus(response);
-      } catch (error) {
-        console.error("Error checking auth:", error);
-        setAuthStatus({ isAuthenticated: false, isOwner: false });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
 
   // Handle clicks outside dropdowns
   useEffect(() => {
@@ -72,6 +54,33 @@ export default function MarketingLayout({ children }) {
     };
   }, []);
 
+  // Handle scroll events for header transparency
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Auto-close mobile menu on larger screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1000 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleDropdown = (dropdown) => {
     if (activeDropdown === dropdown) {
       setActiveDropdown(null);
@@ -83,49 +92,50 @@ export default function MarketingLayout({ children }) {
   const solutionsItems = [
     {
       name: "Websites",
-      description: "Build stunning websites that convert visitors",
+      description: "Build stunning websites that convert visitors into clients",
       icon: <Globe className="h-5 w-5" />,
       href: "/solutions/websites",
     },
     {
       name: "Client CRM",
-      description: "Manage client relationships like a pro",
+      description: "Manage client relationships smoothly and efficiently",
       icon: <Users className="h-5 w-5" />,
       href: "/solutions/crm",
     },
     {
       name: "Scheduling",
-      description: "Book appointments with ease and efficiency",
+      description: "Completely automate your business's scheduling process",
       icon: <Calendar className="h-5 w-5" />,
       href: "/solutions/scheduling",
     },
     {
       name: "Marketing",
-      description: "Grow your business with smart marketing tools",
+      description:
+        "Grow your business with smart and effective marketing tools",
       icon: <MessageSquare className="h-5 w-5" />,
       href: "/solutions/marketing",
     },
     {
       name: "Payments",
-      description: "Get paid faster with secure payment processing",
+      description: "Get paid faster and easier with secure payment processing",
       icon: <CreditCard className="h-5 w-5" />,
       href: "/solutions/payments",
     },
     {
       name: "Team Management",
-      description: "Manage your team like a professional leader",
+      description: "Lead your team with tools for efficiency and productivity",
       icon: <Settings className="h-5 w-5" />,
       href: "/solutions/team",
     },
     {
       name: "Analytics",
-      description: "Make data-driven decisions with insights",
+      description: "Make data-driven decisions with insights and reports",
       icon: <BarChart3 className="h-5 w-5" />,
       href: "/solutions/analytics",
     },
     {
       name: "AI Agent",
-      description: "Automate customer service with intelligent AI",
+      description: "Automate customer service and more with intelligent AI",
       icon: <Bot className="h-5 w-5" />,
       href: "/solutions/ai-agent",
     },
@@ -194,36 +204,49 @@ export default function MarketingLayout({ children }) {
     },
   ];
 
-  // Render the appropriate button based on auth status
-  const renderAuthButton = () => {
-    if (isLoading) {
-      return (
-        <div className="flex items-center">
-          <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#FF5E00] mr-2" />
-          <div className="text-gray-500 text-sm">Loading</div>
-        </div>
-      );
-    }
+  const featuresItems = [
+    {
+      name: "Automation",
+      icon: <Zap className="h-5 w-5" />,
+      href: "/features/automation",
+    },
+    {
+      name: "Integrations",
+      icon: <Grid3X3 className="h-5 w-5" />,
+      href: "/features/integrations",
+    },
+    {
+      name: "Reporting",
+      icon: <BarChart3 className="h-5 w-5" />,
+      href: "/features/reporting",
+    },
+    {
+      name: "Security",
+      icon: <Shield className="h-5 w-5" />,
+      href: "/features/security",
+    },
+    {
+      name: "Mobile App",
+      icon: <Settings className="h-5 w-5" />,
+      href: "/features/mobile",
+    },
+    {
+      name: "API Access",
+      icon: <BookOpen className="h-5 w-5" />,
+      href: "/features/api",
+    },
+  ];
 
-    if (authStatus.isAuthenticated && authStatus.isOwner) {
-      return (
-        <Link
-          href="/dashboard"
-          className="bg-[#ff5500] hover:bg-[#ff4400] text-white px-4 py-3 rounded-md text-md font-semibold transition-all duration-300 ease-in-out ml-2 leading-none"
-          onClick={() => setActiveDropdown(null)}
-        >
-          Dashboard
-        </Link>
-      );
-    }
-
+  // Render the Start for free button
+  const renderStartButton = () => {
     return (
       <Link
         href="/auth/signup"
-        className="bg-[#ff5500] hover:bg-[#ff4400] text-white px-6 py-3 rounded-md text-md font-semibold transition-all duration-300 ease-in-out ml-2 leading-none"
+        className="inline-flex items-center justify-center px-5 py-2.5 bg-[var(--primary)] hover:bg-[#FF7A33] text-white font-semibold rounded-lg text-base transition-colors lotto-button ml-2"
         onClick={() => setActiveDropdown(null)}
       >
-        Start for free
+        <span className="lotto-button-text">Start for free</span>
+        <ArrowRight className="lotto-button-arrow ml-2 h-4 w-4 transform -rotate-45" />
       </Link>
     );
   };
@@ -232,14 +255,23 @@ export default function MarketingLayout({ children }) {
     <div className="min-h-screen">
       {/* Top Banner - Zapier Style */}
       {isBannerVisible && (
-        <div className="bg-[#191C27] text-white py-2 px-4 relative font-fustat">
+        <div
+          className="py-2 px-4 relative font-fustat transition-all duration-300 text-white z-30 hidden md:block"
+          style={{ backgroundColor: "var(--secondary)" }}
+        >
           <div className="w-full flex items-center justify-between">
-            <span className="text-sm font-medium">
-              ⚡ From concept to launch—see what ToolPage can really do. Start
-              your free trial today.
-            </span>
+            <Link
+              href="/auth/signup"
+              className="flex items-center space-x-2 transition-colors cursor-pointer"
+            >
+              <span className="text-sm font-normal text-link-underline">
+                ⚡ The all-in-one platform for service professionals. Start your
+                free trial today
+              </span>
+              <ArrowRight className="h-4 w-4 transform -rotate-45 transition-transform duration-300" />
+            </Link>
             <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
+              <div className="hidden xl:flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
                 <span className="text-sm">info@toolpage.io</span>
               </div>
@@ -259,11 +291,20 @@ export default function MarketingLayout({ children }) {
       )}
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 font-fustat">
+      <nav
+        className={`sticky top-0 z-[60] font-fustat transition-all duration-300 ${
+          isScrolled ? "header-scrolled" : "header-transparent"
+        }`}
+        style={{
+          backgroundColor: isScrolled ? "var(--neutral)" : "transparent",
+          backdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
+        }}
+      >
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
-            {/* Left: Logo */}
-            <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center h-18">
+            {/* Left: Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              {/* Logo */}
               <Link
                 href="/"
                 className="flex items-center"
@@ -272,294 +313,762 @@ export default function MarketingLayout({ children }) {
                 <img
                   src="/logos/ToolpageIcon.png"
                   alt="Toolpage"
-                  className="h-6 mb-1 w-auto"
+                  className="h-7 mb-1 w-auto"
                 />
                 <span
-                  className="ml-2 text-xl font-semibold text-[#191C27]"
-                  style={{ fontFamily: "Fustat, sans-serif" }}
+                  className="ml-2 text-2xl font-semibold"
+                  style={{
+                    fontFamily: "Fustat, sans-serif",
+                    color: "var(--text-dark)",
+                  }}
                 >
                   ToolPage
                 </span>
               </Link>
+
+              {/* Navigation Links */}
+              <div
+                className="hidden lg:flex items-center space-x-3"
+                ref={dropdownRef}
+              >
+                {/* Solutions Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown("solutions")}
+                    className="pl-2 pr-0 py-2 text-base font-medium transition-colors flex items-center schedule-call-button"
+                    style={{ color: "var(--text-dark)" }}
+                  >
+                    <span className="schedule-call-text">Products</span>
+                    <div className="relative w-3 h-3 ml-1">
+                      <motion.div
+                        animate={{
+                          rotate: activeDropdown === "solutions" ? 180 : 0,
+                        }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{ transformOrigin: "50% 50%" }}
+                      >
+                        <ChevronDown className="h-3 w-3" strokeWidth={2.5} />
+                      </motion.div>
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {activeDropdown === "solutions" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute top-full left-0 mt-2 w-[50rem] rounded-xl products-dropdown"
+                      >
+                        <div
+                          className="products-dropdown-inner p-4 py-6"
+                          style={{ backgroundColor: "var(--neutral)" }}
+                        >
+                          <div className="grid grid-cols-3 gap-3">
+                            {solutionsItems.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="flex items-start p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer product-card"
+                                style={{ backgroundColor: "var(--neutral)" }}
+                                onClick={() => setActiveDropdown(null)}
+                              >
+                                <div
+                                  className="mr-3 mt-0.5 product-card-icon transition-colors duration-300"
+                                  style={{ color: "var(--secondary)" }}
+                                >
+                                  {item.icon}
+                                </div>
+                                <div className="flex-1">
+                                  <div
+                                    className="text-sm font-semibold mb-2 product-card-title text-link-underline"
+                                    style={{ color: "var(--text-dark)" }}
+                                  >
+                                    {item.name}
+                                  </div>
+                                  <div
+                                    className="text-xs leading-relaxed"
+                                    style={{ color: "var(--text-medium)" }}
+                                  >
+                                    {item.description}
+                                  </div>
+                                </div>
+                              </Link>
+                            ))}
+                            <Link
+                              href="/solutions/finance"
+                              className="flex items-start p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer product-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 mt-0.5 product-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <CreditCard className="h-5 w-5" />
+                              </div>
+                              <div className="flex-1">
+                                <div
+                                  className="text-sm font-semibold mb-2 product-card-title text-link-underline"
+                                  style={{ color: "var(--text-dark)" }}
+                                >
+                                  Finance
+                                </div>
+                                <div
+                                  className="text-xs leading-relaxed"
+                                  style={{ color: "var(--text-medium)" }}
+                                >
+                                  Easily manage finances, integrations and more
+                                </div>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/solutions/training"
+                              className="flex items-start p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer product-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 mt-0.5 product-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <BookOpen className="h-5 w-5" />
+                              </div>
+                              <div className="flex-1">
+                                <div
+                                  className="text-sm font-semibold mb-2 product-card-title text-link-underline"
+                                  style={{ color: "var(--text-dark)" }}
+                                >
+                                  Training
+                                </div>
+                                <div
+                                  className="text-xs leading-relaxed"
+                                  style={{ color: "var(--text-medium)" }}
+                                >
+                                  Create and manage training materials for your
+                                  team
+                                </div>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/solutions/compliance"
+                              className="flex items-start p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer product-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 mt-0.5 product-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <Shield className="h-5 w-5" />
+                              </div>
+                              <div className="flex-1">
+                                <div
+                                  className="text-sm font-semibold mb-2 product-card-title text-link-underline"
+                                  style={{ color: "var(--text-dark)" }}
+                                >
+                                  Compliance
+                                </div>
+                                <div
+                                  className="text-xs leading-relaxed"
+                                  style={{ color: "var(--text-medium)" }}
+                                >
+                                  Stay compliant with federal and local
+                                  regulations
+                                </div>
+                              </div>
+                            </Link>
+                            <Link
+                              href="/solutions/growth"
+                              className="flex items-start p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer product-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 mt-0.5 product-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <TrendingUp className="h-5 w-5" />
+                              </div>
+                              <div className="flex-1">
+                                <div
+                                  className="text-sm font-semibold mb-2 product-card-title text-link-underline"
+                                  style={{ color: "var(--text-dark)" }}
+                                >
+                                  Growth
+                                </div>
+                                <div
+                                  className="text-xs leading-relaxed"
+                                  style={{ color: "var(--text-medium)" }}
+                                >
+                                  Scale your business operations with
+                                  easy-to-use tools
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        </div>
+
+                        {/* Bottom Links */}
+                        <div className="px-6 pt-2 pb-4">
+                          <div className="flex items-center space-x-6">
+                            <Link
+                              href="/how-it-works"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                How It Works
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                            <div
+                              className="w-1 h-1"
+                              style={{ backgroundColor: "var(--primary)" }}
+                            ></div>
+                            <Link
+                              href="/blog"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">Blog</span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                            <div
+                              className="w-1 h-1"
+                              style={{ backgroundColor: "var(--primary)" }}
+                            ></div>
+                            <Link
+                              href="/about"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">About</span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                            <div
+                              className="w-1 h-1 rounded-full"
+                              style={{ backgroundColor: "var(--primary)" }}
+                            ></div>
+                            <Link
+                              href="/contact"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                Contact
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Industries Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown("industries")}
+                    className="pl-2 pr-0 py-2 text-base font-medium transition-colors flex items-center schedule-call-button"
+                    style={{ color: "var(--text-dark)" }}
+                  >
+                    <span className="schedule-call-text">Industries</span>
+                    <div className="relative w-3 h-3 ml-1">
+                      <motion.div
+                        animate={{
+                          rotate: activeDropdown === "industries" ? 180 : 0,
+                        }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{ transformOrigin: "50% 50%" }}
+                      >
+                        <ChevronDown className="h-3 w-3" strokeWidth={2.5} />
+                      </motion.div>
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {activeDropdown === "industries" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute top-full left-0 mt-2 w-[28rem] rounded-xl industries-dropdown"
+                        style={{ backgroundColor: "var(--neutral-dark)" }}
+                      >
+                        <div
+                          className="industries-dropdown-inner p-4"
+                          style={{ backgroundColor: "var(--neutral)" }}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {industriesItems.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer industry-card"
+                                style={{ backgroundColor: "var(--neutral)" }}
+                                onClick={() => setActiveDropdown(null)}
+                              >
+                                <div
+                                  className="mr-3 industry-card-icon transition-colors duration-300"
+                                  style={{ color: "var(--secondary)" }}
+                                >
+                                  {item.icon}
+                                </div>
+                                <span
+                                  className="text-sm font-medium industry-card-title text-link-underline"
+                                  style={{ color: "var(--text-dark)" }}
+                                >
+                                  {item.name}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Bottom Links */}
+                        <div className="px-6 pt-2 pb-4">
+                          <div className="flex items-center space-x-6">
+                            <Link
+                              href="/industries"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                View All Industries
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                            <div
+                              className="w-1 h-1"
+                              style={{ backgroundColor: "var(--primary)" }}
+                            ></div>
+                            <Link
+                              href="/contact"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                Get Industry Help
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Features Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown("features")}
+                    className="pl-2 pr-0 py-2 text-base font-medium transition-colors flex items-center schedule-call-button"
+                    style={{ color: "var(--text-dark)" }}
+                  >
+                    <span className="schedule-call-text">Features</span>
+                    <div className="relative w-3 h-3 ml-1">
+                      <motion.div
+                        animate={{
+                          rotate: activeDropdown === "features" ? 180 : 0,
+                        }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{ transformOrigin: "50% 50%" }}
+                      >
+                        <ChevronDown className="h-3 w-3" strokeWidth={2.5} />
+                      </motion.div>
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {activeDropdown === "features" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="absolute top-full left-0 mt-2 w-[24rem] rounded-xl features-dropdown"
+                        style={{ backgroundColor: "var(--neutral-dark)" }}
+                      >
+                        <div
+                          className="features-dropdown-inner p-4"
+                          style={{ backgroundColor: "var(--neutral)" }}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            <Link
+                              href="/features/analytics"
+                              className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer feature-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 feature-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <BarChart3 className="h-5 w-5" />
+                              </div>
+                              <span
+                                className="text-sm font-medium feature-card-title text-link-underline"
+                                style={{ color: "var(--text-dark)" }}
+                              >
+                                Analytics
+                              </span>
+                            </Link>
+                            <Link
+                              href="/features/automation"
+                              className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer feature-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 feature-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <Zap className="h-5 w-5" />
+                              </div>
+                              <span
+                                className="text-sm font-medium feature-card-title text-link-underline"
+                                style={{ color: "var(--text-dark)" }}
+                              >
+                                Automation
+                              </span>
+                            </Link>
+                            <Link
+                              href="/features/integrations"
+                              className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer feature-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 feature-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <Settings className="h-5 w-5" />
+                              </div>
+                              <span
+                                className="text-sm font-medium feature-card-title text-link-underline"
+                                style={{ color: "var(--text-dark)" }}
+                              >
+                                Integrations
+                              </span>
+                            </Link>
+                            <Link
+                              href="/features/security"
+                              className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-dark)] transition-all duration-300 cursor-pointer feature-card"
+                              style={{ backgroundColor: "var(--neutral)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <div
+                                className="mr-3 feature-card-icon transition-colors duration-300"
+                                style={{ color: "var(--secondary)" }}
+                              >
+                                <Shield className="h-5 w-5" />
+                              </div>
+                              <span
+                                className="text-sm font-medium feature-card-title text-link-underline"
+                                style={{ color: "var(--text-dark)" }}
+                              >
+                                Security
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+
+                        {/* Bottom Links */}
+                        <div className="px-6 pt-2 pb-4">
+                          <div className="flex items-center space-x-6">
+                            <Link
+                              href="/features"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                Explore All Features
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                            <div
+                              className="w-1 h-1"
+                              style={{ backgroundColor: "var(--primary)" }}
+                            ></div>
+                            <Link
+                              href="/contact"
+                              className="flex items-center text-sm transition-colors hover:opacity-80"
+                              style={{ color: "var(--text-dark)" }}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              <span className="text-link-underline">
+                                Request Demo
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 transform -rotate-45" />
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <Link
+                  href="/pricing"
+                  className="px-2 py-2 text-base font-medium transition-colors schedule-call-button"
+                  style={{ color: "var(--text-dark)" }}
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <span className="schedule-call-text">Pricing</span>
+                </Link>
+              </div>
             </div>
 
-            {/* Right: Navigation and Auth Button */}
-            <div
-              className="hidden md:flex items-center space-x-2 ml-auto"
-              ref={dropdownRef}
-            >
-              {/* Solutions Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown("solutions")}
-                  className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium flex items-center"
-                >
-                  Products
-                  <div className="relative w-3 h-3 ml-1">
-                    <motion.div
-                      animate={{
-                        rotate: activeDropdown === "solutions" ? 180 : 0,
-                      }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{ transformOrigin: "50% 50%" }}
-                    >
-                      <ChevronDown className="h-3 w-3" strokeWidth={2.5} />
-                    </motion.div>
-                  </div>
-                </button>
-
-                <AnimatePresence>
-                  {activeDropdown === "solutions" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[32rem] bg-white rounded-lg shadow-lg border border-gray-200 p-6"
-                    >
-                      <div className="grid grid-cols-2 gap-3 mb-6">
-                        {solutionsItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer bg-gray-50/50"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            <div className="text-[#ff5500] mr-3 mt-0.5">
-                              {item.icon}
-                            </div>
-                            <div className="flex-1">
-                              <div className="text-sm font-semibold text-[#191C27] mb-1">
-                                {item.name}
-                              </div>
-                              <div className="text-xs text-gray-500 leading-relaxed">
-                                {item.description}
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-
-                      {/* Bottom Links */}
-                      <div className="border-t border-gray-200 pt-4 px-3">
-                        <div className="flex items-center space-x-6">
-                          <Link
-                            href="/how-it-works"
-                            className="flex items-center text-sm text-[#FF5E00] hover:text-[#FF4A00] transition-colors"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            How It Works
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                          <Link
-                            href="/blog"
-                            className="flex items-center text-sm text-[#FF5E00] hover:text-[#FF4A00] transition-colors"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            Blog
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                          <Link
-                            href="/about"
-                            className="flex items-center text-sm text-[#FF5E00] hover:text-[#FF4A00] transition-colors"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            About
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                          <Link
-                            href="/contact"
-                            className="flex items-center text-sm text-[#FF5E00] hover:text-[#FF4A00] transition-colors"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            Contact
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Industries Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown("industries")}
-                  className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium flex items-center"
-                >
-                  Industries
-                  <div className="relative w-3 h-3 ml-1">
-                    <motion.div
-                      animate={{
-                        rotate: activeDropdown === "industries" ? 180 : 0,
-                      }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{ transformOrigin: "50% 50%" }}
-                    >
-                      <ChevronDown className="h-3 w-3" strokeWidth={2.5} />
-                    </motion.div>
-                  </div>
-                </button>
-
-                <AnimatePresence>
-                  {activeDropdown === "industries" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-[28rem] bg-white rounded-lg shadow-lg border border-gray-200 p-4"
-                    >
-                      <div className="grid grid-cols-2 gap-2">
-                        {industriesItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="flex items-center p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                            onClick={() => setActiveDropdown(null)}
-                          >
-                            <div className="text-[#ff5500] mr-2">
-                              {item.icon}
-                            </div>
-                            <span className="text-sm font-normal text-[#191C27]">
-                              {item.name}
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
+            {/* Right: Auth Buttons */}
+            <div className="hidden lg:flex items-center space-x-4 ml-auto">
               <Link
-                href="/templates"
-                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
+                href="/auth/login"
+                className="inline-flex items-center justify-center py-2.5 text-[#191C27] font-semibold text-base transition-colors schedule-call-button"
                 onClick={() => setActiveDropdown(null)}
               >
-                Templates
+                <span className="schedule-call-text">Login</span>
               </Link>
-
-              <Link
-                href="/pricing"
-                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
-                onClick={() => setActiveDropdown(null)}
-              >
-                Pricing
-              </Link>
-
-              <Link
-                href="/support"
-                className="text-[#191C27] hover:text-[#ff5500] px-2 py-2 rounded-md text-md font-medium mr-3"
-                onClick={() => setActiveDropdown(null)}
-              >
-                Support
-              </Link>
-
-              {renderAuthButton()}
+              {renderStartButton()}
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center space-x-2">
+            <div className="lg:hidden flex items-center space-x-2 ml-auto">
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-[#191C27] hover:text-[#848D6F]"
+                onClick={() => {
+                  console.log(
+                    "Hamburger clicked, current state:",
+                    isMobileMenuOpen
+                  );
+                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
+                className="hover:text-[var(--neutral)]"
+                style={{ color: "var(--text-dark)" }}
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
+                <div
+                  className={`hamburger-menu ${isMobileMenuOpen ? "open" : ""}`}
+                >
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                </div>
               </button>
             </div>
           </div>
         </div>
 
         {/* Mobile menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="md:hidden bg-white border-t border-gray-200 overflow-hidden"
+        <div className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}>
+          <div className="mobile-menu-content">
+            {/* CTA Buttons */}
+            <div className="mobile-menu-cta">
+              <Link
+                href="/auth/login"
+                className="mobile-menu-login-button"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="schedule-call-text">Login</span>
+              </Link>
+              <Link
+                href="/auth/signup"
+                className="mobile-menu-start-button"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="lotto-button-text">Start for free</span>
+                <ArrowRight className="lotto-button-arrow ml-2 h-4 w-4 transform -rotate-45" />
+              </Link>
+            </div>
+
+            <div
+              className={`mobile-menu-section ${
+                openDropdown === "products" ? "open" : ""
+              }`}
+              onClick={() =>
+                setOpenDropdown(openDropdown === "products" ? null : "products")
+              }
             >
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                <div className="px-3 py-2">
-                  <h4 className="text-xs font-semibold text-[#848D6F] uppercase tracking-wide mb-2">
-                    Products
-                  </h4>
-                  <div className="space-y-1">
-                    {solutionsItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="px-3 py-2">
-                  <h4 className="text-xs font-semibold text-[#848D6F] uppercase tracking-wide mb-2">
-                    Industries
-                  </h4>
-                  <div className="space-y-1">
-                    {industriesItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <Link
-                  href="/templates"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
-                >
-                  Templates
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
-                >
-                  Pricing
-                </Link>
-                <Link
-                  href="/support"
-                  className="block px-3 py-2 text-[#191C27] hover:text-[#848D6F] text-sm font-semibold"
-                >
-                  Support
-                </Link>
-                {authStatus.isAuthenticated && authStatus.isOwner ? (
-                  <Link
-                    href="/dashboard"
-                    className="block px-3 py-2 bg-[#FF5E00] hover:bg-[#FF4A00] text-white text-sm font-semibold rounded-md transition-all duration-300 ease-in-out"
-                  >
-                    Dashboard
-                  </Link>
-                ) : (
-                  <Link
-                    href="/auth/signup"
-                    className="block px-3 py-2 bg-[#FF5E00] hover:bg-[#FF4A00] text-white text-sm font-semibold rounded-md transition-all duration-300 ease-in-out"
-                  >
-                    Start for free
-                  </Link>
-                )}
+              <div className="mobile-menu-section-header">
+                <h4 className="mobile-menu-section-title">Products</h4>
+                <ChevronDown className="mobile-menu-section-arrow" size={20} />
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <div className="mobile-menu-links">
+                {solutionsItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="mobile-menu-link"
+                    style={{ padding: "0rem 1rem" }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="mobile-menu-link-icon">{item.icon}</div>
+                    <span className="mobile-menu-link-text">{item.name}</span>
+                  </Link>
+                ))}
+                <Link
+                  href="/solutions/finance"
+                  className="mobile-menu-link"
+                  style={{ padding: "0rem 1rem" }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="mobile-menu-link-icon">
+                    <CreditCard className="h-5 w-5" />
+                  </div>
+                  <span className="mobile-menu-link-text">Finance</span>
+                </Link>
+                <Link
+                  href="/solutions/training"
+                  className="mobile-menu-link"
+                  style={{ padding: "0rem 1rem" }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="mobile-menu-link-icon">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  <span className="mobile-menu-link-text">Training</span>
+                </Link>
+                <Link
+                  href="/solutions/compliance"
+                  className="mobile-menu-link"
+                  style={{ padding: "0rem 1rem" }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="mobile-menu-link-icon">
+                    <Shield className="h-5 w-5" />
+                  </div>
+                  <span className="mobile-menu-link-text">Compliance</span>
+                </Link>
+                <Link
+                  href="/solutions/growth"
+                  className="mobile-menu-link"
+                  style={{ padding: "0rem 1rem" }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="mobile-menu-link-icon">
+                    <TrendingUp className="h-5 w-5" />
+                  </div>
+                  <span className="mobile-menu-link-text">Growth</span>
+                </Link>
+              </div>
+            </div>
+
+            <div
+              className={`mobile-menu-section ${
+                openDropdown === "industries" ? "open" : ""
+              }`}
+              onClick={() =>
+                setOpenDropdown(
+                  openDropdown === "industries" ? null : "industries"
+                )
+              }
+            >
+              <div className="mobile-menu-section-header">
+                <h4 className="mobile-menu-section-title">Industries</h4>
+                <ChevronDown className="mobile-menu-section-arrow" size={20} />
+              </div>
+              <div className="mobile-menu-links">
+                {industriesItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="mobile-menu-link"
+                    style={{ padding: "0rem 1rem" }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="mobile-menu-link-icon">{item.icon}</div>
+                    <span className="mobile-menu-link-text">{item.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div
+              className={`mobile-menu-section ${
+                openDropdown === "features" ? "open" : ""
+              }`}
+              onClick={() =>
+                setOpenDropdown(openDropdown === "features" ? null : "features")
+              }
+            >
+              <div className="mobile-menu-section-header">
+                <h4 className="mobile-menu-section-title">Features</h4>
+                <ChevronDown className="mobile-menu-section-arrow" size={20} />
+              </div>
+              <div className="mobile-menu-links">
+                {featuresItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="mobile-menu-link"
+                    style={{ padding: "0rem 1rem" }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="mobile-menu-link-icon">{item.icon}</div>
+                    <span className="mobile-menu-link-text">{item.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <Link
+              href="/pricing"
+              className="mobile-menu-pricing"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span>Pricing</span>
+              <ArrowRight className="mobile-menu-pricing-arrow" />
+            </Link>
+
+            {/* Bottom Links */}
+            <div className="mobile-menu-bottom-links">
+              <Link
+                href="/how-it-works"
+                className="mobile-menu-bottom-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                How It Works
+                <ArrowRight className="mobile-menu-bottom-link-arrow" />
+              </Link>
+              <Link
+                href="/blog"
+                className="mobile-menu-bottom-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Blog
+                <ArrowRight className="mobile-menu-bottom-link-arrow" />
+              </Link>
+              <Link
+                href="/about"
+                className="mobile-menu-bottom-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+                <ArrowRight className="mobile-menu-bottom-link-arrow" />
+              </Link>
+              <Link
+                href="/contact"
+                className="mobile-menu-bottom-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+                <ArrowRight className="mobile-menu-bottom-link-arrow" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </nav>
 
       {/* Main Content */}

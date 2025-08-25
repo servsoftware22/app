@@ -358,6 +358,8 @@ export async function POST(request) {
       about: businessTypeData.default_about || {},
       faq: businessTypeData.default_faq || {},
       seo: businessTypeData.default_seo || {},
+      contact: businessTypeData.default_contact || {},
+      cta: businessTypeData.default_cta || {},
 
       // Services from user selection
       services: selectedServices,
@@ -370,9 +372,87 @@ export async function POST(request) {
         neutral: neutralColor,
       },
 
+      // Header template
+      header: {
+        logo: {
+          text: businessName,
+          type: "text",
+          image_url: null,
+        },
+        nav_links: [
+          {
+            url: "/",
+            rank: 1,
+            label: "Home",
+            visible: true,
+          },
+          {
+            url: "/services",
+            rank: 2,
+            label: "Services",
+            visible: true,
+          },
+          {
+            url: "/about",
+            rank: 3,
+            label: "About",
+            visible: true,
+          },
+          {
+            url: "/contact",
+            rank: 4,
+            label: "Contact",
+            visible: true,
+          },
+        ],
+        cta_buttons: [
+          {
+            url: "/book-now",
+            rank: 2,
+            label: "Book Now",
+            style: "primary",
+          },
+          {
+            url: "/signup",
+            rank: 1,
+            label: "Sign Up",
+            style: "secondary",
+          },
+        ],
+      },
+
+      // Footer template
+      footer: {
+        quickLinks: {
+          title: "Sitemap",
+        },
+        bottomLinks: [
+          {
+            url: "/terms",
+            text: "Terms of Service",
+          },
+          {
+            url: "/privacy",
+            text: "Privacy Policy",
+          },
+        ],
+        contactInfo: {
+          title: "Contact Info",
+        },
+        description: `Professional ${businessType} services with a commitment to quality, reliability, and customer satisfaction. We deliver exceptional results that exceed expectations.`,
+        socialLinks: [
+          {
+            url: businessData.email,
+            icon: "mail",
+          },
+          {
+            url: businessData.phone,
+            icon: "phone",
+          },
+        ],
+      },
+
       // Initialize other sections as empty
-      contact: {},
-      cta: {},
       gallery: {},
       blog: {},
       portfolio: {},
@@ -387,8 +467,6 @@ export async function POST(request) {
       terms_of_service: {},
       privacy_policy: {},
       policies: {},
-      header: {},
-      footer: {},
       banner: {},
 
       // Timestamps

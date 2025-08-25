@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, ArrowRight, AlertCircle } from "lucide-react";
@@ -22,9 +22,35 @@ export default function SignupPage() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const router = useRouter();
-  const { signIn } = useAuth();
+  const { signIn, user, userData, loading: authLoading } = useAuth();
+
+  // Handle authentication scenarios
+  useEffect(() => {
+    if (authLoading) return;
+
+    if (user && userData) {
+      // User is authenticated and has users table row - redirect to dashboard
+      console.log(
+        "User authenticated with users table row, redirecting to dashboard"
+      );
+      router.push("/dashboard");
+      return;
+    }
+
+    if (user && !userData) {
+      // User is authenticated but no users table row - treat as login completion
+      console.log(
+        "User authenticated but no users table row - treating as login completion"
+      );
+      setIsExistingUser(true);
+      setEmail(user.email || "");
+      setFullName(user.user_metadata?.full_name || "");
+    }
+  }, [user, userData, authLoading, router]);
 
   // Custom checkbox functionality
   const handleCheckboxChange = (e) => {
@@ -183,46 +209,87 @@ export default function SignupPage() {
 
     setLoading(true);
     setError("");
+    setShowLoginPrompt(false);
 
     try {
-      // Call our API route to create the user
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          phone,
-          fullName,
-        }),
-      });
+      if (isExistingUser) {
+        // User is authenticated but no users table row - try to complete signup
+        console.log("Completing signup for existing authenticated user");
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create account");
-      }
-
-      // Sign in the user after successful backend signup
-      const { data: signInData, error: signInError } =
-        await supabase.auth.signInWithPassword({
-          email,
-          password,
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            phone,
+            fullName,
+            isExistingUser: true,
+            userId: user.id,
+          }),
         });
 
-      if (signInError) {
-        console.error("Auto sign-in failed:", signInError);
-        // Fallback: try context signIn
-        const { error: ctxError } = await signIn(email, password);
-        if (ctxError) {
-          console.error("Context sign-in failed:", ctxError);
-        }
-      }
+        const data = await response.json();
 
-      // Redirect to dashboard after successful signup
-      router.push("/dashboard");
+        if (!response.ok) {
+          if (data.error === "INVALID_PASSWORD") {
+            // Wrong password for existing user
+            setShowLoginPrompt(true);
+            setError(
+              "Incorrect password. Please sign in with your existing account."
+            );
+            return;
+          }
+          throw new Error(data.error || "Failed to complete signup");
+        }
+
+        // Signup completed successfully, redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        // New user signup
+        console.log("Creating new user account");
+
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            phone,
+            fullName,
+            isExistingUser: false,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to create account");
+        }
+
+        // Sign in the user after successful backend signup
+        const { data: signInData, error: signInError } =
+          await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+        if (signInError) {
+          console.error("Auto sign-in failed:", signInError);
+          // Fallback: try context signIn
+          const { error: ctxError } = await signIn(email, password);
+          if (ctxError) {
+            console.error("Context sign-in failed:", ctxError);
+          }
+        }
+
+        // Redirect to dashboard after successful signup
+        router.push("/dashboard");
+      }
     } catch (error) {
       setError(error.message);
     } finally {
@@ -240,10 +307,12 @@ export default function SignupPage() {
           <div className="w-full max-w-md">
             {/* Title */}
             <h1 className="text-3xl font-bold text-[#191C27] mb-2">
-              Get Started
+              {isExistingUser ? "Complete Your Account" : "Get Started"}
             </h1>
             <p className="text-[#848D6F] mb-8">
-              Create your account to start your free trial.
+              {isExistingUser
+                ? "Enter your password to complete your account setup."
+                : "Create your account to start your free trial."}
             </p>
 
             {/* Form */}
@@ -426,6 +495,21 @@ export default function SignupPage() {
                 </div>
               )}
 
+              {showLoginPrompt && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-700">
+                  <p className="text-sm mb-2">
+                    It looks like you already have an account. Please{" "}
+                    <Link
+                      href="/auth/login"
+                      className="text-[#FF5E00] hover:text-[#FF4A00] transition-colors font-medium underline"
+                    >
+                      sign in here
+                    </Link>{" "}
+                    instead.
+                  </p>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={!isFormValid() || loading}
@@ -434,11 +518,13 @@ export default function SignupPage() {
                 {loading ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                    Creating account...
+                    {isExistingUser
+                      ? "Completing account..."
+                      : "Creating account..."}
                   </>
                 ) : (
                   <>
-                    Create Account
+                    {isExistingUser ? "Complete Account" : "Create Account"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -27,11 +27,24 @@ import {
   Download,
   ExternalLink,
 } from "lucide-react";
+import "./components.css";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const [industryScrollPosition, setIndustryScrollPosition] = useState(0);
+  const [isStacked, setIsStacked] = useState(false);
+
+  // Detect when hero should stack
+  useEffect(() => {
+    const checkStacked = () => {
+      setIsStacked(window.innerWidth <= 1279);
+    };
+
+    checkStacked();
+    window.addEventListener("resize", checkStacked);
+    return () => window.removeEventListener("resize", checkStacked);
+  }, []);
 
   const industries = [
     { name: "General Contractors" },
@@ -101,78 +114,210 @@ export default function Home() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero Section - Zapier Style */}
-      <div className="relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#C0CBBE] via-white to-[#C0CBBE] opacity-30"></div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <div className="text-center">
-            {/* Main Headline */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#191C27] mb-6 leading-none tracking-tight">
-              Websites that work
-              <br />
-              <span className="text-[#FF5E00]">as hard as you do</span>
-            </h1>
-
-            {/* Description */}
-            <p className="text-lg md:text-xl text-[#848D6F] mb-8 max-w-2xl mx-auto leading-relaxed">
-              Get a stunning, high-performing website tailored for service pros
-              — launched in minutes, for a price that makes sense.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-row gap-4 justify-center mb-8">
+      {/* Hero Section - Two Column Layout */}
+      <div className="relative overflow-hidden -mt-32 z-10">
+        <div
+          className="grid grid-cols-1 xl:grid-cols-2"
+          style={{ minHeight: "calc(100vh + 20px)" }}
+        >
+          {/* Left Column - Content with Neutral Background */}
+          <div
+            className="flex items-center justify-center p-8 lg:p-12 xl:p-16 hero-left-column"
+            style={{ backgroundColor: "var(--neutral)" }}
+          >
+            {/* Content Container - All elements with increased gaps */}
+            <div className="space-y-10 max-w-2xl hero-left-content">
+              {/* Badge */}
               <Link
-                href="/auth/signup"
-                className="inline-flex items-center justify-center px-6 py-3 bg-[#FF5E00] hover:bg-[#FF7A33] text-white font-semibold rounded-lg text-base transition-colors"
+                href="/how-it-works"
+                className="inline-flex items-center px-4 py-2 rounded-lg text-base font-medium transition-all duration-300 hover:opacity-80 xl:mx-0 mx-auto"
+                style={{
+                  backgroundColor: "var(--neutral-dark)",
+                  color: "var(--text-medium)",
+                }}
               >
-                Start for free
+                See how it works
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-[#191C27] font-semibold rounded-lg text-base border-2 border-gray-200 transition-colors"
+
+              {/* Title */}
+              <h1
+                className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-normal leading-none tracking-tight text-left xl:text-left max-w-xl hero-title-responsive"
+                style={{ color: "var(--text-dark)" }}
               >
-                Schedule a call
-              </Link>
+                The best way to run your service business
+              </h1>
+
+              {/* Description */}
+              <p
+                className="text-lg md:text-lg leading-relaxed text-left xl:text-left font-normal max-w-xl"
+                style={{ color: "var(--text-medium)" }}
+              >
+                Operate your entire business from one simple platform. From your
+                website and scheduling to marketing, payments, and more —
+                everything runs on ToolPage.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-8 pt-2">
+                <Link
+                  href="/auth/signup"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[var(--primary)] hover:bg-[#FF7A33] text-white font-semibold rounded-lg text-lg transition-colors lotto-button"
+                >
+                  <span className="lotto-button-text">Start for free</span>
+                  <ArrowRight className="lotto-button-arrow ml-2 h-5 w-4 transform -rotate-45" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center text-[#191C27] font-semibold text-lg transition-colors schedule-call-button"
+                >
+                  <Phone className="mr-2 h-5 w-4" />
+                  <span className="schedule-call-text">Schedule a call</span>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Navigation Tabs - Zapier Style */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center space-x-8">
-            {tabs.map((tab, index) => (
-              <motion.button
-                key={tab}
-                onClick={() => setActiveTab(index)}
-                className={`py-4 px-1 border-b-2 font-lg text-md whitespace-nowrap transition-all duration-300 ease-in-out ${
-                  index === activeTab
-                    ? "border-[#FF5E00] text-[#FF5E00]"
-                    : "border-transparent text-[#848D6F] hover:text-[#191C27]"
-                }`}
-              >
-                {tab}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </div>
+          {/* Right Column - Neutral Dark Background with Image Container */}
+          <div
+            className="relative h-full"
+            style={{ backgroundColor: "var(--neutral-dark)" }}
+          >
+            {/* Texture Background Overlay */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src="/images/texture.png"
+                alt="Texture overlay"
+                className="w-full h-full object-cover opacity-20"
+                style={{ filter: "brightness(0.8)" }}
+              />
+            </div>
 
-      {/* Tab Video Container */}
-      <div className="bg-white py-16">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-gray-100 rounded-xl aspect-video flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-[#FF5E00] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Play className="h-8 w-8 text-white ml-1" />
+            {/* Center Container with Two Rows */}
+            <div className="right-column-container">
+              {/* Top Row - Image Box on Left */}
+              <div className="top-row hero-top-row">
+                <div className="top-row-image-container animate-entrance-1">
+                  <div className="top-row-card">
+                    <div className="top-row-image-wrapper">
+                      <img
+                        src="/images/construction-worker.jpg"
+                        alt="Construction worker"
+                        className="top-row-image"
+                      />
+                      <img
+                        src="/images/squares-neutral.png"
+                        alt="Geometric squares pattern"
+                        className="top-row-squares"
+                      />
+                    </div>
+                    <div className="top-row-footer">
+                      <h3 className="top-row-title text-link-underline">
+                        Property Inspectors
+                      </h3>
+                      <ArrowRight className="top-row-arrow" />
+                    </div>
+                  </div>
                 </div>
-                <p className="text-[#848D6F] font-medium">Watch Demo</p>
+
+                {/* Overlapping Landscape Card - Top Row */}
+                <div className="top-row-overlap-card animate-entrance-2">
+                  <div className="top-row-overlap-inner-card">
+                    <div className="top-row-overlap-badge">Industries</div>
+                    <div className="text-left">
+                      <div className="top-row-overlap-number">50+</div>
+                      <p className="top-row-overlap-text">
+                        Toolpage works with professionals in over 50 different
+                        industries
+                      </p>
+                    </div>
+                  </div>
+                  <Link href="/industries" className="top-row-overlap-link">
+                    <span className="text-link-underline">
+                      View all industries
+                    </span>
+                    <ArrowRight className="top-row-overlap-arrow" />
+                  </Link>
+                </div>
               </div>
+
+              {/* Bottom Row - Image Box on Right */}
+              <div className="bottom-row hero-bottom-row">
+                <div className="bottom-row-image-container animate-entrance-3">
+                  <div className="bottom-row-card">
+                    <div className="bottom-row-image-wrapper">
+                      <img
+                        src="/images/dogwalker.jpg"
+                        alt="Dog walker"
+                        className="bottom-row-image"
+                      />
+                      <img
+                        src="/images/squares-neutral.png"
+                        alt="Geometric squares pattern"
+                        className="bottom-row-squares"
+                      />
+                    </div>
+                    <div className="bottom-row-footer">
+                      <h3 className="bottom-row-title text-link-underline">
+                        Dogwalkers
+                      </h3>
+                      <ArrowRight className="bottom-row-arrow" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Overlapping Landscape Card - Bottom Row */}
+                <div className="bottom-row-overlap-card animate-entrance-4">
+                  <div className="bottom-row-overlap-inner-card">
+                    <div className="bottom-row-overlap-badge">Efficiency</div>
+                    <div className="text-left">
+                      <img
+                        src="/icons/duration.png"
+                        alt="Duration icon"
+                        className="bottom-row-overlap-icon"
+                      />
+                      <p className="bottom-row-overlap-text">
+                        Toolpage businesses save an average of 14 hours per week
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href="/how-it-works"
+                    className="bottom-row-overlap-link"
+                  >
+                    <span className="text-link-underline">
+                      Learn how it works
+                    </span>
+                    <ArrowRight className="bottom-row-overlap-arrow" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Squares Image - Bottom Left Corner (Preserved) */}
+            <div
+              className={`absolute ${
+                isStacked ? "top-0 left-0" : "bottom-0 left-0"
+              }`}
+            >
+              <img
+                src="/images/squares-neutral.png"
+                alt="Geometric squares pattern"
+                className="w-60 h-60 squares-hover"
+              />
+            </div>
+
+            {/* Squares Image - Top Right Corner */}
+            <div
+              className={`absolute ${
+                isStacked ? "bottom-0 right-0" : "top-40 right-0"
+              }`}
+            >
+              <img
+                src="/images/squares-primary.png"
+                alt="Geometric squares pattern"
+                className="w-40 h-40 transform rotate-180 squares-hover"
+              />
             </div>
           </div>
         </div>
@@ -718,89 +863,6 @@ export default function Home() {
                     />
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Industries Section */}
-      <div className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-medium bg-[#FF5E00] text-white mb-8">
-              INDUSTRIES WE SERVE
-            </div>
-            <h2 className="text-5xl md:text-6xl font-normal text-[#191C27] mb-8 max-w-3xl mx-auto">
-              Built for service professionals
-            </h2>
-            <p className="text-xl text-[#848D6F] max-w-2xl mx-auto">
-              Professional templates and tools optimized for your specific
-              industry needs
-            </p>
-          </div>
-
-          {/* Industry Slider */}
-          <div className="relative">
-            {/* Left Arrow */}
-            <button
-              onClick={() => {
-                const newPosition = industryScrollPosition - cardWidth;
-                if (newPosition < 0) {
-                  // Jump to the end of the first set (seamless loop)
-                  setIndustryScrollPosition(totalWidth - cardWidth);
-                } else {
-                  setIndustryScrollPosition(newPosition);
-                }
-              }}
-              className="absolute -left-6 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors shadow-lg cursor-pointer"
-            >
-              <ArrowRight className="h-6 w-6 text-[#191C27] rotate-180" />
-            </button>
-
-            {/* Right Arrow */}
-            <button
-              onClick={() => {
-                const newPosition = industryScrollPosition + cardWidth;
-                if (newPosition >= totalWidth) {
-                  // Jump back to the beginning (seamless loop)
-                  setIndustryScrollPosition(0);
-                } else {
-                  setIndustryScrollPosition(newPosition);
-                }
-              }}
-              className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors shadow-lg cursor-pointer"
-            >
-              <ArrowRight className="h-6 w-6 text-[#191C27]" />
-            </button>
-
-            {/* Slider Container */}
-            <div
-              className="overflow-hidden"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              <div
-                className="flex space-x-6 transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${industryScrollPosition}px)`,
-                }}
-              >
-                {duplicatedIndustries.map((industry, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0 w-64 h-80 bg-[#848D6F] rounded-xl border border-gray-200 hover:border-[#FF5E00] transition-colors relative"
-                  >
-                    <div className="absolute bottom-4 left-4">
-                      <h3 className="text-lg font-semibold text-white">
-                        {industry.name}
-                      </h3>
-                    </div>
-                  </motion.div>
-                ))}
               </div>
             </div>
           </div>

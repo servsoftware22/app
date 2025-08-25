@@ -2,11 +2,24 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import AuthHeader from "../../components/AuthHeader";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import "../../urban.css";
 import "../../urban-animations.css";
 
 export default function UrbanSignupPage({ websiteData }) {
+  const router = useRouter();
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    hasClientRecord: false,
+    user: null,
+    client: null,
+    isLoading: true,
+    error: null,
+  });
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -15,6 +28,9 @@ export default function UrbanSignupPage({ websiteData }) {
     confirmPassword: "",
     agreeToTerms: false,
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [errors, setErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -25,6 +41,86 @@ export default function UrbanSignupPage({ websiteData }) {
   const { business_info = {}, palette, business } = websiteData || {};
   const businessName = business_info?.name || "Business";
   const businessId = business || null;
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      if (!businessId) {
+        setAuthState({
+          isAuthenticated: false,
+          hasClientRecord: false,
+          user: null,
+          client: null,
+          isLoading: false,
+          error: "No business ID provided",
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/websites/auth-check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessId }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setAuthState({
+            isAuthenticated: result.isAuthenticated,
+            hasClientRecord: result.hasClientRecord,
+            user: result.user,
+            client: result.client,
+            isLoading: false,
+            error: null,
+          });
+
+          console.log("🔐 Urban Signup: Auth check result", result);
+
+          // Handle redirects based on auth state
+          if (result.isAuthenticated && result.hasClientRecord) {
+            const dashboardUrl = getHref("/dashboard");
+            console.log(
+              "🚀 Urban Signup: User already signed up, redirecting to dashboard",
+              {
+                dashboardUrl,
+                isLocalDev,
+                domain,
+                baseUrl,
+                currentLocation: window.location.href,
+                authResult: result,
+              }
+            );
+            router.push(dashboardUrl);
+          }
+        } else {
+          setAuthState({
+            isAuthenticated: false,
+            hasClientRecord: false,
+            user: null,
+            client: null,
+            isLoading: false,
+            error: result.error || "Failed to check authentication",
+          });
+        }
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+        setAuthState({
+          isAuthenticated: false,
+          hasClientRecord: false,
+          user: null,
+          client: null,
+          isLoading: false,
+          error: "Network error checking authentication",
+        });
+      }
+    };
+
+    checkAuthStatus();
+  }, [businessId, router]);
 
   // Helper function to convert hex color to RGB
   const getRGBFromHex = (hex) => {
@@ -39,22 +135,45 @@ export default function UrbanSignupPage({ websiteData }) {
     return "59, 130, 246"; // Default blue
   };
 
-  // Check if we're in local development (localhost:3000)
-  const [isLocalDev, setIsLocalDev] = useState(false);
+  // Check if we're in local development (synchronous check)
+  const isLocalDev =
+    typeof window !== "undefined" && window.location.host === "localhost:3000";
 
+  // Add animation trigger when component is ready (auth check complete and not loading)
   useEffect(() => {
-    setIsLocalDev(window.location.host === "localhost:3000");
-  }, []);
+    // Only trigger animations when auth check is complete and we're ready to show the form
+    if (
+      !authState.isLoading &&
+      !authState.error &&
+      !(authState.isAuthenticated && authState.hasClientRecord)
+    ) {
+      const timer = setTimeout(() => {
+        if (signupSectionRef.current) {
+          signupSectionRef.current.classList.add("animate-in");
+        }
+      }, 100);
 
-  // Add animation trigger when component mounts
+      return () => clearTimeout(timer);
+    }
+  }, [
+    authState.isLoading,
+    authState.error,
+    authState.isAuthenticated,
+    authState.hasClientRecord,
+  ]);
+
+  // Fallback animation trigger - if auth check takes too long, trigger animations anyway
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (signupSectionRef.current) {
+    const fallbackTimer = setTimeout(() => {
+      if (
+        signupSectionRef.current &&
+        !signupSectionRef.current.classList.contains("animate-in")
+      ) {
         signupSectionRef.current.classList.add("animate-in");
       }
-    }, 100);
+    }, 3000); // 3 second fallback
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   // Extract domain from websiteData
@@ -155,6 +274,50 @@ export default function UrbanSignupPage({ websiteData }) {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
+    // Check if user is currently authenticated but trying to use different credentials
+    if (authState.isAuthenticated && authState.user) {
+      const currentUserEmail = authState.user.email;
+      const newUserEmail = formData.email.toLowerCase();
+
+      if (currentUserEmail !== newUserEmail) {
+        // User is authenticated but trying to create account with different email
+        // Log them out first, then proceed with signup
+        try {
+          console.log(
+            "🔄 Urban Signup: User authenticated with different email, logging out first",
+            {
+              currentEmail: currentUserEmail,
+              newEmail: newUserEmail,
+            }
+          );
+
+          await supabase.auth.signOut();
+
+          // Update auth state to reflect logout
+          setAuthState({
+            isAuthenticated: false,
+            hasClientRecord: false,
+            user: null,
+            client: null,
+            isLoading: false,
+            error: null,
+          });
+
+          console.log(
+            "✅ Urban Signup: Successfully logged out, proceeding with new signup"
+          );
+        } catch (signOutError) {
+          console.error("Error signing out:", signOutError);
+          setSubmitStatus({
+            type: "error",
+            message: "Error switching accounts. Please try again.",
+          });
+          setIsSubmitting(false);
+          return;
+        }
+      }
+    }
+
     try {
       const response = await fetch("/api/websites/signup", {
         method: "POST",
@@ -173,34 +336,69 @@ export default function UrbanSignupPage({ websiteData }) {
       const result = await response.json();
 
       if (response.ok) {
-        if (result.action === "signup") {
-          setSubmitStatus({
-            type: "success",
-            message:
-              "Account created successfully! Redirecting to dashboard...",
-          });
-          // TODO: Redirect to dashboard or show success state
-        } else if (
-          result.action === "signin" ||
-          result.action === "signin_with_client_creation"
-        ) {
-          setSubmitStatus({
-            type: "success",
-            message: "Signed in successfully! Redirecting to dashboard...",
-          });
-          // TODO: Redirect to dashboard or show success state
-        }
-      } else {
-        if (result.redirectTo) {
+        console.log("✅ Urban Signup: Form submission successful", result);
+
+        // Now sign in the user client-side to establish the session
+        try {
+          const { data: signInData, error: signInError } =
+            await supabase.auth.signInWithPassword({
+              email: formData.email,
+              password: formData.password,
+            });
+
+          if (signInError) {
+            console.error("Auto sign-in failed:", signInError);
+            setSubmitStatus({
+              type: "error",
+              message:
+                "Account created but sign in failed. Please try signing in manually.",
+            });
+            return;
+          }
+
+          console.log("✅ Urban Signup: Auto sign-in successful", signInData);
+
+          // Redirect to dashboard after successful sign-in
+          router.push(getHref("/dashboard"));
+        } catch (signInError) {
+          console.error("Sign-in error:", signInError);
           setSubmitStatus({
             type: "error",
-            message: result.error,
-            redirectTo: result.redirectTo,
+            message:
+              "Account created but sign in failed. Please try signing in manually.",
           });
+        }
+      } else {
+        // Handle API errors (like "Incorrect password. You already have an account.")
+        if (result.error) {
+          console.error("Signup error:", result.error);
+
+          // Check if it's the "already have account" error
+          if (result.error.includes("already have an account")) {
+            setSubmitStatus({
+              type: "error",
+              message: (
+                <div>
+                  <p className="mb-2">{result.error}</p>
+                  <Link
+                    href={getHref("/login")}
+                    className="text-blue-600 hover:text-blue-800 underline font-medium"
+                  >
+                    Click here to sign in instead
+                  </Link>
+                </div>
+              ),
+            });
+          } else {
+            setSubmitStatus({
+              type: "error",
+              message: result.error,
+            });
+          }
         } else {
           setSubmitStatus({
             type: "error",
-            message: result.error || "An error occurred during signup.",
+            message: "An error occurred during signup. Please try again.",
           });
         }
       }
@@ -208,12 +406,46 @@ export default function UrbanSignupPage({ websiteData }) {
       console.error("Signup error:", error);
       setSubmitStatus({
         type: "error",
-        message: "Network error. Please check your connection and try again.",
+        message: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading state while checking auth
+  if (authState.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <LoadingSpinner size="large" palette={palette} />
+      </div>
+    );
+  }
+
+  // Show error state if auth check failed
+  if (authState.error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Authentication Error
+          </h1>
+          <p className="text-gray-600 mb-4">{authState.error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render signup form if user is already signed up for this business
+  if (authState.isAuthenticated && authState.hasClientRecord) {
+    return null; // Will redirect via useEffect
+  }
 
   return (
     <>
@@ -247,7 +479,9 @@ export default function UrbanSignupPage({ websiteData }) {
                 }}
               >
                 <div className="w-2 h-2 rounded-full bg-white mr-2"></div>
-                Get Started
+                {authState.isAuthenticated && !authState.hasClientRecord
+                  ? "Complete Setup"
+                  : "Get Started"}
               </div>
 
               {/* Title */}
@@ -258,7 +492,9 @@ export default function UrbanSignupPage({ websiteData }) {
                   letterSpacing: "-0.025em",
                 }}
               >
-                Create your account
+                {authState.isAuthenticated && !authState.hasClientRecord
+                  ? "Complete your profile"
+                  : "Create your account"}
               </h1>
 
               {/* Description */}
@@ -269,8 +505,9 @@ export default function UrbanSignupPage({ websiteData }) {
                   fontWeight: 300,
                 }}
               >
-                Join thousands of businesses managing their services, customers,
-                and growth with our platform.
+                {authState.isAuthenticated && !authState.hasClientRecord
+                  ? `Welcome back ${authState.user?.email}! Let's complete your profile for ${businessName}.`
+                  : "Join thousands of businesses managing their services, customers, and growth with our platform."}
               </p>
             </div>
 
@@ -313,6 +550,27 @@ export default function UrbanSignupPage({ websiteData }) {
         {/* Right Column - Signup Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-12 contact-form-entrance">
           <div className="w-full max-w-lg">
+            {/* Submit Status Display */}
+            {submitStatus && (
+              <div
+                className={`mb-6 p-4 rounded-lg ${
+                  submitStatus.type === "error"
+                    ? "bg-red-50 border border-red-200"
+                    : "bg-green-50 border border-green-200"
+                }`}
+              >
+                <div
+                  className={`text-sm ${
+                    submitStatus.type === "error"
+                      ? "text-red-800"
+                      : "text-green-800"
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
@@ -426,17 +684,17 @@ export default function UrbanSignupPage({ websiteData }) {
                 >
                   Password <span className="text-red-500">*</span>
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
                     value={formData.password}
                     onChange={handleInputChange}
                     onBlur={handleFieldBlur}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
                     style={{
                       borderColor: "#d1d5db",
                       "--primary-color": palette?.primary || "#3b82f6",
@@ -446,6 +704,17 @@ export default function UrbanSignupPage({ websiteData }) {
                     }}
                     placeholder="Create a password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
                   {touchedFields.password && errors.password && (
                     <p className="text-red-500 text-xs mt-1">
                       {errors.password}
@@ -462,17 +731,17 @@ export default function UrbanSignupPage({ websiteData }) {
                 >
                   Confirm Password <span className="text-red-500">*</span>
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     onBlur={handleFieldBlur}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
                     style={{
                       borderColor: "#d1d5db",
                       "--primary-color": palette?.primary || "#3b82f6",
@@ -482,6 +751,17 @@ export default function UrbanSignupPage({ websiteData }) {
                     }}
                     placeholder="Confirm your password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
                   {touchedFields.confirmPassword && errors.confirmPassword && (
                     <p className="text-red-500 text-xs mt-1">
                       {errors.confirmPassword}
@@ -537,30 +817,19 @@ export default function UrbanSignupPage({ websiteData }) {
                     color: "white",
                   }}
                 >
-                  {isSubmitting ? "Creating account..." : "Create account"}
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center">
+                      <LoadingSpinner
+                        size="small"
+                        palette={{ primary: "white" }}
+                      />
+                    </div>
+                  ) : (
+                    "Create account"
+                  )}
                 </button>
               </div>
             </form>
-
-            {submitStatus && (
-              <div
-                className={`mt-6 p-4 rounded-lg text-center ${
-                  submitStatus.type === "success"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {submitStatus.message}
-                {submitStatus.redirectTo && (
-                  <Link
-                    href={submitStatus.redirectTo}
-                    className="ml-2 text-blue-600 hover:underline"
-                  >
-                    Click here to continue
-                  </Link>
-                )}
-              </div>
-            )}
 
             <div className="mt-6">
               <div className="relative">

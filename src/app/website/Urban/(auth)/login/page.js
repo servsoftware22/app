@@ -2,17 +2,36 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import AuthHeader from "../../components/AuthHeader";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import "../../urban.css";
 import "../../urban-animations.css";
 
 export default function UrbanLoginPage({ websiteData }) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
   const loginSectionRef = useRef(null);
 
-  const { business_info = {}, palette } = websiteData || {};
+  const { business_info = {}, palette, business } = websiteData || {};
   const businessName = business_info?.name || "Business";
+  const businessId = business || null;
+
+  // Auth state management
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    hasClientRecord: false,
+    user: null,
+    client: null,
+    isLoading: true,
+    error: null,
+  });
 
   // Helper function to convert hex color to RGB
   const getRGBFromHex = (hex) => {
@@ -27,32 +46,301 @@ export default function UrbanLoginPage({ websiteData }) {
     return "59, 130, 246"; // Default blue
   };
 
-  // Check if we're in local development (localhost:3000)
-  const [isLocalDev, setIsLocalDev] = useState(false);
-
-  useEffect(() => {
-    setIsLocalDev(window.location.host === "localhost:3000");
-  }, []);
-
-  // Add animation trigger when component mounts
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (loginSectionRef.current) {
-        loginSectionRef.current.classList.add("animate-in");
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Check if we're in local development (synchronous check)
+  const isLocalDev =
+    typeof window !== "undefined" && window.location.host === "localhost:3000";
 
   // Extract domain from websiteData
   const domain = websiteData?.domain?.subdomain || "fieldsite";
 
-  // Use baseUrl for local development, relative paths for production (same pattern as Header)
+  // Use baseUrl for local development, relative paths for production
   const baseUrl = isLocalDev ? `/website/${domain}` : "";
 
-  // Helper function to get the correct href (same pattern as Header)
+  // Helper function to get the correct href
   const getHref = (url) => (isLocalDev ? `${baseUrl}${url}` : url);
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      console.log("🔐 Urban Login: Starting auth check", { businessId });
+
+      if (!businessId) {
+        setAuthState({
+          isAuthenticated: false,
+          hasClientRecord: false,
+          user: null,
+          client: null,
+          isLoading: false,
+          error: "No business ID provided",
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/websites/auth-check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ businessId }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setAuthState({
+            isAuthenticated: result.isAuthenticated,
+            hasClientRecord: result.hasClientRecord,
+            user: result.user,
+            client: result.client,
+            isLoading: false,
+            error: null,
+          });
+
+          console.log("🔐 Urban Login: Auth check result", result);
+
+          // Handle redirects based on auth state
+          if (result.isAuthenticated && result.hasClientRecord) {
+            const dashboardUrl = getHref("/dashboard");
+            console.log(
+              "🚀 Urban Login: User already signed in, redirecting to dashboard",
+              {
+                dashboardUrl,
+                isLocalDev,
+                domain,
+                baseUrl,
+                currentLocation: window.location.href,
+                authResult: result,
+              }
+            );
+            router.push(dashboardUrl);
+          }
+        } else {
+          setAuthState({
+            isAuthenticated: false,
+            hasClientRecord: false,
+            user: null,
+            client: null,
+            isLoading: false,
+            error: result.error || "Failed to check authentication",
+          });
+        }
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+        setAuthState({
+          isAuthenticated: false,
+          hasClientRecord: false,
+          user: null,
+          client: null,
+          isLoading: false,
+          error: "Network error checking authentication",
+        });
+      }
+    };
+
+    checkAuthStatus();
+  }, [businessId, router]);
+
+  // Add animation trigger when component is ready (auth check complete and not loading)
+  useEffect(() => {
+    if (
+      !authState.isLoading &&
+      !authState.error &&
+      !(authState.isAuthenticated && authState.hasClientRecord)
+    ) {
+      const timer = setTimeout(() => {
+        if (loginSectionRef.current) {
+          loginSectionRef.current.classList.add("animate-in");
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    authState.isLoading,
+    authState.error,
+    authState.isAuthenticated,
+    authState.hasClientRecord,
+  ]);
+
+  // Fallback animation trigger - if auth check takes too long, trigger animations anyway
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => {
+      if (
+        loginSectionRef.current &&
+        !loginSectionRef.current.classList.contains("animate-in")
+      ) {
+        loginSectionRef.current.classList.add("animate-in");
+      }
+    }, 3000); // 3 second fallback
+    return () => clearTimeout(fallbackTimer);
+  }, []);
+
+  // Form submission handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password || !businessId) {
+      setSubmitStatus({
+        type: "error",
+        message: "Please fill in all required fields.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // Check if user is currently authenticated but trying to use different credentials
+    if (authState.isAuthenticated && authState.user) {
+      const currentUserEmail = authState.user.email;
+      const newUserEmail = email.toLowerCase();
+
+      if (currentUserEmail !== newUserEmail) {
+        // User is authenticated but trying to login with different email
+        // Log them out first, then proceed with login
+        try {
+          console.log(
+            "🔄 Urban Login: User authenticated with different email, logging out first",
+            {
+              currentEmail: currentUserEmail,
+              newEmail: newUserEmail,
+            }
+          );
+
+          await supabase.auth.signOut();
+
+          // Update auth state to reflect logout
+          setAuthState({
+            isAuthenticated: false,
+            hasClientRecord: false,
+            user: null,
+            client: null,
+            isLoading: false,
+            error: null,
+          });
+
+          console.log(
+            "✅ Urban Login: Successfully logged out, proceeding with new login"
+          );
+        } catch (signOutError) {
+          console.error("Error signing out:", signOutError);
+          setSubmitStatus({
+            type: "error",
+            message: "Error switching accounts. Please try again.",
+          });
+          setIsSubmitting(false);
+          return;
+        }
+      }
+    }
+
+    try {
+      const response = await fetch("/api/websites/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          businessId,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("✅ Urban Login: Form submission successful", result);
+
+        // Now sign in the user client-side to establish the session
+        try {
+          const { data: signInData, error: signInError } =
+            await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+
+          if (signInError) {
+            console.error("Auto sign-in failed:", signInError);
+            setSubmitStatus({
+              type: "error",
+              message:
+                "Login successful but sign in failed. Please try signing in manually.",
+            });
+            return;
+          }
+
+          console.log("✅ Urban Login: Auto sign-in successful", signInData);
+
+          // Redirect to dashboard after successful sign-in
+          router.push(getHref("/dashboard"));
+        } catch (signInError) {
+          console.error("Sign-in error:", signInError);
+          setSubmitStatus({
+            type: "error",
+            message:
+              "Login successful but sign in failed. Please try signing in manually.",
+          });
+        }
+      } else {
+        // Handle API errors
+        if (result.error) {
+          console.error("Login error:", result.error);
+          setSubmitStatus({
+            type: "error",
+            message: result.error,
+          });
+        } else {
+          setSubmitStatus({
+            type: "error",
+            message: "An error occurred during login. Please try again.",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "An unexpected error occurred. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Show loading state while checking auth
+  if (authState.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <LoadingSpinner size="large" palette={palette} />
+      </div>
+    );
+  }
+
+  // Show error state if auth check failed
+  if (authState.error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Authentication Error
+          </h1>
+          <p className="text-gray-600 mb-4">{authState.error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render login form if user is already signed in for this business
+  if (authState.isAuthenticated && authState.hasClientRecord) {
+    return null; // Will redirect via useEffect
+  }
 
   return (
     <>
@@ -152,7 +440,28 @@ export default function UrbanLoginPage({ websiteData }) {
         {/* Right Column - Login Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-12 contact-form-entrance">
           <div className="w-full max-w-lg">
-            <form className="space-y-6">
+            {/* Submit Status Display */}
+            {submitStatus && (
+              <div
+                className={`mb-6 p-4 rounded-lg ${
+                  submitStatus.type === "error"
+                    ? "bg-red-50 border border-red-200"
+                    : "bg-green-50 border border-green-200"
+                }`}
+              >
+                <div
+                  className={`text-sm ${
+                    submitStatus.type === "error"
+                      ? "text-red-800"
+                      : "text-green-800"
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -191,16 +500,16 @@ export default function UrbanLoginPage({ websiteData }) {
                 >
                   Password <span className="text-red-500">*</span>
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none transition-all duration-200"
                     style={{
                       borderColor: "#d1d5db",
                       "--primary-color": palette?.primary || "#3b82f6",
@@ -210,6 +519,17 @@ export default function UrbanLoginPage({ websiteData }) {
                     }}
                     placeholder="Enter your password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -242,13 +562,14 @@ export default function UrbanLoginPage({ websiteData }) {
               <div>
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 rounded-lg text-base font-medium transition-all duration-200"
+                  disabled={isSubmitting}
+                  className="w-full px-6 py-3 rounded-lg text-base font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     backgroundColor: palette?.primary || "#3b82f6",
                     color: "white",
                   }}
                 >
-                  Sign in
+                  {isSubmitting ? "Signing In..." : "Sign in"}
                 </button>
               </div>
             </form>

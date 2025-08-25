@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, ArrowRight, AlertCircle } from "lucide-react";
@@ -11,14 +11,24 @@ import AuthFooter from "../components/AuthFooter";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
+  const [needsProfile, setNeedsProfile] = useState(false);
 
   const router = useRouter();
   const { signIn } = useAuth();
+
+  // Check for client data when email is available
+  useEffect(() => {
+    if (email.trim() && isValidEmail(email)) {
+      checkForClientData(email);
+    }
+  }, [email]);
 
   // Custom checkbox functionality
   const handleCheckboxChange = (e) => {
@@ -38,6 +48,17 @@ export default function LoginPage() {
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const isValidPhone = (phone) => {
+    const cleanPhone = phone?.replace(/[\s\-\(\)\.]/g, "");
+    return (
+      phone &&
+      cleanPhone &&
+      cleanPhone.length >= 10 &&
+      cleanPhone.length <= 11 &&
+      /^\d+$/.test(cleanPhone)
+    );
   };
 
   const validateField = (field, value) => {
@@ -61,6 +82,24 @@ export default function LoginPage() {
       }
     }
 
+    if (field === "fullName") {
+      if (!value.trim()) {
+        errors.fullName = "Full name is required";
+      } else {
+        delete errors.fullName;
+      }
+    }
+
+    if (field === "phone") {
+      if (!value.trim()) {
+        errors.phone = "Phone number is required";
+      } else if (!isValidPhone(value)) {
+        errors.phone = "Please enter a valid US phone number (10-11 digits)";
+      } else {
+        delete errors.phone;
+      }
+    }
+
     setFieldErrors(errors);
   };
 
@@ -80,9 +119,20 @@ export default function LoginPage() {
     }
   };
 
-  const handleEmailBlur = () => {
-    setTouchedFields((prev) => ({ ...prev, email: true }));
-    validateField("email", email);
+  const handleFullNameChange = (e) => {
+    const value = e.target.value;
+    setFullName(value);
+    if (touchedFields.fullName) {
+      validateField("fullName", value);
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    setPhone(value);
+    if (touchedFields.phone) {
+      validateField("phone", value);
+    }
   };
 
   const handlePasswordBlur = () => {
@@ -90,7 +140,29 @@ export default function LoginPage() {
     validateField("password", password);
   };
 
+  const handleFullNameBlur = () => {
+    setTouchedFields((prev) => ({ ...prev, fullName: true }));
+    validateField("fullName", fullName);
+  };
+
+  const handlePhoneBlur = () => {
+    setTouchedFields((prev) => ({ ...prev, phone: true }));
+    validateField("phone", phone);
+  };
+
   const isFormValid = () => {
+    if (needsProfile) {
+      return (
+        email.trim() !== "" &&
+        isValidEmail(email) &&
+        password.trim() !== "" &&
+        fullName.trim() !== "" &&
+        phone.trim() !== "" &&
+        isValidPhone(phone) &&
+        Object.keys(fieldErrors).length === 0
+      );
+    }
+
     return (
       email.trim() !== "" &&
       isValidEmail(email) &&
@@ -110,19 +182,84 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const { data, error } = await signIn(email, password);
+      // Call our login API route
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          fullName: needsProfile ? fullName : undefined,
+          phone: needsProfile ? phone : undefined,
+        }),
+      });
 
-      if (error) {
-        throw error;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
       }
 
-      if (data?.user) {
+      if (data.userCreated) {
+        // User profile was created, redirect to dashboard
+        console.log(
+          "User profile created during login, redirecting to dashboard"
+        );
+        router.push("/dashboard");
+      } else {
+        // Normal login successful, redirect to dashboard
+        console.log("Normal login successful, redirecting to dashboard");
         router.push("/dashboard");
       }
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEmailBlur = () => {
+    setTouchedFields((prev) => ({ ...prev, email: true }));
+    validateField("email", email);
+
+    // Check if this email might need a profile and look for client data
+    if (email.trim() && isValidEmail(email)) {
+      checkForClientData(email);
+    }
+  };
+
+  // Function to check if user might have client data and pre-fill form
+  const checkForClientData = async (email) => {
+    if (!email.trim() || !isValidEmail(email)) return;
+
+    try {
+      // Check if there's client data for this email
+      const response = await fetch("/api/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.toLowerCase(),
+        }),
+      });
+
+      if (response.ok) {
+        const clientData = await response.json();
+        if (clientData.client) {
+          // Found client data, pre-fill the form
+          console.log("Found existing client data, pre-filling form");
+          setFullName(clientData.client.name || "");
+          setPhone(clientData.client.phone || "");
+          setNeedsProfile(true);
+        }
+      }
+    } catch (error) {
+      console.log("Could not check for client data:", error);
+      // Fallback to showing profile fields
+      setNeedsProfile(true);
     }
   };
 
@@ -135,9 +272,13 @@ export default function LoginPage() {
         <div className="w-full lg:w-1/2 bg-white flex items-center justify-center p-8 pt-20 pb-20">
           <div className="w-full max-w-md">
             {/* Title */}
-            <h1 className="text-3xl font-bold text-[#191C27] mb-2">Login</h1>
+            <h1 className="text-3xl font-bold text-[#191C27] mb-2">
+              {needsProfile ? "Complete Your Profile" : "Login"}
+            </h1>
             <p className="text-[#848D6F] mb-8">
-              Welcome back! Sign in to your account.
+              {needsProfile
+                ? "Please provide your information to complete your account setup."
+                : "Welcome back! Sign in to your account."}
             </p>
 
             {/* Form */}
@@ -194,6 +335,51 @@ export default function LoginPage() {
                   </p>
                 )}
               </div>
+
+              {/* Profile fields - shown when user needs to complete profile */}
+              {needsProfile && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-[#191C27] mb-1">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      onChange={handleFullNameChange}
+                      onBlur={handleFullNameBlur}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#FF5E00] focus:border-transparent"
+                      placeholder="Enter your full name"
+                      required
+                    />
+                    {fieldErrors.fullName && (
+                      <p className="text-xs text-red-500 mt-1">
+                        {fieldErrors.fullName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-[#191C27] mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={handlePhoneChange}
+                      onBlur={handlePhoneBlur}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#FF5E00] focus:border-transparent"
+                      placeholder="Enter your phone number"
+                      required
+                    />
+                    {fieldErrors.phone && (
+                      <p className="text-xs text-red-500 mt-1">
+                        {fieldErrors.phone}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -252,11 +438,11 @@ export default function LoginPage() {
                 {loading ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                    Signing in...
+                    {needsProfile ? "Creating profile..." : "Signing in..."}
                   </>
                 ) : (
                   <>
-                    Login
+                    {needsProfile ? "Complete Profile & Login" : "Login"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}

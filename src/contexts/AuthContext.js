@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     // Get initial session
@@ -27,6 +29,11 @@ export const AuthProvider = ({ children }) => {
         } = await supabase.auth.getSession();
         setSession(initialSession);
         setUser(initialSession?.user ?? null);
+
+        // If we have a user, check their users table row
+        if (initialSession?.user) {
+          await checkUserData(initialSession.user);
+        }
       } catch (error) {
         console.log("No initial session found");
       } finally {
@@ -43,6 +50,16 @@ export const AuthProvider = ({ children }) => {
       console.log("Auth state changed:", event, session?.user?.id);
       setSession(session);
       setUser(session?.user ?? null);
+
+      // If we have a user, check their users table row
+      if (session?.user) {
+        await checkUserData(session.user);
+      } else {
+        // User signed out, clear user data
+        setUserData(null);
+        setIsOwner(false);
+      }
+
       setLoading(false);
     });
 
@@ -120,14 +137,76 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const checkUserData = async (authUser) => {
+    try {
+      console.log(
+        "Checking user data for authenticated user:",
+        authUser.id,
+        authUser.email
+      );
+
+      // Get user data from users table
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", authUser.id)
+        .single();
+
+      if (userError) {
+        if (userError.code === "PGRST116") {
+          // No user record found
+          console.log(
+            "User authenticated but NO users table row found for:",
+            authUser.id,
+            authUser.email
+          );
+          setUserData(null);
+          setIsOwner(false);
+        } else {
+          // Other database error
+          console.error("Error checking users table:", userError);
+          setUserData(null);
+          setIsOwner(false);
+        }
+        return;
+      }
+
+      // User record found
+      console.log("User authenticated and users table row found:", {
+        userId: authUser.id,
+        email: authUser.email,
+        userData: userData,
+      });
+
+      setUserData(userData);
+
+      // Check if user has owner role
+      const isOwnerRole = userData?.type?.role === "owner";
+      setIsOwner(isOwnerRole);
+
+      if (isOwnerRole) {
+        console.log("User has owner role");
+      } else {
+        console.log("User does not have owner role, type:", userData?.type);
+      }
+    } catch (error) {
+      console.error("Error in checkUserData:", error);
+      setUserData(null);
+      setIsOwner(false);
+    }
+  };
+
   const value = {
     user,
     session,
     loading,
+    userData,
+    isOwner,
     signUp,
     signIn,
     signOut,
     getCurrentUser,
+    checkUserData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

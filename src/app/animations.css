@@ -83,3 +83,69 @@
   transition: all 300ms ease;
   will-change: opacity, max-height, transform;
 }
+
+/* Header scroll animations */
+@keyframes header-fade-in {
+  0% {
+    background-color: transparent;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    background-color: var(--neutral);
+    backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes header-fade-out {
+  0% {
+    background-color: var(--neutral);
+    backdrop-filter: blur(10px);
+  }
+  100% {
+    background-color: transparent;
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Header animation classes */
+.header-scrolled {
+  animation: header-fade-in 300ms ease forwards;
+  background-color: var(--neutral);
+  backdrop-filter: blur(10px);
+}
+
+.header-transparent {
+  animation: header-fade-out 300ms ease forwards;
+  background-color: transparent;
+  backdrop-filter: blur(0px);
+}
+
+/* Banner scroll animations */
+@keyframes banner-fade-in {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: var(--secondary);
+  }
+}
+
+@keyframes banner-fade-out {
+  0% {
+    background-color: var(--secondary);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* Banner animation classes */
+.banner-scrolled {
+  animation: banner-fade-in 300ms ease forwards;
+  background-color: var(--secondary);
+}
+
+.banner-transparent {
+  animation: banner-fade-out 300ms ease forwards;
+  background-color: transparent;
+}
