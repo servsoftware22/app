@@ -292,7 +292,9 @@ export default function MarketingLayout({ children }) {
 
       {/* Navigation */}
       <nav
-        className="sticky top-0 z-[60] font-fustat transition-all duration-300"
+        className={`sticky top-0 z-[60] font-fustat transition-all duration-300 ${
+          isMobileMenuOpen ? "mobile-menu-open" : ""
+        }`}
         style={{
           backgroundColor:
             isMobileMenuOpen || isScrolled ? "var(--neutral)" : "transparent",
@@ -300,7 +302,7 @@ export default function MarketingLayout({ children }) {
             isMobileMenuOpen || isScrolled ? "blur(10px)" : "blur(0px)",
         }}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-6 lg:px-8">
           <div className="flex items-center h-18">
             {/* Left: Logo and Navigation */}
             <div className="flex items-center space-x-8">
@@ -848,6 +850,25 @@ export default function MarketingLayout({ children }) {
 
             {/* Mobile menu button */}
             <div className="lg:hidden flex items-center space-x-2 ml-auto">
+              {/* Auth buttons visible from 600px to 1024px */}
+              <div className="hidden sm:flex items-center space-x-4 mr-4">
+                <Link
+                  href="/auth/login"
+                  className="inline-flex items-center justify-center py-2.5 text-[#191C27] font-semibold text-sm transition-colors schedule-call-button"
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <span className="schedule-call-text">Login</span>
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="inline-flex items-center justify-center px-4 py-2.5 bg-[var(--primary)] hover:bg-[#FF7A33] text-white font-semibold rounded-lg text-sm transition-colors lotto-button"
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <span className="lotto-button-text">Start for free</span>
+                  <ArrowRight className="lotto-button-arrow ml-2 h-3 w-3 transform -rotate-45" />
+                </Link>
+              </div>
+
               <button
                 onClick={() => {
                   console.log(
@@ -871,201 +892,209 @@ export default function MarketingLayout({ children }) {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu - Right Sidebar */}
         <div className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}>
           <div className="mobile-menu-content">
-            {/* CTA Buttons */}
-            <div className="mobile-menu-cta">
-              <Link
-                href="/auth/login"
-                className="mobile-menu-login-button"
-                onClick={() => setIsMobileMenuOpen(false)}
+            <div className="mobile-menu-sections">
+              <div
+                className={`mobile-menu-section ${
+                  openDropdown === "products" ? "open" : ""
+                }`}
+                onClick={() =>
+                  setOpenDropdown(
+                    openDropdown === "products" ? null : "products"
+                  )
+                }
               >
-                <span className="schedule-call-text">Login</span>
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="mobile-menu-start-button"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <span className="lotto-button-text">Start for free</span>
-                <ArrowRight className="lotto-button-arrow ml-2 h-4 w-4 transform -rotate-45" />
-              </Link>
-            </div>
-
-            <div
-              className={`mobile-menu-section ${
-                openDropdown === "products" ? "open" : ""
-              }`}
-              onClick={() =>
-                setOpenDropdown(openDropdown === "products" ? null : "products")
-              }
-            >
-              <div className="mobile-menu-section-header">
-                <h4 className="mobile-menu-section-title">Products</h4>
-                <ChevronDown className="mobile-menu-section-arrow" size={20} />
-              </div>
-              <div className="mobile-menu-links">
-                {solutionsItems.map((item) => (
+                <div className="mobile-menu-section-header">
+                  <h4 className="mobile-menu-section-title">Products</h4>
+                  <ChevronDown
+                    className="mobile-menu-section-arrow"
+                    size={20}
+                  />
+                </div>
+                <div className="mobile-menu-links">
+                  {solutionsItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="mobile-menu-link"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <div className="mobile-menu-link-icon">{item.icon}</div>
+                      <span className="mobile-menu-link-text">{item.name}</span>
+                    </Link>
+                  ))}
                   <Link
-                    key={item.name}
-                    href={item.href}
+                    href="/solutions/finance"
                     className="mobile-menu-link"
-                    style={{ padding: "0rem 1rem" }}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <div className="mobile-menu-link-icon">{item.icon}</div>
-                    <span className="mobile-menu-link-text">{item.name}</span>
+                    <div className="mobile-menu-link-icon">
+                      <CreditCard className="h-5 w-5" />
+                    </div>
+                    <span className="mobile-menu-link-text">Finance</span>
                   </Link>
-                ))}
-                <Link
-                  href="/solutions/finance"
-                  className="mobile-menu-link"
-                  style={{ padding: "0rem 1rem" }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <div className="mobile-menu-link-icon">
-                    <CreditCard className="h-5 w-5" />
-                  </div>
-                  <span className="mobile-menu-link-text">Finance</span>
-                </Link>
-                <Link
-                  href="/solutions/training"
-                  className="mobile-menu-link"
-                  style={{ padding: "0rem 1rem" }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <div className="mobile-menu-link-icon">
-                    <BookOpen className="h-5 w-5" />
-                  </div>
-                  <span className="mobile-menu-link-text">Training</span>
-                </Link>
-                <Link
-                  href="/solutions/compliance"
-                  className="mobile-menu-link"
-                  style={{ padding: "0rem 1rem" }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <div className="mobile-menu-link-icon">
-                    <Shield className="h-5 w-5" />
-                  </div>
-                  <span className="mobile-menu-link-text">Compliance</span>
-                </Link>
-                <Link
-                  href="/solutions/growth"
-                  className="mobile-menu-link"
-                  style={{ padding: "0rem 1rem" }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <div className="mobile-menu-link-icon">
-                    <TrendingUp className="h-5 w-5" />
-                  </div>
-                  <span className="mobile-menu-link-text">Growth</span>
-                </Link>
-              </div>
-            </div>
-
-            <div
-              className={`mobile-menu-section ${
-                openDropdown === "industries" ? "open" : ""
-              }`}
-              onClick={() =>
-                setOpenDropdown(
-                  openDropdown === "industries" ? null : "industries"
-                )
-              }
-            >
-              <div className="mobile-menu-section-header">
-                <h4 className="mobile-menu-section-title">Industries</h4>
-                <ChevronDown className="mobile-menu-section-arrow" size={20} />
-              </div>
-              <div className="mobile-menu-links">
-                {industriesItems.map((item) => (
                   <Link
-                    key={item.name}
-                    href={item.href}
+                    href="/solutions/training"
                     className="mobile-menu-link"
-                    style={{ padding: "0rem 1rem" }}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <div className="mobile-menu-link-icon">{item.icon}</div>
-                    <span className="mobile-menu-link-text">{item.name}</span>
+                    <div className="mobile-menu-link-icon">
+                      <BookOpen className="h-5 w-5" />
+                    </div>
+                    <span className="mobile-menu-link-text">Training</span>
                   </Link>
-                ))}
-              </div>
-            </div>
-
-            <div
-              className={`mobile-menu-section ${
-                openDropdown === "features" ? "open" : ""
-              }`}
-              onClick={() =>
-                setOpenDropdown(openDropdown === "features" ? null : "features")
-              }
-            >
-              <div className="mobile-menu-section-header">
-                <h4 className="mobile-menu-section-title">Features</h4>
-                <ChevronDown className="mobile-menu-section-arrow" size={20} />
-              </div>
-              <div className="mobile-menu-links">
-                {featuresItems.map((item) => (
                   <Link
-                    key={item.name}
-                    href={item.href}
+                    href="/solutions/compliance"
                     className="mobile-menu-link"
-                    style={{ padding: "0rem 1rem" }}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <div className="mobile-menu-link-icon">{item.icon}</div>
-                    <span className="mobile-menu-link-text">{item.name}</span>
+                    <div className="mobile-menu-link-icon">
+                      <Shield className="h-5 w-5" />
+                    </div>
+                    <span className="mobile-menu-link-text">Compliance</span>
                   </Link>
-                ))}
+                  <Link
+                    href="/solutions/growth"
+                    className="mobile-menu-link"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="mobile-menu-link-icon">
+                      <TrendingUp className="h-5 w-5" />
+                    </div>
+                    <span className="mobile-menu-link-text">Growth</span>
+                  </Link>
+                </div>
               </div>
-            </div>
 
-            <Link
-              href="/pricing"
-              className="mobile-menu-pricing"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <span>Pricing</span>
-              <ArrowRight className="mobile-menu-pricing-arrow" />
-            </Link>
+              <div
+                className={`mobile-menu-section ${
+                  openDropdown === "industries" ? "open" : ""
+                }`}
+                onClick={() =>
+                  setOpenDropdown(
+                    openDropdown === "industries" ? null : "industries"
+                  )
+                }
+              >
+                <div className="mobile-menu-section-header">
+                  <h4 className="mobile-menu-section-title">Industries</h4>
+                  <ChevronDown
+                    className="mobile-menu-section-arrow"
+                    size={20}
+                  />
+                </div>
+                <div className="mobile-menu-links">
+                  {industriesItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="mobile-menu-link"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <div className="mobile-menu-link-icon">{item.icon}</div>
+                      <span className="mobile-menu-link-text">{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
 
-            {/* Bottom Links */}
-            <div className="mobile-menu-bottom-links">
+              <div
+                className={`mobile-menu-section ${
+                  openDropdown === "features" ? "open" : ""
+                }`}
+                onClick={() =>
+                  setOpenDropdown(
+                    openDropdown === "features" ? null : "features"
+                  )
+                }
+              >
+                <div className="mobile-menu-section-header">
+                  <h4 className="mobile-menu-section-title">Features</h4>
+                  <ChevronDown
+                    className="mobile-menu-section-arrow"
+                    size={20}
+                  />
+                </div>
+                <div className="mobile-menu-links">
+                  {featuresItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="mobile-menu-link"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <div className="mobile-menu-link-icon">{item.icon}</div>
+                      <span className="mobile-menu-link-text">{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
               <Link
-                href="/how-it-works"
-                className="mobile-menu-bottom-link"
+                href="/pricing"
+                className="mobile-menu-pricing"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                How It Works
-                <ArrowRight className="mobile-menu-bottom-link-arrow" />
+                <span>Pricing</span>
+                <ArrowRight className="mobile-menu-pricing-arrow" />
               </Link>
-              <Link
-                href="/blog"
-                className="mobile-menu-bottom-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Blog
-                <ArrowRight className="mobile-menu-bottom-link-arrow" />
-              </Link>
-              <Link
-                href="/about"
-                className="mobile-menu-bottom-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About
-                <ArrowRight className="mobile-menu-bottom-link-arrow" />
-              </Link>
-              <Link
-                href="/contact"
-                className="mobile-menu-bottom-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact
-                <ArrowRight className="mobile-menu-bottom-link-arrow" />
-              </Link>
+
+              {/* Bottom Links */}
+              <div className="mobile-menu-bottom-links">
+                <Link
+                  href="/how-it-works"
+                  className="mobile-menu-bottom-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  How It Works
+                  <ArrowRight className="mobile-menu-bottom-link-arrow" />
+                </Link>
+                <Link
+                  href="/blog"
+                  className="mobile-menu-bottom-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                  <ArrowRight className="mobile-menu-bottom-link-arrow" />
+                </Link>
+                <Link
+                  href="/about"
+                  className="mobile-menu-bottom-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                  <ArrowRight className="mobile-menu-bottom-link-arrow" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="mobile-menu-bottom-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                  <ArrowRight className="mobile-menu-bottom-link-arrow" />
+                </Link>
+              </div>
+
+              {/* CTA Buttons - At the bottom */}
+              <div className="mobile-menu-cta">
+                <Link
+                  href="/auth/login"
+                  className="mobile-menu-login-button"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="schedule-call-text">Login</span>
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="mobile-menu-start-button"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="lotto-button-text">Start for free</span>
+                  <ArrowRight className="lotto-button-arrow ml-2 h-4 w-4 transform -rotate-45" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
