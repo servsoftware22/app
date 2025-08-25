@@ -38,6 +38,8 @@ export default function RootLayout({ children }) {
           sizes="180x180"
           href="/logos/ToolpageFavicon.png"
         />
+
+        {/* Font preloading for marketing pages only */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -45,11 +47,26 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@300;400;500;600;700&family=Playfair+Display:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+          media="print"
+          onLoad="this.media='all'"
+        />
+
+        {/* Fallback font loading */}
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
       </head>
-      <body className="font-sans">
+      <body>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
