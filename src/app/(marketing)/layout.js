@@ -252,7 +252,7 @@ export default function MarketingLayout({ children }) {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" data-marketing-layout="true">
       {/* Top Banner - Zapier Style */}
       {isBannerVisible && (
         <div
@@ -292,12 +292,12 @@ export default function MarketingLayout({ children }) {
 
       {/* Navigation */}
       <nav
-        className={`sticky top-0 z-[60] font-fustat transition-all duration-300 ${
-          isScrolled ? "header-scrolled" : "header-transparent"
-        }`}
+        className="sticky top-0 z-[60] font-fustat transition-all duration-300"
         style={{
-          backgroundColor: isScrolled ? "var(--neutral)" : "transparent",
-          backdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
+          backgroundColor:
+            isMobileMenuOpen || isScrolled ? "var(--neutral)" : "transparent",
+          backdropFilter:
+            isMobileMenuOpen || isScrolled ? "blur(10px)" : "blur(0px)",
         }}
       >
         <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -318,7 +318,7 @@ export default function MarketingLayout({ children }) {
                 <span
                   className="ml-2 text-2xl font-semibold"
                   style={{
-                    fontFamily: "Fustat, sans-serif",
+                    fontFamily: "var(--font-fustat)",
                     color: "var(--text-dark)",
                   }}
                 >

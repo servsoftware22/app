@@ -1,6 +1,44 @@
 import "./globals.css";
 import "./animations.css";
 import { AuthProvider } from "@/contexts/AuthContext";
+import localFont from "next/font/local";
+
+// Load Fustat font locally for better performance
+const fustat = localFont({
+  src: [
+    {
+      path: "../fonts/Fustat-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/Fustat-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/Fustat-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/Fustat-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-fustat",
+  fallback: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+  ],
+});
 
 export const metadata = {
   title: "ToolPage - Professional Service Management Platform",
@@ -18,7 +56,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={fustat.variable}>
       <head>
         <link
           rel="icon"
@@ -39,7 +77,7 @@ export default function RootLayout({ children }) {
           href="/logos/ToolpageFavicon.png"
         />
 
-        {/* Font preloading for marketing pages only */}
+        {/* Google Fonts fallback for better reliability */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -47,24 +85,9 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
         <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
-        />
-        <link
           href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
           rel="stylesheet"
-          media="print"
-          onLoad="this.media='all'"
         />
-
-        {/* Fallback font loading */}
-        <noscript>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-          />
-        </noscript>
       </head>
       <body>
         <AuthProvider>{children}</AuthProvider>

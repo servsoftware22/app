@@ -1,52 +1,9 @@
-/* Font Loading Optimization for Mobile */
-/* Ensure font is applied even during loading */
-@font-face {
-  font-family: "Fustat";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local("Fustat"),
-    url("https://fonts.gstatic.com/s/fustat/v1/Fustat-Regular.woff2")
-      format("woff2");
-}
-
-@font-face {
-  font-family: "Fustat";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: local("Fustat"),
-    url("https://fonts.gstatic.com/s/fustat/v1/Fustat-Medium.woff2")
-      format("woff2");
-}
-
-@font-face {
-  font-family: "Fustat";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local("Fustat"),
-    url("https://fonts.gstatic.com/s/fustat/v1/Fustat-SemiBold.woff2")
-      format("woff2");
-}
-
-@font-face {
-  font-family: "Fustat";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local("Fustat"),
-    url("https://fonts.gstatic.com/s/fustat/v1/Fustat-Bold.woff2")
-      format("woff2");
-}
-
 /* Marketing Layout Font Application */
 /* Apply Fustat font to all elements within the marketing layout */
 [data-marketing-layout="true"] *,
 .marketing-layout *,
 [class*="marketing-"] * {
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif !important;
+  font-family: var(--font-fustat) !important;
 }
 
 /* Ensure specific elements have the font */
@@ -68,15 +25,25 @@ label,
 li,
 td,
 th {
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
+}
+
+/* Marketing layout specific font application */
+.marketing-layout,
+[data-marketing-layout="true"] {
+  font-family: var(--font-fustat) !important;
+}
+
+/* Ensure immediate font application for marketing elements */
+.marketing-layout *,
+[data-marketing-layout="true"] * {
+  font-family: var(--font-fustat) !important;
 }
 
 /* Hero Button Hover Effects */
 .lotto-button {
   transition: all 0.3s ease;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .lotto-button:hover {
@@ -116,8 +83,7 @@ th {
 /* Schedule Call Button Styles */
 .schedule-call-button {
   background: transparent;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .schedule-call-button:hover {
@@ -128,8 +94,7 @@ th {
   position: relative;
   display: inline-block;
   line-height: 1.4;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .schedule-call-text::after {
@@ -190,8 +155,7 @@ th {
   padding-bottom: 6rem;
   gap: 3rem;
   z-index: 100;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 @media (max-width: 1279px) {
@@ -1057,8 +1021,7 @@ th {
   z-index: 50;
   transition: all 0.3s ease-in-out;
   overflow-y: auto;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 
   opacity: 0;
   pointer-events: none;
@@ -1087,8 +1050,7 @@ th {
   margin: 0 auto;
   box-sizing: border-box;
   min-width: 100%;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-section {
@@ -1099,8 +1061,7 @@ th {
   transition: all 0.3s ease;
   width: 100%;
   box-sizing: border-box;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-section-header {
@@ -1111,8 +1072,7 @@ th {
   padding: 0.5rem 1rem;
   width: 100%;
   box-sizing: border-box;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-section-title {
@@ -1125,8 +1085,7 @@ th {
   position: relative;
   display: inline-block;
   line-height: 1.4;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-section-title::after {
@@ -1162,8 +1121,7 @@ th {
   transition: all 0.3s ease;
   align-items: flex-start;
   padding: 0;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 .mobile-menu-section.open .mobile-menu-links {
   padding: 0.5rem 0.5rem 1rem 0.5rem;
@@ -1188,15 +1146,13 @@ th {
   justify-content: flex-start;
   width: fit-content;
   white-space: nowrap;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 /* More specific selector to override any conflicts */
 .mobile-menu .mobile-menu-links .mobile-menu-link {
   padding: 0.5rem 1.25rem !important;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 .mobile-menu-link:hover {
   background-color: var(--neutral-dark);
@@ -1219,8 +1175,7 @@ th {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-dark);
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-bottom-links {
@@ -1230,8 +1185,7 @@ th {
   gap: 0.5rem;
   margin-top: 0;
   padding: 0;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-bottom-link {
@@ -1246,8 +1200,7 @@ th {
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   background-color: var(--neutral-dark);
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-bottom-link:hover {
@@ -1288,8 +1241,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-pricing-arrow {
@@ -1302,8 +1254,7 @@ th {
 .mobile-menu-cta {
   display: flex;
   gap: 1rem;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-start-button {
@@ -1319,8 +1270,7 @@ th {
   font-size: 1rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-start-button:hover {
@@ -1348,8 +1298,7 @@ th {
   transition: all 0.3s ease;
   background-color: var(--neutral-dark);
   border-radius: 0.5rem;
-  font-family: "Fustat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-fustat);
 }
 
 .mobile-menu-login-button:hover {
