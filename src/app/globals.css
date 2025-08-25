@@ -7,14 +7,17 @@
   --neutral-dark: #e9e9e9;
   --text-dark: #131313;
   --text-medium: #313131;
+  --background: #f6f6f6;
+  --foreground: #131313;
   --font-fustat: "Fustat", var(--font-fustat), -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Font loading optimization */
-/* Prevent font flashing and ensure immediate application */
-html {
-  font-family: var(--font-fustat);
+/* Global layout constraints to prevent horizontal scrolling */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -25,6 +28,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-family: var(--font-fustat);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all content is constrained */
+#__next,
+[data-nextjs-page],
+main,
+.container,
+.wrapper {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Ensure all elements inherit the font */
@@ -54,12 +71,6 @@ html::-webkit-scrollbar {
 /* Show scrollbar on hover */
 html:hover::-webkit-scrollbar {
   display: block;
-}
-
-/* Smooth transitions */
-* {
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease;
 }
 
 /* Fustat font class for header */

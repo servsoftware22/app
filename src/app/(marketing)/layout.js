@@ -35,8 +35,14 @@ export default function MarketingLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  console.log(
+    "Current state - isScrolled:",
+    isScrolled,
+    "isMobileMenuOpen:",
+    isMobileMenuOpen
+  );
 
   const dropdownRef = useRef(null);
 
@@ -58,8 +64,21 @@ export default function MarketingLayout({ children }) {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 100);
+      const newIsScrolled = scrollTop > 100;
+      console.log("Scroll position:", scrollTop, "isScrolled:", newIsScrolled);
+      setIsScrolled(newIsScrolled);
     };
+
+    // Check initial scroll position
+    const initialScrollTop = window.scrollY;
+    const initialIsScrolled = initialScrollTop > 100;
+    console.log(
+      "Initial scroll position:",
+      initialScrollTop,
+      "initial isScrolled:",
+      initialIsScrolled
+    );
+    setIsScrolled(initialIsScrolled);
 
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -252,54 +271,25 @@ export default function MarketingLayout({ children }) {
   };
 
   return (
-    <div className="min-h-screen" data-marketing-layout="true">
-      {/* Top Banner - Zapier Style */}
-      {isBannerVisible && (
-        <div
-          className="py-2 px-4 relative font-fustat transition-all duration-300 text-white z-30 hidden md:block"
-          style={{ backgroundColor: "var(--secondary)" }}
-        >
-          <div className="w-full flex items-center justify-between">
-            <Link
-              href="/auth/signup"
-              className="flex items-center space-x-2 transition-colors cursor-pointer"
-            >
-              <span className="text-sm font-normal text-link-underline">
-                ⚡ The all-in-one platform for service professionals. Start your
-                free trial today
-              </span>
-              <ArrowRight className="h-4 w-4 transform -rotate-45 transition-transform duration-300" />
-            </Link>
-            <div className="flex items-center space-x-6">
-              <div className="hidden xl:flex items-center space-x-2">
-                <Mail className="h-4 w-4" />
-                <span className="text-sm">info@toolpage.io</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
-                <span className="text-sm">650-880-2099</span>
-              </div>
-              <button
-                onClick={() => setIsBannerVisible(false)}
-                className="text-white hover:text-gray-200 transition-colors ml-0"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
+    <div
+      className="min-h-screen w-full overflow-x-hidden"
+      data-marketing-layout="true"
+    >
       {/* Navigation */}
       <nav
-        className={`sticky top-0 z-[60] font-fustat transition-all duration-300 ${
-          isMobileMenuOpen ? "mobile-menu-open" : ""
-        }`}
+        className={`font-fustat ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}
+        data-scrolled={isScrolled}
         style={{
+          position: "fixed",
+          top: "0px",
+          left: "0px",
+          right: "0px",
+          zIndex: 60,
           backgroundColor:
             isMobileMenuOpen || isScrolled ? "var(--neutral)" : "transparent",
           backdropFilter:
             isMobileMenuOpen || isScrolled ? "blur(10px)" : "blur(0px)",
+          transition: "background-color 0.3s ease, backdrop-filter 0.3s ease",
         }}
       >
         <div className="w-full px-6 sm:px-6 lg:px-8">
